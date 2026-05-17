@@ -7,7 +7,7 @@ const oceanic_js_1 = require("oceanic.js");
 const command_1 = __importDefault(require("../../app/command"));
 const create_embed_1 = __importDefault(require("./create-embed"));
 exports.default = new command_1.default().setCommand({
-    name: "create",
+    name: "config",
     description: "Null",
     options: [
         create_embed_1.default.subcommand,

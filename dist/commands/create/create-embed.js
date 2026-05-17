@@ -4,22 +4,37 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const command_1 = __importDefault(require("../../app/command"));
-const SayContext_1 = __importDefault(require("../../context/create-embed/SayContext"));
 const firebaseAdmin_1 = require("../../database/firebaseAdmin");
 exports.default = new command_1.default()
-    .addName('create embed')
+    .addName('config embed')
     .setRun(async function ({ app, author, interaction }) {
-    await interaction.createFollowup({
-        components: await (0, SayContext_1.default)(app)
-    });
-    const message = await interaction.getOriginal();
-    const messagesRef = firebaseAdmin_1.adminDb.ref(`messages/${author.id}/${message.id}`);
-    await messagesRef.set({
-        id: message.id,
-        embeds: [],
-        authorID: author.id,
-        channelID: `${interaction.channel?.id}`,
-        expiresAt: Date.now() + (1000 * 60 * 60 * 24),
+    const options = [{
+            emoji: await app.getButoji("add"),
+            label: `Adicionar mensagem`,
+            value: "add.message",
+        }];
+    const messagesRef = firebaseAdmin_1.adminDb.ref(`messages/${author.id}`);
+    const snapshot = await messagesRef.once("value");
+    const data = snapshot.val();
+    if (data) {
+        for (const [key, value] of Object.entries(data)) {
+            options.push({
+                //@ts-ignore
+                label: `${value?.name ?? value?.id}`,
+                value: `${key}`,
+                emoji: await app.getButoji("point"),
+            });
+        }
+    }
+    interaction.createFollowup({
+        components: [{
+                type: 1,
+                components: [{
+                        type: 3,
+                        options,
+                        customID: "config-embed",
+                    }],
+            }]
     });
 })
     .setSubCommand({

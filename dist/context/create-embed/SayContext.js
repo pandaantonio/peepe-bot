@@ -37,6 +37,13 @@ async function default_1(app) {
                     customID: "send_message",
                     label: "Enviar mensagem"
                 },
+                {
+                    type: 2,
+                    style: 2,
+                    emoji: await app.getButoji("delete"),
+                    customID: "delete_message",
+                    label: "Apagar mensagem",
+                }
             ]
         }
     ];

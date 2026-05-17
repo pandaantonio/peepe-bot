@@ -37,6 +37,13 @@ export default async function (app: App): Promise<MessageComponent[]> {
                     customID: "send_message",
                     label: "Enviar mensagem"
                 },
+                {
+                    type: 2,
+                    style: 2,
+                    emoji: await app.getButoji("delete"),
+                    customID: "delete_message",
+                    label: "Apagar mensagem",
+                }
             ]
         }
     ];

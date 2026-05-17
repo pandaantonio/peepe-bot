@@ -3,7 +3,7 @@ import Command from "../../app/command";
 import createEmbed from "./create-embed";
 
 export default new Command().setCommand({
-    name: "create",
+    name: "config",
     description: "Null",
     options: [
         createEmbed.subcommand as ApplicationCommandOptionsSubCommand,
