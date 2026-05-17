@@ -1,14 +1,9 @@
-import { EmbedOptions, MessageComponent, SelectOption } from "oceanic.js";
-import App from "../../app";
-
-export default async function (
-    app: App,
-    embeds?: EmbedOptions[]
-): Promise<MessageComponent[]> {
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = default_1;
+async function default_1(app, embeds) {
     const safeEmbeds = embeds ?? [];
-
-    const options: SelectOption[] = [
+    const options = [
         {
             value: "say",
             label: "Voltar",
@@ -22,7 +17,6 @@ export default async function (
             description: "Crie uma nova incorporação para a mensagem."
         }
     ];
-
     for (let i = 0; i < safeEmbeds.length; i++) {
         options.push({
             value: `embed.${i}`,
@@ -31,7 +25,6 @@ export default async function (
             description: `Editar configurações da incorporação ${i + 1}.`,
         });
     }
-
     return [
         {
             type: 1,

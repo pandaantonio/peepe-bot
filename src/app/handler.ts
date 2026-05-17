@@ -23,7 +23,7 @@ export default class Handler {
     }
 
     public async registerSlashCommands(): Promise<void> {
-        this.app.commands.forEach(async ({ command }) => {
+        this.app.commands?.forEach(async ({ command }) => {
             if (command) {
                 await this.app.application.createGlobalCommand(command)
                     .catch((e) => console.log(`[${command.name}] ${e}`));

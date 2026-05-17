@@ -20,6 +20,7 @@ export default new Command()
             embeds: [],
             authorID: author.id,
             channelID: `${interaction.channel?.id}`,
+            expiresAt: Date.now() + (1000 * 60 * 60 * 24),
         });
     })
 

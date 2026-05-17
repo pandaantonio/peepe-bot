@@ -7,6 +7,7 @@ export default new Modal()
 
     .setRun(async function ({ app, author, interaction }) {
         const messageId = interaction.message?.id;
+        
         if (!messageId) return;
 
         const messagesRef = adminDb.ref(`messages/${author.id}/${messageId}`);
