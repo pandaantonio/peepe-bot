@@ -54,6 +54,7 @@ export default new Modal()
         await messagesRef.update({ embeds });
 
         await interaction.editOriginal({
+            embeds: embeds ?? [],
             components: await EmbedContext(app)
         });
     });

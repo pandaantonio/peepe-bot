@@ -43,13 +43,6 @@ async function default_1(app, embeds) {
                 {
                     type: 2,
                     style: 2,
-                    emoji: { name: "👁️" },
-                    customID: "view_message",
-                    label: "Visualizar mensagem"
-                },
-                {
-                    type: 2,
-                    style: 2,
                     emoji: await app.getButoji("send"),
                     customID: "send_message",
                     label: "Enviar mensagem"

@@ -33,13 +33,6 @@ export default async function (app: App): Promise<MessageComponent[]> {
                 {
                     type: 2,
                     style: 2,
-                    emoji: { name: "👁️" },
-                    customID: "view_message",
-                    label: "Visualizar mensagem"
-                },
-                {
-                    type: 2,
-                    style: 2,
                     emoji: await app.getButoji("send"),
                     customID: "send_message",
                     label: "Enviar mensagem"

@@ -26,4 +26,5 @@ exports.default = new modal_1.default()
     await interaction.deferUpdate().catch(() => { });
     const content = interaction.data.components.getTextInput("content", true);
     await messagesRef.update({ content });
+    interaction.editOriginal({ content });
 });

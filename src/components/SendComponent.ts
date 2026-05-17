@@ -1,4 +1,3 @@
-import { MessageFlags } from "oceanic.js";
 import Component from "../app/component";
 import { adminDb } from "../database/firebaseAdmin";
 
@@ -29,8 +28,17 @@ export default new Component()
         if(!channel || channel && channel.type !== 0) return;
 
         await channel.createMessage({
-                embeds: data.embeds ?? [],
-                content: data.content ?? undefined,
+            embeds: data.embeds ?? [],
+            content: data.content ?? undefined,
+            components: [{
+                type: 1,
+                components: [{
+                    type: 2,
+                    style: 5,
+                    url: `https://discord.com/users/${author.id}`,
+                    label: `Enviado por: ${author.globalName ?? author.username}`,
+                }],
+            }],
         }).then(async (message) => {
             await interaction.deferUpdate().catch(() => {});
         }).catch(async (e) => {

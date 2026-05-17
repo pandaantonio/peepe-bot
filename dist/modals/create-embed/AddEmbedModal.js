@@ -41,6 +41,7 @@ exports.default = new modal_1.default()
         selectedEmbedIndex: embeds.length - 1
     });
     interaction.editOriginal({
+        embeds: embeds ?? [],
         components: await (0, EmbedContext_1.default)(app),
     });
 });

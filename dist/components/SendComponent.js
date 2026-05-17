@@ -29,10 +29,18 @@ exports.default = new component_1.default()
     await channel.createMessage({
         embeds: data.embeds ?? [],
         content: data.content ?? undefined,
+        components: [{
+                type: 1,
+                components: [{
+                        type: 2,
+                        style: 5,
+                        url: `https://discord.com/users/${author.id}`,
+                        label: `Enviado por: ${author.globalName ?? author.username}`,
+                    }],
+            }],
     }).then(async (message) => {
         await interaction.deferUpdate().catch(() => { });
     }).catch(async (e) => {
-        console.log(e);
         await interaction.defer(64);
         interaction.createFollowup({
             content: "A Mensagem está vázia.",

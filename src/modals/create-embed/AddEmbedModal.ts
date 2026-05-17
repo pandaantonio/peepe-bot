@@ -47,6 +47,7 @@ export default new Modal()
         });
 
         interaction.editOriginal({
+            embeds: embeds ?? [],
             components: await EmbedContext(app),
         });
     });

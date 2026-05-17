@@ -70,6 +70,7 @@ exports.default = new modal_1.default()
     await interaction.deferUpdate().catch(() => { });
     await messagesRef.update({ embeds });
     interaction.editOriginal({
+        embeds: embeds ?? [],
         components: await (0, EmbedContext_1.default)(app)
     });
 });
