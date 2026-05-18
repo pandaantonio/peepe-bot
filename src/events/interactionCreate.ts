@@ -2,6 +2,7 @@ import Event from "../app/event";
 
 export default new Event("on", "interactionCreate", async (app, interaction) => {
     const author = interaction.member?.user ?? interaction.user;
+    const guild = interaction.guildID ? app.guilds.get(interaction.guildID) : undefined;
 
     if(interaction.isComponentInteraction()){
         const component = app.components.get(interaction.data.customID.split(".")[0]);
@@ -44,6 +45,7 @@ export default new Event("on", "interactionCreate", async (app, interaction) => 
         if (command && command.run) {
             await command.run({
                 app,
+                guild,
                 author,
                 interaction,
             });

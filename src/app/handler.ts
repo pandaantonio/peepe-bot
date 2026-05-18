@@ -6,7 +6,6 @@ import Command from "./command";
 import Component from "./component";
 import { Collection } from "oceanic.js";
 import Modal from "./modal";
-import { threadName } from "worker_threads";
 
 export default class Handler {
     protected app: App;
@@ -57,14 +56,16 @@ export default class Handler {
         this.app.commands = new Collection();
 
         for (const dir of await glob("dist/commands/**/*.js")) {
-            const command: Command = (await import(resolve(dir))).default;
+            const file: Record<string, Command> = (await import(resolve(dir)));
 
-            if (command.names && command.names[0]) {
-                for (const name of command.names) {
-                    this.app.commands.set(name, command);
+            for(const command of Object.values(file)){
+                if(command.names && command.names[0]){
+                    for(const name of command.names){
+                        this.app.commands.set(name, command);
+                    }
+                } else if(command.command){
+                    this.app.commands.set(command.command.name, command);
                 }
-            } else if (command.command) {
-                this.app.commands.set(command.command.name, command);
             }
         }
     }

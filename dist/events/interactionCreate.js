@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const event_1 = __importDefault(require("../app/event"));
 exports.default = new event_1.default("on", "interactionCreate", async (app, interaction) => {
     const author = interaction.member?.user ?? interaction.user;
+    const guild = interaction.guildID ? app.guilds.get(interaction.guildID) : undefined;
     if (interaction.isComponentInteraction()) {
         const component = app.components.get(interaction.data.customID.split(".")[0]);
         if (component) {
@@ -37,6 +38,7 @@ exports.default = new event_1.default("on", "interactionCreate", async (app, int
         if (command && command.run) {
             await command.run({
                 app,
+                guild,
                 author,
                 interaction,
             });
