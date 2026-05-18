@@ -4,8 +4,10 @@ import Handler from "./handler";
 import Command from "./command";
 import Component from "./component";
 import Modal from "./modal";
+import Groq from "groq-sdk";
 
 export default class App extends Client {
+    ai: Groq;
     handler: Handler;
     modals: Collection<string, Modal>;
     commands: Collection<string, Command>;
@@ -28,6 +30,9 @@ export default class App extends Client {
     }
 
     init() {
+        this.ai = new Groq({
+            apiKey: process.env.GROQ,
+        });
         this.handler = new Handler(this);
 
         this.once("connect", async () => {
