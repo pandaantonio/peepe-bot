@@ -12,10 +12,7 @@
     "firebase-admin": "^13.10.0",
     "glob": "^13.0.6",
     "groq-sdk": "^1.2.0",
-    "mongoose": "^9.6.2",
-    "oceanic.js": "^1.14.1-dev.73ebb99",
-    "socket.io-client": "^4.8.3",
-    "vm2": "^3.11.3"
+    "oceanic.js": "^1.14.0"
   },
   "devDependencies": {
     "@types/glob": "^8.1.0",
