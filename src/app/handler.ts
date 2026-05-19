@@ -29,7 +29,7 @@ export default class Handler {
             }
         });
 
-        /*const commands = await this.app.application.getGlobalCommands();
+        const commands = await this.app.application.getGlobalCommands();
 
         for (const command of commands) {
             const isCommand = this.app.commands.get(command.name);
@@ -38,7 +38,7 @@ export default class Handler {
                 await this.app.application.deleteGlobalCommand(command.id)
                     .catch(console.log);
             }
-        }*/
+        }
     }
 
     private async loadEvents(): Promise<void> {

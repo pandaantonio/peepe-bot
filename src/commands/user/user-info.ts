@@ -34,7 +34,7 @@ export default new Command()
                         `\`\`\`${user.username}\`\`\``,
                         `${await app.getMenoji("calendar")} **Conta criada**:`,
                         `<t:${createdAt}:f> (<t:${createdAt}:R>)`
-                    ].join("\n")
+                    ].join("\n"),
                 }],
                 accessory: {
                     type: 11,
