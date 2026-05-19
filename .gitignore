@@ -1,72 +1,52 @@
-# ============================================
-# DEPENDÊNCIAS
-# ============================================
-/node_modules
-/.pnp
-.pnp.js
-.yarn/install-state.gz
+# Dependencies
+node_modules/
 
-# ============================================
-# BUILD / DISTRIBUIÇÃO
-# ============================================
-/dist
-/build
-/out
-
-# ============================================
-# VARIÁVEIS DE AMBIENTE E CONFIGURAÇÕES LOCAIS
-# ============================================
+# Environment variables
 .env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env.*
+!.env.example
 
-# ============================================
-# LOGS
-# ============================================
+# Logs
+logs/
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-lerna-debug.log*
 
-# ============================================
-# LOCK FILES (opcional - descomente se necessário)
-# ============================================
-# Descomente a linha abaixo se você usa Yarn ou pnpm
-# e não quer versionar o package-lock.json do npm
-# /package-lock.json
+# Package managers
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+bun.lockb
 
-# ============================================
-# EDITORES E IDEs
-# ============================================
-.vscode/*
-!.vscode/extensions.json
-.idea
+# Cache
+.cache/
+.parcel-cache/
+.turbo/
+.eslintcache
+*.tsbuildinfo
+
+# IDEs and editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
 .DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+Thumbs.db
 
-# ============================================
-# TESTES E COBERTURA
-# ============================================
-/coverage
-.nyc_output
+# Temporary files
+tmp/
+temp/
+*.tmp
 
-# ============================================
-# MISCELÂNEA
-# ============================================
-*.log
-.cache
-.parcel-cache
-.next
-.nuxt
-.vuepress/dist
-.serverless
-.fusebox/
-.dynamodb/
-.tern-port
+# Coverage
+coverage/
+
+# Firebase
+.firebase/
+
+# Misc
+*.pem
