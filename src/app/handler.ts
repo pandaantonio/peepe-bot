@@ -25,7 +25,6 @@ export default class Handler {
         this.app.commands?.forEach(async ({ command }) => {
             if (command) {
                 await this.app.application.createGlobalCommand(command)
-                    .then((res) => console.log(`[${res.name}] created command!`))
                     .catch((e) => console.log(`[${command.name}] ${e}`));
             }
         });
