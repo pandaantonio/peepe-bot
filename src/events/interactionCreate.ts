@@ -34,7 +34,7 @@ export default new Event("on", "interactionCreate", async (app, interaction) => 
         const subcommands = interaction.data.options.getSubCommand(false),
             ephemeral = interaction.data.options.getBoolean("ephemeral", false) ?? true;
 
-        await interaction.defer(ephemeral ? 64 : 0);
+        await interaction.defer(0);
 
         if (subcommands?.length) {
             name += subcommands.map((s) => ` ${s}`).join("");
