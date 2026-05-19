@@ -51,18 +51,19 @@ class Handler {
         this.app.commands?.forEach(async ({ command }) => {
             if (command) {
                 await this.app.application.createGlobalCommand(command)
-                    .then((res) => console.log(`[${res.name}] created command!`))
                     .catch((e) => console.log(`[${command.name}] ${e}`));
             }
         });
-        const commands = await this.app.application.getGlobalCommands();
+        /*const commands = await this.app.application.getGlobalCommands();
+
         for (const command of commands) {
             const isCommand = this.app.commands.get(command.name);
+
             if (!isCommand) {
                 await this.app.application.deleteGlobalCommand(command.id)
                     .catch(console.log);
             }
-        }
+        }*/
     }
     async loadEvents() {
         for (const dir of await (0, glob_1.glob)("dist/events/**/*.js")) {

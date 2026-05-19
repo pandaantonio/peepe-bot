@@ -20,6 +20,7 @@ class App extends oceanic_js_1.Client {
                     "GUILDS",
                     "GUILD_MEMBERS"
                 ],
+                autoReconnect: true,
             },
             defaultImageFormat: "png",
             defaultImageSize: 4096,
