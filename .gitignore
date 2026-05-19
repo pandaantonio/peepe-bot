@@ -1,3 +1,72 @@
-dist
-node_modules
-package-lock.json
+# ============================================
+# DEPENDÊNCIAS
+# ============================================
+/node_modules
+/.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# ============================================
+# BUILD / DISTRIBUIÇÃO
+# ============================================
+/dist
+/build
+/out
+
+# ============================================
+# VARIÁVEIS DE AMBIENTE E CONFIGURAÇÕES LOCAIS
+# ============================================
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# ============================================
+# LOGS
+# ============================================
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ============================================
+# LOCK FILES (opcional - descomente se necessário)
+# ============================================
+# Descomente a linha abaixo se você usa Yarn ou pnpm
+# e não quer versionar o package-lock.json do npm
+# /package-lock.json
+
+# ============================================
+# EDITORES E IDEs
+# ============================================
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ============================================
+# TESTES E COBERTURA
+# ============================================
+/coverage
+.nyc_output
+
+# ============================================
+# MISCELÂNEA
+# ============================================
+*.log
+.cache
+.parcel-cache
+.next
+.nuxt
+.vuepress/dist
+.serverless
+.fusebox/
+.dynamodb/
+.tern-port
