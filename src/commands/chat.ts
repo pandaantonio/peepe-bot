@@ -1,3 +1,4 @@
+import { MessageFlags } from "oceanic.js";
 import Command from "../app/command";
 
 export default new Command()
@@ -25,7 +26,11 @@ Responda de forma natural e clara.
             chatCompletion.choices?.[0]?.message?.content || "I couldn't generate a response.";
 
         await interaction.createFollowup({
-            content: res.slice(0, 2000),
+            flags: MessageFlags.IS_COMPONENTS_V2,
+            components: [{
+                type: 10,
+                content: `${res.slice(0, 2000)}`,
+            }],
         });
     })
 

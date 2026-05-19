@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const oceanic_js_1 = require("oceanic.js");
 const command_1 = __importDefault(require("../app/command"));
 exports.default = new command_1.default()
     .setRun(async function ({ app, interaction }) {
@@ -25,7 +26,11 @@ Responda de forma natural e clara.
     });
     const res = chatCompletion.choices?.[0]?.message?.content || "I couldn't generate a response.";
     await interaction.createFollowup({
-        content: res.slice(0, 2000),
+        flags: oceanic_js_1.MessageFlags.IS_COMPONENTS_V2,
+        components: [{
+                type: 10,
+                content: `${res}`,
+            }],
     });
 })
     .setCommand({

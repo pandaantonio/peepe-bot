@@ -58,10 +58,9 @@ export default new Command()
             flags: MessageFlags.IS_COMPONENTS_V2,
             components: [{
                 type: 17,
-                accentColor: user.accentColor ?? 0x147aff,
                 components: [{
                     type: 10,
-                    content: `# ${user.globalName ?? user.username}${member && member.nick ? ` (${member.nick})` : ""}`
+                    content: `**${user.globalName ?? user.username}${member && member.nick ? ` (${member.nick})` : ""}**`
                 }, {
                     items,
                     type: 12,

@@ -16,86 +16,88 @@ exports.default = new command_1.default()
     const member = await guild?.getMember(option.id);
     const avatarLocal = member?.avatarURL();
     const bannerLocal = member?.bannerURL();
-    const items = [{
-            media: {
-                url: avatarGlobal,
-            },
-        }];
+    const joinedAt = member && member.joinedAt ?
+        parseInt(`${member.joinedAt.getTime() / 1000}`) :
+        undefined;
     const components = [{
-            type: 2,
-            style: 5,
-            url: avatarGlobal,
-            label: "Avatar Global",
-            emoji: await app.getButoji("download"),
+            type: 17,
+            components: [{
+                    type: 9,
+                    components: [{
+                            type: 10,
+                            content: [
+                                `**${user.globalName ?? user.username}**\n`,
+                                `${await app.getMenoji("id")} **ID**:`,
+                                `\`\`\`${user.id}\`\`\``,
+                                `${await app.getMenoji("mention")} **Menção**:`,
+                                `\`\`\`${user.mention}\`\`\``,
+                                `${await app.getMenoji("pomelo")} **Nome**:`,
+                                `\`\`\`${user.username}\`\`\``,
+                                `${await app.getMenoji("calendar")} **Conta criada**:`,
+                                `<t:${createdAt}:f> (<t:${createdAt}:R>)`
+                            ].join("\n")
+                        }],
+                    accessory: {
+                        type: 11,
+                        media: {
+                            url: avatarGlobal,
+                        },
+                    },
+                }],
         }];
-    if (avatarLocal && avatarLocal !== avatarGlobal) {
-        items.push({
-            media: {
-                url: avatarLocal,
-            },
-        });
-        components.push({
-            type: 2,
-            style: 5,
-            url: avatarLocal,
-            label: "Avatar Local",
-            emoji: await app.getButoji("download"),
-        });
-    }
     if (bannerGlobal) {
-        items.push({
-            media: {
-                url: bannerGlobal,
-            },
-        });
-        components.push({
-            type: 2,
-            style: 5,
-            url: bannerGlobal,
-            label: "Estandarte Global",
-            emoji: await app.getButoji("download"),
-        });
+        if (components[0].type === 17) {
+            components[0].components.push({
+                type: 12,
+                items: [{
+                        media: {
+                            url: bannerGlobal,
+                        },
+                    }],
+            });
+        }
     }
-    if (bannerLocal && bannerLocal !== bannerGlobal) {
-        items.push({
-            media: {
-                url: bannerLocal,
-            },
-        });
-        components.push({
-            type: 2,
-            style: 5,
-            url: bannerLocal,
-            label: "Estandarte Local",
-            emoji: await app.getButoji("download"),
-        });
-    }
-    let content = [
-        `# ${user.globalName ?? user.username}${member && member.nick ? ` (${member.nick})` : ""}\n`,
-        `## > ${await app.getMenoji("id")} ID: \`\`${user.id}\`\``,
-        `## > ${await app.getMenoji("id")} Username: \`\`${user.username}\`\``,
-        `## > ${await app.getMenoji("mention")} Menção: \`\`${user.mention}\`\``,
-        `## > ${await app.getMenoji("calendar")} Conta criada: <t:${createdAt}:f> (<t:${createdAt}:R>)`,
-    ];
-    if (member && member.joinedAt) {
-        const joinedAt = parseInt(`${member.joinedAt.getTime() / 1000}`);
-        content.push(`## > ${await app.getMenoji("calendar")} Entrou em: <t:${joinedAt}:f> (<t:${joinedAt}:R>)`);
-    }
-    interaction.createFollowup({
-        flags: oceanic_js_1.MessageFlags.IS_COMPONENTS_V2,
-        components: [{
-                type: 17,
-                accentColor: user.accentColor ?? 0x147aff,
+    if (member) {
+        if (components[0].type === 17) {
+            let content = [];
+            if (member.nick) {
+                content.push(`**${member.nick}**\n`);
+            }
+            content.push(`${await app.getMenoji("calendar")} **Entrou em**:`, `<t:${joinedAt}:f> (<t:${joinedAt}:R>)`);
+            components[0].components.push({
+                type: 14, // ComponentType.SEPARATOR
+                divider: true,
+                spacing: 1
+            }, avatarLocal ? ({
+                type: 9,
                 components: [{
                         type: 10,
                         content: content.join("\n"),
-                    }, {
-                        items,
-                        type: 12,
                     }],
-            }, {
-                type: 1,
-                components,
-            }],
+                accessory: {
+                    type: 11,
+                    media: {
+                        url: avatarLocal,
+                    },
+                },
+            }) : ({
+                type: 10,
+                content: content.join("\n"),
+            }));
+            if (bannerLocal && bannerLocal !== bannerGlobal) {
+                components[0].components.push({
+                    type: 12,
+                    items: [{
+                            media: {
+                                url: bannerLocal,
+                            },
+                        }],
+                });
+            }
+        }
+    }
+    interaction.createFollowup({
+        components,
+        flags: oceanic_js_1.MessageFlags.IS_COMPONENTS_V2,
     });
 });

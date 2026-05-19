@@ -1,4 +1,4 @@
-import { MediaGalleryItem, MessageActionRowComponent, MessageFlags } from "oceanic.js";
+import { MessageComponent, MessageFlags } from "oceanic.js";
 import Command from "../../app/command";
 
 export default new Command()
@@ -14,96 +14,99 @@ export default new Command()
         const member = await guild?.getMember(option.id);
         const avatarLocal = member?.avatarURL();
         const bannerLocal = member?.bannerURL();
+        const joinedAt = member && member.joinedAt ?
+            parseInt(`${member.joinedAt.getTime() / 1000}`) :
+            undefined;
 
-        const items: MediaGalleryItem[] = [{
-            media: {
-                url: avatarGlobal,
-            },
-        }];
-        const components: MessageActionRowComponent[] = [{
-            type: 2,
-            style: 5,
-            url: avatarGlobal,
-            label: "Avatar Global",
-            emoji: await app.getButoji("download"),
-        }];
-
-        if(avatarLocal && avatarLocal !== avatarGlobal){
-            items.push({
-                media: {
-                    url: avatarLocal,
+        const components: MessageComponent[] = [{
+            type: 17,
+            components: [{
+                type: 9,
+                components: [{
+                    type: 10,
+                    content: [
+                        `**${user.globalName ?? user.username}**\n`,
+                        `${await app.getMenoji("id")} **ID**:`,
+                        `\`\`\`${user.id}\`\`\``,
+                        `${await app.getMenoji("mention")} **Menção**:`,
+                        `\`\`\`${user.mention}\`\`\``,
+                        `${await app.getMenoji("pomelo")} **Nome**:`,
+                        `\`\`\`${user.username}\`\`\``,
+                        `${await app.getMenoji("calendar")} **Conta criada**:`,
+                        `<t:${createdAt}:f> (<t:${createdAt}:R>)`
+                    ].join("\n")
+                }],
+                accessory: {
+                    type: 11,
+                    media: {
+                        url: avatarGlobal,
+                    },
                 },
-            });
-            
-            components.push({
-                type: 2,
-                style: 5,
-                url: avatarLocal,
-                label: "Avatar Local",
-                emoji: await app.getButoji("download"),
-            });
-        }
+            }],
+        }];
 
         if(bannerGlobal){
-            items.push({
-                media: {
-                    url: bannerGlobal,
-                },
-            });
-            components.push({
-                type: 2,
-                style: 5,
-                url: bannerGlobal,
-                label: "Estandarte Global",
-                emoji: await app.getButoji("download"),
-            });
+            if(components[0].type === 17){
+                components[0].components.push({
+                    type: 12,
+                    items: [{
+                        media: {
+                            url: bannerGlobal,
+                        },
+                    }],
+                });
+            }
         }
 
-        if(bannerLocal && bannerLocal !== bannerGlobal){
-            items.push({
-                media: {
-                    url: bannerLocal,
-                },
-            });
-            
-            components.push({
-                type: 2,
-                style: 5,
-                url: bannerLocal,
-                label: "Estandarte Local",
-                emoji: await app.getButoji("download"),
-            });
-        }
+        if(member){
+            if(components[0].type === 17){
+                let content: string[] = [];
 
-        let content = [
-            `# ${user.globalName ?? user.username}${member && member.nick ? ` (${member.nick})` : ""}\n`,
-            `## > ${await app.getMenoji("id")} ID: \`\`${user.id}\`\``,
-            `## > ${await app.getMenoji("id")} Username: \`\`${user.username}\`\``,
-            `## > ${await app.getMenoji("mention")} Menção: \`\`${user.mention}\`\``,
-            `## > ${await app.getMenoji("calendar")} Conta criada: <t:${createdAt}:f> (<t:${createdAt}:R>)`,
-        ];
+                if(member.nick){
+                    content.push(`**${member.nick}**\n`);
+                }
 
-        if(member && member.joinedAt){
-            const joinedAt = parseInt(`${member.joinedAt.getTime() / 1000}`);
+                content.push(
+                    `${await app.getMenoji("calendar")} **Entrou em**:`,
+                    `<t:${joinedAt}:f> (<t:${joinedAt}:R>)`
+                );
 
-            content.push(`## > ${await app.getMenoji("calendar")} Entrou em: <t:${joinedAt}:f> (<t:${joinedAt}:R>)`);
+                components[0].components.push({
+                    type: 14,  // ComponentType.SEPARATOR
+                    divider: true,
+                    spacing: 1
+                }, avatarLocal ? ({
+                    type: 9,
+                    components: [{
+                        type: 10,
+                        content: content.join("\n"),
+                    }],
+                    accessory: {
+                        type: 11,
+                        media: {
+                            url: avatarLocal,
+                        },
+                    },
+                }) : ({
+                    type: 10,
+                    content: content.join("\n"),
+                }));
+
+                if(bannerLocal && bannerLocal !== bannerGlobal){
+                    components[0].components.push({
+                        type: 12,
+                        items: [{
+                            media: {
+                                url: bannerLocal,
+                            },
+                        }],
+                    });
+                }
+            }
         }
 
         interaction.createFollowup({
+            components,
             flags: MessageFlags.IS_COMPONENTS_V2,
-            components: [{
-                type: 17, 
-                accentColor: user.accentColor ?? 0x147aff,
-                components: [{
-                    type: 10,
-                    content: content.join("\n"),
-                }, {
-                    items,
-                    type: 12,
-                }],
-            }, {
-                type: 1,
-                components,
-            }],
         });
     });

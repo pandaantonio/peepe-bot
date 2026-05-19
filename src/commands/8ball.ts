@@ -1,3 +1,4 @@
+import { MessageFlags } from "oceanic.js";
 import Command from "../app/command";
 
 export default new Command()
@@ -37,7 +38,11 @@ Exemplos:
             chatCompletion.choices?.[0]?.message?.content || "The spirits are silent.";
 
         await interaction.reply({
-            content: res,
+            flags: MessageFlags.IS_COMPONENTS_V2,
+            components: [{
+                type: 10,
+                content: `${res.slice(0, 2000)}`,
+            }],
         });
     })
 
