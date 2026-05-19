@@ -1,7 +1,7 @@
 import { ApplicationCommandOptionTypes, ApplicationCommandTypes } from "oceanic.js";
-import Command from "../app/command";
-import UserOption from "../options/UserOption";
-import EphemeralOption from "../options/EphemeralOption";
+import Command from "../../app/command";
+import UserOption from "../../options/UserOption";
+import EphemeralOption from "../../options/EphemeralOption";
 
 export default new Command()
     .setCommand({

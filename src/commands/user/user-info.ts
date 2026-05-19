@@ -1,5 +1,5 @@
 import { MediaGalleryItem, MessageActionRowComponent, MessageFlags } from "oceanic.js";
-import Command from "../app/command";
+import Command from "../../app/command";
 
 export default new Command()
     .addName("user info")
