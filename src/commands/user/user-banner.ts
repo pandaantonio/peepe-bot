@@ -9,7 +9,7 @@ export default new Command()
         const user = await app.rest.users.get(option.id);
         const bannerGlobal = user.bannerURL();
 
-        const member = await guild?.getMember(option.id);
+        const member = await guild?.getMember(option.id).catch(() => undefined);
         const bannerLocal = member?.bannerURL();
 
         const items: MediaGalleryItem[] = [];

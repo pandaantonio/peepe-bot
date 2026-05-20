@@ -11,7 +11,7 @@ exports.default = new command_1.default()
     const option = interaction.data.options.getUser("user", false) ?? author;
     const user = await app.rest.users.get(option.id);
     const bannerGlobal = user.bannerURL();
-    const member = await guild?.getMember(option.id);
+    const member = await guild?.getMember(option.id).catch(() => undefined);
     const bannerLocal = member?.bannerURL();
     const items = [];
     const components = [];

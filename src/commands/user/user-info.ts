@@ -10,7 +10,7 @@ export default new Command()
         const user = await app.rest.users.get(option.id);
         const createdAt = parseInt(`${user.createdAt.getTime() / 1000}`);
 
-        const member = await guild?.getMember(option.id);
+        const member = await guild?.getMember(option.id).catch(() => undefined);
         const joinedAt = member && member.joinedAt ?
             parseInt(`${member.joinedAt.getTime() / 1000}`) :
             undefined;
