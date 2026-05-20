@@ -26,7 +26,7 @@ export default new Command()
                         `> ${await app.getMenoji("id")} **ID**: \`\`${guild.id}\`\``,
                         `> ${await app.getMenoji("crown")} **Dono(a)**: ${owner.mention}`,
                         `> ${await app.getMenoji("calendar")} **Criado**: <t:${createdAt}:f> (<t:${createdAt}:R>)`,
-                        joinedAt ? `> ${await app.getMenoji("calendar")} **Entrou em**: <t:${joinedAt}:f> (<t:${joinedAt}:R>)` : undefined
+                        joinedAt ? `> ${await app.getMenoji("join")} **Entrou em**: <t:${joinedAt}:f> (<t:${joinedAt}:R>)` : undefined
                     ].filter((s) => s !== undefined).join("\n"),
                 }],
             }],
