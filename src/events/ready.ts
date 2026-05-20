@@ -1,4 +1,4 @@
-import Event from "../app/event";
+import Event from "@/struct/event";
 
 export default new Event("on", "ready", async (app) => {
     await app.handler.registerSlashCommands();

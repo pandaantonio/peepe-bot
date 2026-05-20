@@ -1,4 +1,4 @@
-import Event from "../app/event";
+import Event from "@/struct/event";
 
 export default new Event("on", "interactionCreate", async (app, interaction) => {
     const author = interaction.member?.user ?? interaction.user;

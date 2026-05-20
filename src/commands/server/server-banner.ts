@@ -1,5 +1,5 @@
 import { MessageFlags } from "oceanic.js";
-import Command from "../../app/command";
+import Command from "@/struct/command";
 
 export default new Command()
     .addName("server banner")

@@ -1,5 +1,5 @@
 import { AnyInteractionChannel, ModalSubmitInteraction, Uncached, User } from "oceanic.js";
-import App from ".";
+import App from "@/app";
 
 export type ModalNames = string[];
 

@@ -1,11 +1,11 @@
-import App from ".";
+import App from "@/app";
 import { glob } from "glob";
 import { resolve } from "path";
-import { EVENT } from "./event";
-import Command from "./command";
-import Component from "./component";
+import { EVENT } from "@/struct/event";
+import Command from "@/struct/command";
+import Component from "@/struct/component";
 import { Collection } from "oceanic.js";
-import Modal from "./modal";
+import Modal from "@/struct/modal";
 
 export default class Handler {
     protected app: App;

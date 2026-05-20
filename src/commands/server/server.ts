@@ -1,4 +1,4 @@
-import Command from "../../app/command";
+import Command from "@/struct/command";
 
 export default new Command().setCommand({
     type: 1,

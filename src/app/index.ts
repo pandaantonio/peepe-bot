@@ -1,9 +1,9 @@
 import { Client, Collection, NullablePartialEmoji } from "oceanic.js";
-import getEmoji, { Emoji } from "../utils/GetEmoji";
-import Handler from "./handler";
-import Command from "./command";
-import Component from "./component";
-import Modal from "./modal";
+import getEmoji, { Emoji } from "@/utils/GetEmoji";
+import Handler from "@/struct/handler";
+import Command from "@/struct/command";
+import Component from "@/struct/component";
+import Modal from "@/struct/modal";
 import Groq from "groq-sdk";
 
 export default class App extends Client {

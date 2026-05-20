@@ -1,5 +1,5 @@
 import { AnyInteractionChannel, ComponentInteraction, ComponentTypes, SelectMenuTypes, Uncached, User } from "oceanic.js";
-import App from ".";
+import App from "@/app";
 
 export type ComponentNames = string[];
 

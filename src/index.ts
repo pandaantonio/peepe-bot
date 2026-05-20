@@ -1,4 +1,5 @@
 import "dotenv/config";
-import App from "./app";
+import "module-alias/register";
+import App from "@/app/index";
 
 new App().init();
