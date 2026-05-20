@@ -10,7 +10,7 @@ exports.default = new command_1.default()
     .setRun(async ({ app, guild, interaction }) => {
     if (!guild)
         return;
-    const banner = guild.iconURL();
+    const banner = guild.bannerURL();
     if (!banner) {
         interaction.createFollowup({
             flags: oceanic_js_1.MessageFlags.IS_COMPONENTS_V2,
