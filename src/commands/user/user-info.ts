@@ -4,12 +4,19 @@ import Command from "../../app/command";
 export default new Command()
     .addName("user info")
 
-    .setRun(async function({ app, author, interaction }){
+    .setRun(async function({ app, guild, author, interaction }){
         const option = interaction.data.options.getUser("user", false) ?? author;
         const user = await app.rest.users.get(option.id);
-        const avatar = user.avatarURL();
-        const banner = user.bannerURL();
+        const avatarGlobal = user.avatarURL();
+        const bannerGlobal = user.bannerURL();
         const createdAt = parseInt(`${user.createdAt.getTime() / 1000}`);
+
+        const member = await guild?.getMember(option.id);
+        const avatarLocal = member?.avatarURL();
+        const bannerLocal = member?.bannerURL();
+        const joinedAt = member && member.joinedAt ?
+            parseInt(`${member.joinedAt.getTime() / 1000}`) :
+            undefined;
 
         const components: MessageComponent[] = [{
             type: 17,
@@ -27,27 +34,74 @@ export default new Command()
                         `\`\`\`${user.username}\`\`\``,
                         `${await app.getMenoji("calendar")} **Conta criada**:`,
                         `<t:${createdAt}:f> (<t:${createdAt}:R>)`
-                    ].join("\n"),
+                    ].join("\n")
                 }],
                 accessory: {
                     type: 11,
                     media: {
-                        url: avatar,
+                        url: avatarGlobal,
                     },
                 },
             }],
         }];
 
-        if(banner){
+        if(bannerGlobal){
             if(components[0].type === 17){
                 components[0].components.push({
                     type: 12,
                     items: [{
                         media: {
-                            url: banner,
+                            url: bannerGlobal,
                         },
                     }],
                 });
+            }
+        }
+
+        if(member){
+            if(components[0].type === 17){
+                let content: string[] = [];
+
+                if(member.nick){
+                    content.push(`**${member.nick}**\n`);
+                }
+
+                content.push(
+                    `${await app.getMenoji("calendar")} **Entrou em**:`,
+                    `<t:${joinedAt}:f> (<t:${joinedAt}:R>)`
+                );
+
+                components[0].components.push({
+                    type: 14,  // ComponentType.SEPARATOR
+                    divider: true,
+                    spacing: 1
+                }, avatarLocal ? ({
+                    type: 9,
+                    components: [{
+                        type: 10,
+                        content: content.join("\n"),
+                    }],
+                    accessory: {
+                        type: 11,
+                        media: {
+                            url: avatarLocal,
+                        },
+                    },
+                }) : ({
+                    type: 10,
+                    content: content.join("\n"),
+                }));
+
+                if(bannerLocal && bannerLocal !== bannerGlobal){
+                    components[0].components.push({
+                        type: 12,
+                        items: [{
+                            media: {
+                                url: bannerLocal,
+                            },
+                        }],
+                    });
+                }
             }
         }
 

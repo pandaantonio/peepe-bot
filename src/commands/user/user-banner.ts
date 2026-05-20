@@ -7,9 +7,46 @@ export default new Command()
     .setRun(async function ({ app, guild, author, interaction }) {
         const option = interaction.data.options.getUser("user", false) ?? author;
         const user = await app.rest.users.get(option.id);
-        const banner = user.bannerURL();
+        const bannerGlobal = user.bannerURL();
 
-        if(!banner){
+        const member = await guild?.getMember(option.id);
+        const bannerLocal = member?.bannerURL();
+
+        const items: MediaGalleryItem[] = [];
+        const components: MessageActionRowComponent[] = [];
+
+        if(bannerGlobal){
+            items.push({
+                media: {
+                    url: bannerGlobal,
+                },
+            });
+            components.push({
+                type: 2,
+                style: 5,
+                url: bannerGlobal,
+                label: "Estandarte Global",
+                emoji: await app.getButoji("download"),
+            });
+        }
+
+        if(bannerLocal && bannerLocal !== bannerGlobal){
+            items.push({
+                media: {
+                    url: bannerLocal,
+                },
+            });
+            
+            components.push({
+                type: 2,
+                style: 5,
+                url: bannerLocal,
+                label: "Estandarte Local",
+                emoji: await app.getButoji("download"),
+            });
+        }
+
+        if(!bannerGlobal && !bannerLocal){
             interaction.createFollowup({
                 content: `${await app.getMenoji("no")} Este usuário não possue estandarte!`,
             });
@@ -23,24 +60,14 @@ export default new Command()
                 type: 17,
                 components: [{
                     type: 10,
-                    content: `**${user.globalName ?? user.username}**`
+                    content: `**${user.globalName ?? user.username}${member && member.nick ? ` (${member.nick})` : ""}**`
                 }, {
+                    items,
                     type: 12,
-                    items: [{
-                        media: {
-                            url: banner,
-                        }
-                    }]
                 }],
             }, {
                 type: 1,
-                components: [{
-                    type: 2,
-                    style: 5,
-                    url: banner,
-                    label: "Baixar",
-                    emoji: await app.getButoji("download"),
-                }],
+                components,
             }],
         });
     });
