@@ -7,7 +7,7 @@ export default new Command()
     .setRun(async ({ app, guild, interaction }) => {
         if(!guild) return;
 
-        const banner = guild.iconURL();
+        const banner = guild.bannerURL();
 
         if(!banner){
             interaction.createFollowup({

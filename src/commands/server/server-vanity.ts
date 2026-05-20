@@ -14,7 +14,7 @@ export default new Command()
                 flags: MessageFlags.IS_COMPONENTS_V2,
                 components: [{
                     type: 10,
-                    content: `${await app.getMenoji("no")} Este servidor não possue fundo de discovery!`,
+                    content: `${await app.getMenoji("no")} Este servidor não possue url personalizada!`,
                 }],
             });
             
