@@ -1,4 +1,4 @@
-import { MessageComponent, MessageFlags } from "oceanic.js";
+import { MessageFlags } from "oceanic.js";
 import Command from "../../app/command";
 
 export default new Command()
@@ -7,106 +7,35 @@ export default new Command()
     .setRun(async function({ app, guild, author, interaction }){
         const option = interaction.data.options.getUser("user", false) ?? author;
         const user = await app.rest.users.get(option.id);
-        const avatarGlobal = user.avatarURL();
-        const bannerGlobal = user.bannerURL();
         const createdAt = parseInt(`${user.createdAt.getTime() / 1000}`);
 
         const member = await guild?.getMember(option.id);
-        const avatarLocal = member?.avatarURL();
-        const bannerLocal = member?.bannerURL();
         const joinedAt = member && member.joinedAt ?
             parseInt(`${member.joinedAt.getTime() / 1000}`) :
             undefined;
 
-        const components: MessageComponent[] = [{
-            type: 17,
-            components: [{
-                type: 9,
-                components: [{
-                    type: 10,
-                    content: [
-                        `**${user.globalName ?? user.username}**\n`,
-                        `${await app.getMenoji("id")} **ID**:`,
-                        `\`\`\`${user.id}\`\`\``,
-                        `${await app.getMenoji("mention")} **Menção**:`,
-                        `\`\`\`${user.mention}\`\`\``,
-                        `${await app.getMenoji("pomelo")} **Nome**:`,
-                        `\`\`\`${user.username}\`\`\``,
-                        `${await app.getMenoji("calendar")} **Conta criada**:`,
-                        `<t:${createdAt}:f> (<t:${createdAt}:R>)`
-                    ].join("\n")
-                }],
-                accessory: {
-                    type: 11,
-                    media: {
-                        url: avatarGlobal,
-                    },
-                },
-            }],
-        }];
-
-        if(bannerGlobal){
-            if(components[0].type === 17){
-                components[0].components.push({
-                    type: 12,
-                    items: [{
-                        media: {
-                            url: bannerGlobal,
-                        },
-                    }],
-                });
-            }
-        }
-
-        if(member){
-            if(components[0].type === 17){
-                let content: string[] = [];
-
-                if(member.nick){
-                    content.push(`**${member.nick}**\n`);
-                }
-
-                content.push(
-                    `${await app.getMenoji("calendar")} **Entrou em**:`,
-                    `<t:${joinedAt}:f> (<t:${joinedAt}:R>)`
-                );
-
-                components[0].components.push({
-                    type: 14,  // ComponentType.SEPARATOR
-                    divider: true,
-                    spacing: 1
-                }, avatarLocal ? ({
-                    type: 9,
-                    components: [{
-                        type: 10,
-                        content: content.join("\n"),
-                    }],
-                    accessory: {
-                        type: 11,
-                        media: {
-                            url: avatarLocal,
-                        },
-                    },
-                }) : ({
-                    type: 10,
-                    content: content.join("\n"),
-                }));
-
-                if(bannerLocal && bannerLocal !== bannerGlobal){
-                    components[0].components.push({
-                        type: 12,
-                        items: [{
-                            media: {
-                                url: bannerLocal,
-                            },
-                        }],
-                    });
-                }
-            }
-        }
+        let content: (string | undefined)[] = [
+            `**${user.globalName ?? user.username}**\n`,
+            `> ${await app.getMenoji("pomelo")} **Nome**: \`\`${user.username}\`\``,
+            member && member.nick ?
+                `> 📌 **Apelido**: \`\`${member.nick}\`\``
+                : undefined,
+            `> ${await app.getMenoji("id")} **ID**: \`\`${user.id}\`\``,
+            `> ${await app.getMenoji("mention")} **Menção**: \`\`${user.mention}\`\``,
+            `> ${await app.getMenoji("calendar")} **Conta criada**: <t:${createdAt}:f> (<t:${createdAt}:R>)`,
+            member && member.joinedAt ? 
+                `> ${await app.getMenoji("calendar")} **Entrou em**: <t:${joinedAt}:f> (<t:${joinedAt}:R>)`
+                : undefined
+        ];
 
         interaction.createFollowup({
-            components,
             flags: MessageFlags.IS_COMPONENTS_V2,
+            components: [{
+                type: 17,
+                components: [{
+                    type: 10,
+                    content: content.filter((c) => c !== undefined).join("\n")
+                }]
+            }],
         });
     });
