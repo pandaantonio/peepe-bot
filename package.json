@@ -3,7 +3,9 @@
   "main": "dist/index.js",
   "type": "commonjs",
   "scripts": {
-    "start": "tsc && node ."
+    "build": "tsc",
+    "init": "node .",
+    "start": "npm run build && npm run init"
   },
   "dependencies": {
     "axios": "^1.16.0",
