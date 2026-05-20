@@ -20,7 +20,6 @@ export default class App extends Client {
                     "GUILDS",
                     "GUILD_MEMBERS"
                 ],
-                autoReconnect: true,
             },
             defaultImageFormat: "png",
             defaultImageSize: 4096,

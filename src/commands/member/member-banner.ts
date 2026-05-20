@@ -1,17 +1,32 @@
-import { MessageFlags, MediaGalleryItem, MessageActionRowComponent } from "oceanic.js";
+import { MessageFlags } from "oceanic.js";
 import Command from "../../app/command";
 
 export default new Command()
-    .addName("user banner")
+    .addName('member banner')
 
-    .setRun(async function ({ app, guild, author, interaction }) {
+    .setRun(async ({ app, guild, author, interaction }) => {
+        if(!guild) return;
+
         const option = interaction.data.options.getUser("user", false) ?? author;
         const user = await app.rest.users.get(option.id);
-        const banner = user.bannerURL();
+        const member = await guild.getMember(option.id);
+        const banner2 = user.bannerURL();
 
-        if(!banner){
+        if(!member){
             interaction.createFollowup({
-                content: `${await app.getMenoji("no")} Este usuário não possue estandarte!`,
+                flags: MessageFlags.IS_COMPONENTS_V2,
+                content: `${await app.getMenoji("no")} Este usuário não pertence á esse servidor!`
+            });
+
+            return;
+        }
+
+        const banner = member.bannerURL();
+
+        if(!banner || banner && banner === banner2){
+            interaction.createFollowup({
+                flags: MessageFlags.IS_COMPONENTS_V2,
+                content: `${await app.getMenoji("no")} Este membro não possue estandarte!`,
             });
             
             return;
@@ -23,14 +38,14 @@ export default new Command()
                 type: 17,
                 components: [{
                     type: 10,
-                    content: `**${user.globalName ?? user.username}**`
+                    content: `**${member.nick ?? user.globalName ?? user.username}**`
                 }, {
                     type: 12,
                     items: [{
                         media: {
                             url: banner,
-                        }
-                    }]
+                        },
+                    }],
                 }],
             }, {
                 type: 1,
@@ -43,4 +58,4 @@ export default new Command()
                 }],
             }],
         });
-    });
+    })
