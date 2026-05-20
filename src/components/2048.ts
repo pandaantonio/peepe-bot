@@ -1,0 +1,60 @@
+import { adminDb } from "@/database/firebaseAdmin";
+import Game2048, { Game2048Save } from "@/games/2048";
+import Component from "@/struct/component";
+
+export default new Component()
+    .addName('2048_up', '2048_down', '2048_left', '2048_right', '2048_stop')
+
+    .setRun(async ({ author, interaction }) => {
+        if(interaction.data.componentType !== 2) return;
+
+        if (author.id !== interaction.message.interactionMetadata?.user.id) {
+            await interaction.defer(64).catch(console.log);
+
+            interaction.createFollowup({
+                content: `Este componente pertence á ${interaction.message.interactionMetadata?.user.mention}!`
+            });
+            return;
+        }
+
+        await interaction.deferUpdate().catch(console.log);
+
+        const snapshot = await adminDb.ref(`games/2048/${interaction.message.id}`).once('value');
+        const data: Game2048Save = snapshot.val();
+        const game = new Game2048(data.gridSize, data.score, data.grid, data.gameOver);
+        const customID = interaction.data.customID.replace("2048_", "");
+
+        if (game.isGameOver() || customID === "stop") {
+            interaction.editOriginal({
+                embeds: [{
+                    title: '2048!',
+                    color: 0xff3232,
+                    image: { url: "attachment://gameboard.png" },
+                    description: `Pontuação: ${game.getScore()}`,
+                }],
+                files: [{
+                    name: "gameboard.png",
+                    contents: await game.generate(),
+                }],
+                components: [],
+            });
+
+            await adminDb.ref(`games/2048/${interaction.message.id}`).remove();
+        } else {
+            game.move(customID as "up" | "down" | "left" | "right");
+            await adminDb.ref(`games/2048/${interaction.message.id}`).update(game);
+
+            interaction.editOriginal({
+                embeds: [{
+                    title: '2048!',
+                    color: 0xff3232,
+                    image: { url: "attachment://gameboard.png" },
+                    description: `Pontuação: ${game.getScore()}`,
+                }],
+                files: [{
+                    name: "gameboard.png",
+                    contents: await game.generate(),
+                }],
+            });
+        }
+    });
