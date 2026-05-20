@@ -7,6 +7,9 @@
     "init": "node .",
     "start": "npm run build && npm run init"
   },
+  "_moduleAliases": {
+    "@": "./src"
+  },
   "dependencies": {
     "axios": "^1.16.0",
     "dotenv": "^17.4.2",
