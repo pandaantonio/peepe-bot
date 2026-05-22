@@ -28,5 +28,15 @@ exports.default = new command_1.default().setCommand({
             descriptionLocalizations: {
                 "pt-BR": "Alimente a cobra e evite obstáculos para pontuar!"
             },
+        }, {
+            type: 1,
+            name: "tictactoe",
+            nameLocalizations: {
+                "pt-BR": "jogodavelha"
+            },
+            description: "Align three symbols to win.",
+            descriptionLocalizations: {
+                "pt-BR": "Alinhe três símbolos para vencer."
+            },
         }],
 });
