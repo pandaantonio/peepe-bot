@@ -1,3 +1,4 @@
+import EphemeralOption from "@/options/EphemeralOption";
 import UserOption from "@/options/UserOption";
 import Command from "@/struct/command";
 
@@ -15,6 +16,7 @@ export default new Command().setCommand({
         descriptionLocalizations: {
             "pt-BR": "Combine números e chegue a 2048!"
         },
+        options: [EphemeralOption(false)],
     }, {
         type: 1,
         name: "snake",
@@ -25,6 +27,7 @@ export default new Command().setCommand({
         descriptionLocalizations: {
             "pt-BR": "Alimente a cobra e evite obstáculos para pontuar!"
         },
+        options: [EphemeralOption(false)],
     }, {
         type: 1,
         name: "tictactoe",
@@ -35,5 +38,6 @@ export default new Command().setCommand({
         descriptionLocalizations: {
             "pt-BR": "Alinhe três símbolos para vencer."
         },
+        options: [UserOption(false)],
     }],
 });

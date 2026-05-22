@@ -3,6 +3,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const EphemeralOption_1 = __importDefault(require("@/options/EphemeralOption"));
+const UserOption_1 = __importDefault(require("@/options/UserOption"));
 const command_1 = __importDefault(require("@/struct/command"));
 exports.default = new command_1.default().setCommand({
     type: 1,
@@ -18,6 +20,7 @@ exports.default = new command_1.default().setCommand({
             descriptionLocalizations: {
                 "pt-BR": "Combine números e chegue a 2048!"
             },
+            options: [(0, EphemeralOption_1.default)(false)],
         }, {
             type: 1,
             name: "snake",
@@ -28,6 +31,7 @@ exports.default = new command_1.default().setCommand({
             descriptionLocalizations: {
                 "pt-BR": "Alimente a cobra e evite obstáculos para pontuar!"
             },
+            options: [(0, EphemeralOption_1.default)(false)],
         }, {
             type: 1,
             name: "tictactoe",
@@ -38,5 +42,6 @@ exports.default = new command_1.default().setCommand({
             descriptionLocalizations: {
                 "pt-BR": "Alinhe três símbolos para vencer."
             },
+            options: [(0, UserOption_1.default)(false)],
         }],
 });
