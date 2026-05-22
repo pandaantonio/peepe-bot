@@ -8,7 +8,7 @@ exports.default = new event_1.default("on", "interactionCreate", async (app, int
     const author = interaction.member?.user ?? interaction.user;
     const guild = interaction.guildID ? app.guilds.get(interaction.guildID) : undefined;
     if (interaction.isComponentInteraction()) {
-        const component = app.components.get(interaction.data.customID.split(".")[0]);
+        const component = app.components.get(interaction.data.customID);
         if (component) {
             await component.run({
                 app,

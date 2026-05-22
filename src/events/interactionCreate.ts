@@ -5,7 +5,7 @@ export default new Event("on", "interactionCreate", async (app, interaction) => 
     const guild = interaction.guildID ? app.guilds.get(interaction.guildID) : undefined;
 
     if(interaction.isComponentInteraction()){
-        const component = app.components.get(interaction.data.customID.split(".")[0]);
+        const component = app.components.get(interaction.data.customID);
 
         if(component){
             await component.run({

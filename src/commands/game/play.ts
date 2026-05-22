@@ -1,3 +1,4 @@
+import UserOption from "@/options/UserOption";
 import Command from "@/struct/command";
 
 export default new Command().setCommand({
