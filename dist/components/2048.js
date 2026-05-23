@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const firebaseAdmin_1 = require("@/database/firebaseAdmin");
 const _2048_1 = __importDefault(require("@/games/2048"));
 const component_1 = __importDefault(require("@/struct/component"));
+const oceanic_js_1 = require("oceanic.js");
 exports.default = new component_1.default()
     .addName('2048_up', '2048_down', '2048_left', '2048_right', '2048_stop')
     .setRun(async ({ author, interaction }) => {
@@ -25,17 +26,24 @@ exports.default = new component_1.default()
     const customID = interaction.data.customID.replace("2048_", "");
     if (game.isGameOver() || customID === "stop") {
         interaction.editOriginal({
-            embeds: [{
-                    title: '2048!',
-                    color: 0xff3232,
-                    image: { url: "attachment://gameboard.png" },
-                    description: `Pontuação: ${game.getScore()}`,
-                }],
             files: [{
                     name: "gameboard.png",
                     contents: await game.generate(),
                 }],
-            components: [],
+            components: [{
+                    type: 17,
+                    components: [{
+                            type: 10,
+                            content: `# 🎮 2048\n\n- **Pontuação**: \`\`${game.getScore()}\`\``,
+                        }, {
+                            type: 12,
+                            items: [{
+                                    media: {
+                                        url: "attachment://gameboard.png",
+                                    },
+                                }]
+                        }],
+                }]
         });
         await firebaseAdmin_1.adminDb.ref(`games/2048/${interaction.message.id}`).remove();
     }
@@ -43,15 +51,59 @@ exports.default = new component_1.default()
         game.move(customID);
         await firebaseAdmin_1.adminDb.ref(`games/2048/${interaction.message.id}`).update(game);
         interaction.editOriginal({
-            embeds: [{
-                    title: '2048!',
-                    color: 0xff3232,
-                    image: { url: "attachment://gameboard.png" },
-                    description: `Pontuação: ${game.getScore()}`,
-                }],
             files: [{
                     name: "gameboard.png",
                     contents: await game.generate(),
+                }],
+            components: [{
+                    type: 17,
+                    components: [{
+                            type: 10,
+                            content: `# 🎮 2048\n\n- **Pontuação**: \`\`${game.getScore()}\`\``,
+                        }, {
+                            type: 12,
+                            items: [{
+                                    media: {
+                                        url: "attachment://gameboard.png",
+                                    },
+                                }]
+                        }],
+                }, {
+                    type: oceanic_js_1.ComponentTypes.ACTION_ROW,
+                    components: [{
+                            customID: "2048_up",
+                            emoji: {
+                                name: "⬆️",
+                            },
+                            type: oceanic_js_1.ComponentTypes.BUTTON,
+                            style: oceanic_js_1.ButtonStyles.SECONDARY,
+                        }, {
+                            customID: "2048_down",
+                            emoji: {
+                                name: "⬇️",
+                            },
+                            type: oceanic_js_1.ComponentTypes.BUTTON,
+                            style: oceanic_js_1.ButtonStyles.SECONDARY,
+                        }, {
+                            customID: "2048_left",
+                            emoji: {
+                                name: "⬅️",
+                            },
+                            type: oceanic_js_1.ComponentTypes.BUTTON,
+                            style: oceanic_js_1.ButtonStyles.SECONDARY,
+                        }, {
+                            customID: "2048_right",
+                            emoji: {
+                                name: "➡️",
+                            },
+                            type: oceanic_js_1.ComponentTypes.BUTTON,
+                            style: oceanic_js_1.ButtonStyles.SECONDARY,
+                        }, {
+                            customID: "2048_stop",
+                            emoji: { name: "🏳" },
+                            type: oceanic_js_1.ComponentTypes.BUTTON,
+                            style: oceanic_js_1.ButtonStyles.DANGER,
+                        }],
                 }],
         });
     }

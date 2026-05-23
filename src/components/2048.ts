@@ -1,6 +1,7 @@
 import { adminDb } from "@/database/firebaseAdmin";
 import Game2048, { Game2048Save } from "@/games/2048";
 import Component from "@/struct/component";
+import { ButtonStyles, ComponentTypes } from "oceanic.js";
 
 export default new Component()
     .addName('2048_up', '2048_down', '2048_left', '2048_right', '2048_stop')
@@ -26,17 +27,24 @@ export default new Component()
 
         if (game.isGameOver() || customID === "stop") {
             interaction.editOriginal({
-                embeds: [{
-                    title: '2048!',
-                    color: 0xff3232,
-                    image: { url: "attachment://gameboard.png" },
-                    description: `Pontuação: ${game.getScore()}`,
-                }],
                 files: [{
                     name: "gameboard.png",
                     contents: await game.generate(),
                 }],
-                components: [],
+                components: [{
+                    type: 17,
+                    components: [{
+                        type: 10,
+                        content: `# 🎮 2048\n\n- **Pontuação**: \`\`${game.getScore()}\`\``,
+                    }, {
+                        type: 12,
+                        items: [{
+                            media: {
+                                url: "attachment://gameboard.png",
+                            },
+                        }]
+                    }],
+                }]
             });
 
             await adminDb.ref(`games/2048/${interaction.message.id}`).remove();
@@ -45,15 +53,59 @@ export default new Component()
             await adminDb.ref(`games/2048/${interaction.message.id}`).update(game);
 
             interaction.editOriginal({
-                embeds: [{
-                    title: '2048!',
-                    color: 0xff3232,
-                    image: { url: "attachment://gameboard.png" },
-                    description: `Pontuação: ${game.getScore()}`,
-                }],
-                files: [{
+                 files: [{
                     name: "gameboard.png",
                     contents: await game.generate(),
+                }],
+                components: [{
+                    type: 17,
+                    components: [{
+                        type: 10,
+                        content: `# 🎮 2048\n\n- **Pontuação**: \`\`${game.getScore()}\`\``,
+                    }, {
+                        type: 12,
+                        items: [{
+                            media: {
+                                url: "attachment://gameboard.png",
+                            },
+                        }]
+                    }],
+                }, {
+                    type: ComponentTypes.ACTION_ROW,
+                    components: [{
+                        customID: "2048_up",
+                        emoji: {
+                            name: "⬆️",
+                        },
+                        type: ComponentTypes.BUTTON,
+                        style: ButtonStyles.SECONDARY,
+                    }, {
+                        customID: "2048_down",
+                        emoji: {
+                            name: "⬇️",
+                        },
+                        type: ComponentTypes.BUTTON,
+                        style: ButtonStyles.SECONDARY,
+                    }, {
+                        customID: "2048_left",
+                        emoji: {
+                            name: "⬅️",
+                        },
+                        type: ComponentTypes.BUTTON,
+                        style: ButtonStyles.SECONDARY,
+                    }, {
+                        customID: "2048_right",
+                        emoji: {
+                            name: "➡️",
+                        },
+                        type: ComponentTypes.BUTTON,
+                        style: ButtonStyles.SECONDARY,
+                    }, {
+                        customID: "2048_stop",
+                        emoji: { name: "🏳" },
+                        type: ComponentTypes.BUTTON,
+                        style: ButtonStyles.DANGER,
+                    }],
                 }],
             });
         }

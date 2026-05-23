@@ -12,17 +12,25 @@ exports.default = new command_1.default()
     .setRun(async ({ interaction }) => {
     const game = new _2048_1.default();
     interaction.createFollowup({
-        embeds: [{
-                title: '2048!',
-                color: 0x0e7aff,
-                image: { url: "attachment://gameboard.png" },
-                description: `Pontuação: ${game.getScore()}`,
-            }],
+        flags: oceanic_js_1.MessageFlags.IS_COMPONENTS_V2,
         files: [{
                 name: "gameboard.png",
                 contents: await game.generate(),
             }],
         components: [{
+                type: 17,
+                components: [{
+                        type: 10,
+                        content: `# 🎮 2048\n\n- **Pontuação**: \`\`${game.getScore()}\`\``,
+                    }, {
+                        type: 12,
+                        items: [{
+                                media: {
+                                    url: "attachment://gameboard.png",
+                                },
+                            }]
+                    }],
+            }, {
                 type: oceanic_js_1.ComponentTypes.ACTION_ROW,
                 components: [{
                         customID: "2048_up",
@@ -30,35 +38,35 @@ exports.default = new command_1.default()
                             name: "⬆️",
                         },
                         type: oceanic_js_1.ComponentTypes.BUTTON,
-                        style: oceanic_js_1.ButtonStyles.PRIMARY,
+                        style: oceanic_js_1.ButtonStyles.SECONDARY,
                     }, {
                         customID: "2048_down",
                         emoji: {
                             name: "⬇️",
                         },
                         type: oceanic_js_1.ComponentTypes.BUTTON,
-                        style: oceanic_js_1.ButtonStyles.PRIMARY,
+                        style: oceanic_js_1.ButtonStyles.SECONDARY,
                     }, {
                         customID: "2048_left",
                         emoji: {
                             name: "⬅️",
                         },
                         type: oceanic_js_1.ComponentTypes.BUTTON,
-                        style: oceanic_js_1.ButtonStyles.PRIMARY,
+                        style: oceanic_js_1.ButtonStyles.SECONDARY,
                     }, {
                         customID: "2048_right",
                         emoji: {
                             name: "➡️",
                         },
                         type: oceanic_js_1.ComponentTypes.BUTTON,
-                        style: oceanic_js_1.ButtonStyles.PRIMARY,
+                        style: oceanic_js_1.ButtonStyles.SECONDARY,
                     }, {
                         customID: "2048_stop",
                         emoji: { name: "🏳" },
                         type: oceanic_js_1.ComponentTypes.BUTTON,
                         style: oceanic_js_1.ButtonStyles.DANGER,
-                    }]
-            }]
+                    }],
+            }],
     });
     const message = await interaction.getOriginal();
     await firebaseAdmin_1.adminDb.ref(`games/2048/${message.id}`).set(game.save());
