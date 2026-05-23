@@ -30,7 +30,7 @@ export default new Command().setCommand({
         options: [EphemeralOption(false)],
     }, {
         type: 1,
-        name: "tictactoe",
+        name: "ttt",
         nameLocalizations: {
             "pt-BR": "jogodavelha"
         },

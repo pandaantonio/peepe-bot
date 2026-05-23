@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const firebaseAdmin_1 = require("@/database/firebaseAdmin");
 const ttt_1 = __importDefault(require("@/games/ttt"));
 const component_1 = __importDefault(require("@/struct/component"));
+const oceanic_js_1 = require("oceanic.js");
 exports.default = new component_1.default()
     .addName('ai.ttt_0_0', 'ai.ttt_0_1', 'ai.ttt_0_2', 'ai.ttt_1_0', 'ai.ttt_1_1', 'ai.ttt_1_2', 'ai.ttt_2_0', 'ai.ttt_2_1', 'ai.ttt_2_2')
     .setRun(async ({ app, author, interaction }) => {
@@ -14,7 +15,11 @@ exports.default = new component_1.default()
     if (author.id !== interaction.message.interactionMetadata?.user.id) {
         await interaction.defer(64).catch(console.log);
         interaction.createFollowup({
-            content: `Este componente pertence á ${interaction.message.interactionMetadata?.user.mention}!`
+            flags: oceanic_js_1.MessageFlags.IS_COMPONENTS_V2,
+            components: [{
+                    type: 10,
+                    content: `${await app.getMenoji("no")} Este componente pertence á ${interaction.message.interactionMetadata?.user.mention}!`,
+                }],
         });
         return;
     }

@@ -34,7 +34,7 @@ exports.default = new command_1.default().setCommand({
             options: [(0, EphemeralOption_1.default)(false)],
         }, {
             type: 1,
-            name: "tictactoe",
+            name: "ttt",
             nameLocalizations: {
                 "pt-BR": "jogodavelha"
             },

@@ -9,13 +9,17 @@ const component_1 = __importDefault(require("@/struct/component"));
 const oceanic_js_1 = require("oceanic.js");
 exports.default = new component_1.default()
     .addName('2048_up', '2048_down', '2048_left', '2048_right', '2048_stop')
-    .setRun(async ({ author, interaction }) => {
+    .setRun(async ({ app, author, interaction }) => {
     if (interaction.data.componentType !== 2)
         return;
     if (author.id !== interaction.message.interactionMetadata?.user.id) {
         await interaction.defer(64).catch(console.log);
         interaction.createFollowup({
-            content: `Este componente pertence á ${interaction.message.interactionMetadata?.user.mention}!`
+            flags: oceanic_js_1.MessageFlags.IS_COMPONENTS_V2,
+            components: [{
+                    type: 10,
+                    content: `${await app.getMenoji("no")} Este componente pertence á ${interaction.message.interactionMetadata?.user.mention}!`,
+                }],
         });
         return;
     }
