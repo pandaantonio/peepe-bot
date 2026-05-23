@@ -7,9 +7,6 @@ const oceanic_js_1 = require("oceanic.js");
 const command_1 = __importDefault(require("@/struct/command"));
 exports.default = new command_1.default().setCommand({
     name: "config",
-    nameLocalizations: {
-        "pt-BR": "configurar"
-    },
     description: "Server configuration commands.",
     descriptionLocalizations: {
         "pt-BR": "Comandos de configuração do servidor."
