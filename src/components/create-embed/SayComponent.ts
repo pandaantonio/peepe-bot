@@ -1,6 +1,6 @@
-import Component from "../../app/component";
-import EmbedsContext from "../../context/create-embed/EmbedsContext";
-import { adminDb } from "../../database/firebaseAdmin";
+import Component from "@/struct/component";
+import EmbedsContext from "@/context/create-embed/EmbedsContext";
+import { adminDb } from "@/database/firebaseAdmin";
 
 export default new Component()
     .addName("say")

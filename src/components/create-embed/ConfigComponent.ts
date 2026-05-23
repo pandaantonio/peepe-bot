@@ -1,6 +1,6 @@
-import Component from "../../app/component";
-import SayContext from "../../context/create-embed/SayContext";
-import { adminDb } from "../../database/firebaseAdmin";
+import Component from "@/struct/component";
+import SayContext from "@/context/create-embed/SayContext";
+import { adminDb } from "@/database/firebaseAdmin";
 
 export default new Component()
     .addName("config-embed")
