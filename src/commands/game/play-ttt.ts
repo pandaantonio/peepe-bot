@@ -1,10 +1,10 @@
 import { adminDb } from "@/database/firebaseAdmin";
 import TicTacToe from "@/games/ttt";
 import Command from "@/struct/command";
-import { ButtonStyles, ComponentTypes, MessageFlags } from "oceanic.js";
+import { MessageFlags } from "oceanic.js";
 
 export default new Command()
-    .addName("play tictactoe")
+    .addName("play ttt")
 
     .setRun(async ({ author, interaction }) => {
         const user = interaction.data.options.getUser("user", false);
