@@ -20,19 +20,19 @@ async function default_1(app) {
                         {
                             value: "url",
                             label: "Url",
-                            emoji: await app.getButoji("link"),
+                            emoji: { name: "🔗" },
                             description: "Defina o link ao clicar no título."
                         },
                         {
                             value: "color",
                             label: "Cor",
-                            emoji: await app.getButoji("palette"),
+                            emoji: { name: "🎨" },
                             description: "Altere a cor lateral da incorporação."
                         },
                         {
                             value: "title",
                             label: "Título",
-                            emoji: await app.getButoji("docs"),
+                            emoji: { name: "📄" },
                             description: "Edite o título principal da incorporação."
                         },
                         {
@@ -44,25 +44,25 @@ async function default_1(app) {
                         {
                             value: "image",
                             label: "Imagem",
-                            emoji: await app.getButoji("image"),
+                            emoji: { name: "🖼️" },
                             description: "Adicione ou altere a imagem principal."
                         },
                         {
                             value: "thumbnail",
                             label: "Miniatura",
-                            emoji: await app.getButoji("google_photos"),
+                            emoji: { name: "🖼️" },
                             description: "Defina a miniatura exibida ao lado."
                         },
                         {
                             value: "author",
                             label: "Autor",
-                            emoji: await app.getButoji("user"),
+                            emoji: { name: "👤" },
                             description: "Configure nome, ícone e link do autor."
                         },
                         {
                             value: "footer",
                             label: "Rodapé",
-                            emoji: await app.getButoji("footer"),
+                            emoji: { name: "📝" },
                             description: "Personalize o texto e ícone do rodapé."
                         }
                     ]

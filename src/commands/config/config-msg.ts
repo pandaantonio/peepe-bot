@@ -3,7 +3,7 @@ import { adminDb } from "@/database/firebaseAdmin";
 import { SelectOption } from "oceanic.js";
 
 export default new Command()
-    .addName('config embed')
+    .addName('config msg')
 
     .setRun(async function ({ app, author, interaction }) {
         const options: SelectOption[] = [{

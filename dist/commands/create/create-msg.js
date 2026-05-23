@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const command_1 = __importDefault(require("@/struct/command"));
 const firebaseAdmin_1 = require("@/database/firebaseAdmin");
 exports.default = new command_1.default()
-    .addName('config embed')
+    .addName('config msg')
     .setRun(async function ({ app, author, interaction }) {
     const options = [{
             emoji: await app.getButoji("add"),

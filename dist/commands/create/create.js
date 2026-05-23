@@ -7,16 +7,19 @@ const oceanic_js_1 = require("oceanic.js");
 const command_1 = __importDefault(require("@/struct/command"));
 exports.default = new command_1.default().setCommand({
     name: "config",
-    description: "Null",
+    nameLocalizations: {
+        "pt-BR": "configurar"
+    },
+    description: "Server configuration commands.",
+    descriptionLocalizations: {
+        "pt-BR": "Comandos de configuração do servidor."
+    },
     options: [{
             type: 1,
-            name: "embed",
-            nameLocalizations: {
-                "pt-BR": "incorporação"
-            },
-            description: "Create embedded messages.",
+            name: "msg",
+            description: "Create and manage embedded messages.",
             descriptionLocalizations: {
-                "pt-BR": "Crie mensagens incorporadas."
+                "pt-BR": "Crie e gerencie mensagens incorporadas."
             },
         }],
     dmPermission: false,
