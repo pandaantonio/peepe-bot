@@ -16,6 +16,7 @@ exports.default = new command_1.default()
     const joinedAt = member.joinedAt ? parseInt(`${member.joinedAt.getTime() / 1000}`) : undefined;
     const icon = guild.iconURL();
     let content = [
+        `> 💼 **Cargos**: \`\`${guild.roles.size}\`\``,
         `> 👥 **Membros**: \`\`${guild.memberCount}\`\``,
         `> ${await app.getMenoji("id")} **ID**: \`\`${guild.id}\`\``,
         `> ${await app.getMenoji("crown")} **Dono(a)**: ${owner.mention}`,

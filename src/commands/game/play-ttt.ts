@@ -1,7 +1,7 @@
 import { adminDb } from "@/database/firebaseAdmin";
 import TicTacToe from "@/games/ttt";
 import Command from "@/struct/command";
-import { ButtonStyles, ComponentTypes } from "oceanic.js";
+import { ButtonStyles, ComponentTypes, MessageFlags } from "oceanic.js";
 
 export default new Command()
     .addName("play tictactoe")
@@ -13,8 +13,11 @@ export default new Command()
             const game = new TicTacToe();
 
             interaction.createFollowup({
-                components: game.generate(true),
-                content: `✖️ Sua vez ${author.mention}!`
+                flags: MessageFlags.IS_COMPONENTS_V2,
+                components: [{
+                    type: 10,
+                    content: `✖️ Sua vez ${author.mention}!`,
+                }, ...game.generate(true)],
             });
 
             const message = await interaction.getOriginal();
@@ -24,8 +27,11 @@ export default new Command()
 
         else {
             interaction.createFollowup({
-                content: `${user.mention} Deseja jogar o jogo da velha com ${author.mention}?`,
+                flags: MessageFlags.IS_COMPONENTS_V2,
                 components: [{
+                    type: 10,
+                    content: `${user.mention} Deseja jogar o jogo da velha com ${author.mention}?`,
+                },{
                     type: 1,
                     components: [{
                         type: 2,

@@ -1,4 +1,4 @@
-import { ButtonStyles, ComponentTypes, MessageActionRow } from "oceanic.js";
+import { ButtonStyles, ComponentTypes, MessageActionRow, MessageComponent } from "oceanic.js";
 
 type Player = 'X' | 'O';
 type Cell = Player | '';
@@ -57,11 +57,11 @@ export default class TicTacToe {
     }
   }
 
-  public generate(ai?: boolean): MessageActionRow[] {
-    const components: MessageActionRow[] = [];
+  public generate(ai?: boolean): MessageComponent[] {
+    const components: MessageComponent[] = [];
 
     for (let row = 0; row < this.board.length; row++) {
-      const actionRow: MessageActionRow = {
+      const actionRow: MessageComponent = {
         components: [],
         type: ComponentTypes.ACTION_ROW,
       };

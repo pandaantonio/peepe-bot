@@ -1,19 +1,23 @@
 import { adminDb } from "@/database/firebaseAdmin";
 import Game2048, { Game2048Save } from "@/games/2048";
 import Component from "@/struct/component";
-import { ButtonStyles, ComponentTypes } from "oceanic.js";
+import { ButtonStyles, ComponentTypes, MessageFlags } from "oceanic.js";
 
 export default new Component()
     .addName('2048_up', '2048_down', '2048_left', '2048_right', '2048_stop')
 
-    .setRun(async ({ author, interaction }) => {
+    .setRun(async ({ app, author, interaction }) => {
         if(interaction.data.componentType !== 2) return;
 
         if (author.id !== interaction.message.interactionMetadata?.user.id) {
             await interaction.defer(64).catch(console.log);
 
             interaction.createFollowup({
-                content: `Este componente pertence á ${interaction.message.interactionMetadata?.user.mention}!`
+                flags: MessageFlags.IS_COMPONENTS_V2,
+                components: [{
+                    type: 10,
+                    content: `${await app.getMenoji("no")} Este componente pertence á ${interaction.message.interactionMetadata?.user.mention}!`,
+                }],
             });
             return;
         }

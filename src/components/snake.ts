@@ -1,19 +1,23 @@
 import { adminDb } from "@/database/firebaseAdmin";
 import SnakeGame, { SaveSnake } from "@/games/Snake";
 import Component from "@/struct/component";
-import { ButtonStyles, ComponentTypes } from "oceanic.js";
+import { ButtonStyles, ComponentTypes, MessageFlags } from "oceanic.js";
 
 export default new Component()
     .addName('snake_up', 'snake_down', 'snake_left', 'snake_right', 'snake_stop')
 
-    .setRun(async ({ author, interaction }) => {
+    .setRun(async ({ app, author, interaction }) => {
         if(interaction.data.componentType !== 2) return;
 
         if (author.id !== interaction.message.interactionMetadata?.user.id) {
             await interaction.defer(64).catch(console.log);
 
             interaction.createFollowup({
-                content: `Este componente pertence á ${interaction.message.interactionMetadata?.user.mention}!`
+                flags: MessageFlags.IS_COMPONENTS_V2,
+                components: [{
+                    type: 10,
+                    content: `${await app.getMenoji("no")} Este componente pertence á ${interaction.message.interactionMetadata?.user.mention}!`,
+                }],
             });
             return;
         }

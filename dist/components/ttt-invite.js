@@ -26,8 +26,10 @@ exports.default = new component_1.default()
     if (customID === "accept_ttt") {
         const game = new ttt_1.default();
         interaction.editOriginal({
-            components: game.generate(false),
-            content: `✖️ Sua vez ${author.mention}!`
+            components: [{
+                    type: 10,
+                    content: `✖️ Sua vez ${author.mention}!`,
+                }, ...game.generate(false)],
         });
         await firebaseAdmin_1.adminDb.ref(`games/ttt/${interaction.message.id}`).set({
             userID,
@@ -36,8 +38,10 @@ exports.default = new component_1.default()
     }
     else {
         interaction.editOriginal({
-            components: [],
-            content: "Convite rejeitado!"
+            components: [{
+                    type: 10,
+                    content: "Convite rejeitado!",
+                }],
         });
     }
     await firebaseAdmin_1.adminDb.ref(`games/tttinvite/${interaction.message.id}`).remove();

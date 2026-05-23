@@ -28,12 +28,14 @@ exports.default = new component_1.default()
     const save = game.save();
     await firebaseAdmin_1.adminDb.ref(`games/tttai/${interaction.message.id}`).update(save);
     interaction.editOriginal({
-        components: game.generate(true),
-        content: save.isDraw ?
-            `Empate!` :
-            save.winner ?
-                `Vencedor(a): ${save.winner === "X" ? author.mention : app.user.mention}` :
-                `✖️ Sua vez ${author.mention}!`
+        components: [{
+                type: 10,
+                content: save.isDraw ?
+                    `Empate!` :
+                    save.winner ?
+                        `Vencedor(a): ${save.winner === "X" ? author.mention : app.user.mention}` :
+                        `✖️ Sua vez ${author.mention}!`
+            }, ...game.generate(true)]
     });
     if (save.isDraw || save.winner) {
         await firebaseAdmin_1.adminDb.ref(`games/tttai/${interaction.message.id}`).remove();

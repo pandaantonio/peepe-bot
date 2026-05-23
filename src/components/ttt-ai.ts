@@ -1,6 +1,7 @@
 import { adminDb } from "@/database/firebaseAdmin";
 import TicTacToe, { TttSave } from "@/games/ttt";
 import Component from "@/struct/component";
+import { MessageFlags } from "oceanic.js";
 
 export default new Component()
     .addName(
@@ -16,7 +17,11 @@ export default new Component()
             await interaction.defer(64).catch(console.log);
 
             interaction.createFollowup({
-                content: `Este componente pertence á ${interaction.message.interactionMetadata?.user.mention}!`
+                flags: MessageFlags.IS_COMPONENTS_V2,
+                components: [{
+                    type: 10,
+                    content: `${await app.getMenoji("no")} Este componente pertence á ${interaction.message.interactionMetadata?.user.mention}!`,
+                }],
             });
             return;
         }
@@ -41,12 +46,14 @@ export default new Component()
         await adminDb.ref(`games/tttai/${interaction.message.id}`).update(save);
 
         interaction.editOriginal({
-            components: game.generate(true),
-            content: save.isDraw ?
-                `Empate!` :
-                    save.winner ?
-                        `Vencedor(a): ${save.winner === "X" ? author.mention : app.user.mention}` :
-                        `✖️ Sua vez ${author.mention}!`
+            components: [{
+                type: 10,
+                content: save.isDraw ?
+                    `Empate!` :
+                        save.winner ?
+                            `Vencedor(a): ${save.winner === "X" ? author.mention : app.user.mention}` :
+                            `✖️ Sua vez ${author.mention}!`
+            }, ...game.generate(true)]
         });
 
         if(save.isDraw || save.winner){

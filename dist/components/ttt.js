@@ -35,12 +35,14 @@ exports.default = new component_1.default()
         game: stat,
     });
     interaction.editOriginal({
-        components: game.generate(false),
-        content: stat.isDraw ?
-            "Empate!" :
-            stat.winner ?
-                `Vencedor(a): ${stat.winner === "X" ? interaction.message.interactionMetadata?.user.mention : user.mention}` :
-                `${stat.currentPlayer === "X" ? "✖️" : "⚫️"} Vez de ${stat.currentPlayer === "X" ? interaction.message.interactionMetadata?.user.mention : user.mention}!`
+        components: [{
+                type: 10,
+                content: stat.isDraw ?
+                    "Empate!" :
+                    stat.winner ?
+                        `Vencedor(a): ${stat.winner === "X" ? interaction.message.interactionMetadata?.user.mention : user.mention}` :
+                        `${stat.currentPlayer === "X" ? "✖️" : "⚫️"} Vez de ${stat.currentPlayer === "X" ? interaction.message.interactionMetadata?.user.mention : user.mention}!`,
+            }, ...game.generate(false)]
     });
     if (stat.isDraw || stat.winner) {
         await firebaseAdmin_1.adminDb.ref(`games/ttt/${interaction.message.id}`).remove();

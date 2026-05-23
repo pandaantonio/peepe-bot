@@ -1,6 +1,7 @@
 import { adminDb } from "@/database/firebaseAdmin";
 import TicTacToe from "@/games/ttt";
 import Component from "@/struct/component";
+import { MessageFlags } from "oceanic.js";
 
 export default new Component()
     .addName("accept_ttt", "reject_ttt")
@@ -17,7 +18,11 @@ export default new Component()
             await interaction.defer(64).catch(console.log);
 
             interaction.createFollowup({
-                content: `Este componente pertence á ${user.mention}!`
+                flags: MessageFlags.IS_COMPONENTS_V2,
+                components: [{
+                    type: 10,
+                    content: `${await app.getMenoji("no")} Este componente pertence á ${user.mention}!`,
+                }],
             });
             return;
         }
@@ -28,8 +33,10 @@ export default new Component()
             const game = new TicTacToe();
 
             interaction.editOriginal({
-                components: game.generate(false),
-                content: `✖️ Sua vez ${author.mention}!`
+                components: [{
+                    type: 10,
+                    content: `✖️ Sua vez ${author.mention}!`,
+                }, ...game.generate(false)],
             });
 
             await adminDb.ref(`games/ttt/${interaction.message.id}`).set({
@@ -40,8 +47,10 @@ export default new Component()
 
         else {
             interaction.editOriginal({
-                components: [],
-                content: "Convite rejeitado!"
+                components: [{
+                    type: 10,
+                    content: "Convite rejeitado!",
+                }],
             });
         }
 
