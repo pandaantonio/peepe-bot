@@ -1,5 +1,5 @@
-import { Embed, MessageComponent } from "oceanic.js";
-import App from "../../app";
+import { MessageComponent } from "oceanic.js";
+import App from "@/app";
 
 export default async function (app: App): Promise<MessageComponent[]> {
     return [
@@ -86,13 +86,6 @@ export default async function (app: App): Promise<MessageComponent[]> {
                     customID: "delete_message",
                     label: "Apagar mensagem",
                 },
-                {
-                    type: 2,
-                    style: 2,
-                    emoji: await app.getButoji("gpt"),
-                    customID: "ai_message",
-                    label: "Gerar mensagem"
-                }
             ]
         }
     ];

@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const modal_1 = __importDefault(require("../../app/modal"));
+const modal_1 = __importDefault(require("@/struct/modal"));
 const firebaseAdmin_1 = require("../../database/firebaseAdmin");
 exports.default = new modal_1.default()
     .addName("say")

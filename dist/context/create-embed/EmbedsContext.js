@@ -54,13 +54,6 @@ async function default_1(app, embeds) {
                     customID: "delete_message",
                     label: "Apagar mensagem",
                 },
-                {
-                    type: 2,
-                    style: 2,
-                    emoji: await app.getButoji("gpt"),
-                    customID: "ai_message",
-                    label: "Gerar mensagem"
-                }
             ]
         }
     ];

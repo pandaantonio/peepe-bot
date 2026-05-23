@@ -3,9 +3,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const component_1 = __importDefault(require("../../app/component"));
-const SayContext_1 = __importDefault(require("../../context/create-embed/SayContext"));
-const firebaseAdmin_1 = require("../../database/firebaseAdmin");
+const component_1 = __importDefault(require("@/struct/component"));
+const SayContext_1 = __importDefault(require("@/context/create-embed/SayContext"));
+const firebaseAdmin_1 = require("@/database/firebaseAdmin");
 exports.default = new component_1.default()
     .addName("config-embed")
     .setRun(async function ({ app, author, interaction }) {

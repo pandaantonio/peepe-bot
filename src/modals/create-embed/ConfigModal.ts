@@ -1,5 +1,4 @@
-import Modal from "../../app/modal";
-import SayComponent from "../../components/create-embed/SayComponent";
+import Modal from "@/struct/modal";
 import SayContext from "../../context/create-embed/SayContext";
 import { adminDb } from "../../database/firebaseAdmin";
 

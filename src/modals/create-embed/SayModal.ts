@@ -1,4 +1,4 @@
-import Modal from "../../app/modal";
+import Modal from "@/struct/modal";
 import { adminDb } from "../../database/firebaseAdmin";
 
 export default new Modal()

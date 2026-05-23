@@ -36,7 +36,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const modal_1 = __importDefault(require("../../app/modal"));
+const modal_1 = __importDefault(require("@/struct/modal"));
 const EmbedContext_1 = __importDefault(require("../../context/create-embed/EmbedContext"));
 const firebaseAdmin_1 = require("../../database/firebaseAdmin");
 const HexToDecimal_1 = __importStar(require("../../utils/HexToDecimal"));

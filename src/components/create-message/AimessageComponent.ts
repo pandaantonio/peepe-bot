@@ -1,5 +1,5 @@
-import Component from "../app/component";
-import { adminDb } from "../database/firebaseAdmin";
+import Component from "@/struct/component";
+import { adminDb } from "@/database/firebaseAdmin";
 
 export default new Component()
     .addName("ai_message")

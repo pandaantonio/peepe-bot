@@ -1,4 +1,4 @@
-import Modal from "../../app/modal";
+import Modal from "@/struct/modal";
 import EmbedContext from "../../context/create-embed/EmbedContext";
 import { adminDb } from "../../database/firebaseAdmin";
 
