@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const firebaseAdmin_1 = require("@/database/firebaseAdmin");
 const Snake_1 = __importDefault(require("@/games/Snake"));
 const component_1 = __importDefault(require("@/struct/component"));
+const oceanic_js_1 = require("oceanic.js");
 exports.default = new component_1.default()
     .addName('snake_up', 'snake_down', 'snake_left', 'snake_right', 'snake_stop')
     .setRun(async ({ author, interaction }) => {
@@ -25,17 +26,24 @@ exports.default = new component_1.default()
     const customID = interaction.data.customID.replace("snake_", "");
     if (game.isGameOver() || customID === "stop") {
         interaction.editOriginal({
-            embeds: [{
-                    title: 'Snake',
-                    color: 0xff3232,
-                    image: { url: "attachment://gameboard.png" },
-                    description: `Pontuação: ${game.getScore()}`,
-                }],
             files: [{
                     name: "gameboard.png",
                     contents: await game.generate(),
                 }],
-            components: [],
+            components: [{
+                    type: 17,
+                    components: [{
+                            type: 10,
+                            content: `# 🐍 Jogo da cobrinha\n\n- **Pontuação**: \`\`${game.getScore()}\`\``,
+                        }, {
+                            type: 12,
+                            items: [{
+                                    media: {
+                                        url: "attachment://gameboard.png",
+                                    },
+                                }]
+                        }]
+                }],
         });
         await firebaseAdmin_1.adminDb.ref(`games/snake/${interaction.message.id}`).remove();
     }
@@ -43,15 +51,59 @@ exports.default = new component_1.default()
         game.setDirection(customID);
         await firebaseAdmin_1.adminDb.ref(`games/snake/${interaction.message.id}`).update(game);
         interaction.editOriginal({
-            embeds: [{
-                    title: 'Snake',
-                    color: 0xff3232,
-                    image: { url: "attachment://gameboard.png" },
-                    description: `Pontuação: ${game.getScore()}`,
-                }],
             files: [{
                     name: "gameboard.png",
                     contents: await game.generate(),
+                }],
+            components: [{
+                    type: 17,
+                    components: [{
+                            type: 10,
+                            content: `# 🐍 Jogo da cobrinha\n\n- **Pontuação**: \`\`${game.getScore()}\`\``,
+                        }, {
+                            type: 12,
+                            items: [{
+                                    media: {
+                                        url: "attachment://gameboard.png",
+                                    },
+                                }]
+                        }]
+                }, {
+                    type: oceanic_js_1.ComponentTypes.ACTION_ROW,
+                    components: [{
+                            customID: "snake_up",
+                            emoji: {
+                                name: "⬆️",
+                            },
+                            type: oceanic_js_1.ComponentTypes.BUTTON,
+                            style: oceanic_js_1.ButtonStyles.SECONDARY,
+                        }, {
+                            customID: "snake_down",
+                            emoji: {
+                                name: "⬇️",
+                            },
+                            type: oceanic_js_1.ComponentTypes.BUTTON,
+                            style: oceanic_js_1.ButtonStyles.SECONDARY,
+                        }, {
+                            customID: "snake_left",
+                            emoji: {
+                                name: "⬅️",
+                            },
+                            type: oceanic_js_1.ComponentTypes.BUTTON,
+                            style: oceanic_js_1.ButtonStyles.SECONDARY,
+                        }, {
+                            customID: "snake_right",
+                            emoji: {
+                                name: "➡️",
+                            },
+                            type: oceanic_js_1.ComponentTypes.BUTTON,
+                            style: oceanic_js_1.ButtonStyles.SECONDARY,
+                        }, {
+                            customID: "snake_stop",
+                            emoji: { name: "🏳" },
+                            type: oceanic_js_1.ComponentTypes.BUTTON,
+                            style: oceanic_js_1.ButtonStyles.DANGER,
+                        }]
                 }],
         });
     }

@@ -1,7 +1,7 @@
 import { adminDb } from "@/database/firebaseAdmin";
 import SnakeGame from "@/games/Snake";
 import Command from "@/struct/command";
-import { ButtonStyles, ComponentTypes } from "oceanic.js";
+import { ButtonStyles, ComponentTypes, MessageFlags } from "oceanic.js";
 
 export default new Command()
     .addName("play snake")
@@ -10,17 +10,25 @@ export default new Command()
         const game = new SnakeGame();
 
         interaction.createFollowup({
-            embeds: [{
-                title: 'Snake',
-                color: 0x0e7aff,
-                image: { url: "attachment://gameboard.png" },
-                description: `Pontuação: ${game.getScore()}`,
-            }],
+            flags: MessageFlags.IS_COMPONENTS_V2,
             files: [{
                 name: "gameboard.png",
                 contents: await game.generate(),
             }],
             components: [{
+                type: 17,
+                components: [{
+                    type: 10,
+                    content: `# 🐍 Jogo da cobrinha\n\n- **Pontuação**: \`\`${game.getScore()}\`\``,
+                }, {
+                    type: 12,
+                    items: [{
+                        media: {
+                            url: "attachment://gameboard.png",
+                        },
+                    }]
+                }]
+            }, {
                 type: ComponentTypes.ACTION_ROW,
                 components: [{
                     customID: "snake_up",
@@ -28,35 +36,35 @@ export default new Command()
                         name: "⬆️",
                     },
                     type: ComponentTypes.BUTTON,
-                    style: ButtonStyles.PRIMARY,
+                    style: ButtonStyles.SECONDARY,
                 }, {
                     customID: "snake_down",
                     emoji: {
                         name: "⬇️",
                     },
                     type: ComponentTypes.BUTTON,
-                    style: ButtonStyles.PRIMARY,
+                    style: ButtonStyles.SECONDARY,
                 }, {
                     customID: "snake_left",
                     emoji: {
                         name: "⬅️",
                     },
                     type: ComponentTypes.BUTTON,
-                    style: ButtonStyles.PRIMARY,
+                    style: ButtonStyles.SECONDARY,
                 }, {
                     customID: "snake_right",
                     emoji: {
                         name: "➡️",
                     },
                     type: ComponentTypes.BUTTON,
-                    style: ButtonStyles.PRIMARY,
+                    style: ButtonStyles.SECONDARY,
                 }, {
                     customID: "snake_stop",
                     emoji: { name: "🏳" },
                     type: ComponentTypes.BUTTON,
                     style: ButtonStyles.DANGER,
                 }]
-            }]
+            }],
         });
 
         const message = await interaction.getOriginal();
