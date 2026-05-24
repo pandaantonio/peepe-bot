@@ -19,7 +19,7 @@ exports.default = new command_1.default()
     }
     if (chosenNumber === guessNumber) {
         interaction.createFollowup({
-            content: `🎉 Você acertou! O número era ${guessNumber}, sorteei um novo número adivinhe!`,
+            content: `🎉 Você acertou! O número era ${guessNumber}!`,
         });
         await firebaseAdmin_1.adminDb.ref(`games/guess-number/${author.id}`).set({
             guessNumber: Math.floor(Math.random() * 100) + 1,
