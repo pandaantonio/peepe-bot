@@ -1,10 +1,11 @@
-import { AnyInteractionChannel, ComponentInteraction, ComponentTypes, SelectMenuTypes, Uncached, User } from "oceanic.js";
+import { AnyInteractionChannel, ComponentInteraction, ComponentTypes, Guild, SelectMenuTypes, Uncached, User } from "oceanic.js";
 import App from "@/app";
 
 export type ComponentNames = string[];
 
 export interface ComponentOptions {
     app: App;
+    guild?: Guild;
     author: User;
     interaction: ComponentInteraction<ComponentTypes.BUTTON | SelectMenuTypes, Uncached | AnyInteractionChannel>;
 };

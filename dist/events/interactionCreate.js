@@ -12,6 +12,7 @@ exports.default = new event_1.default("on", "interactionCreate", async (app, int
         if (component) {
             await component.run({
                 app,
+                guild,
                 author,
                 interaction,
             });
@@ -31,12 +32,10 @@ exports.default = new event_1.default("on", "interactionCreate", async (app, int
         let name = interaction.data.name;
         const subcommands = interaction.data.options.getSubCommand(false);
         const user = interaction.data.options.getUser("user", false);
-        let ephemeral = interaction.data.options.getBoolean("ephemeral", false) ?? true;
+        let ephemeral = interaction.data.options.getBoolean("ephemeral", false) ?? false;
         if (subcommands?.length) {
             name += subcommands.map((s) => ` ${s}`).join("");
         }
-        if (name === "play ttt" && user)
-            ephemeral = false;
         await interaction.defer(ephemeral ? 64 : 0).catch(console.log);
         const command = app.commands.get(name);
         if (command && command.run) {

@@ -34,7 +34,7 @@ var __importStar = (this && this.__importStar) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.adminAuth = exports.adminDb = void 0;
-// lib/firebaseAdmin.js
+// database/firebaseAdmin.js
 const admin = __importStar(require("firebase-admin"));
 if (!admin.apps.length) {
     try {

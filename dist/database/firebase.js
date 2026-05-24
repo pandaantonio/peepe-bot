@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.db = void 0;
-// lib/firebase.js
+// database/firebase.js
 const app_1 = require("firebase/app");
 const database_1 = require("firebase/database");
 const firebaseConfig = {

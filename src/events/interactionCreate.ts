@@ -10,6 +10,7 @@ export default new Event("on", "interactionCreate", async (app, interaction) => 
         if(component){
             await component.run({
                 app,
+                guild,
                 author,
                 interaction,
             });
@@ -33,13 +34,11 @@ export default new Event("on", "interactionCreate", async (app, interaction) => 
 
         const subcommands = interaction.data.options.getSubCommand(false);
         const user = interaction.data.options.getUser("user", false);
-        let ephemeral = interaction.data.options.getBoolean("ephemeral", false) ?? true;
+        let ephemeral = interaction.data.options.getBoolean("ephemeral", false) ?? false;
 
         if (subcommands?.length) {
             name += subcommands.map((s) => ` ${s}`).join("");
         }
-
-        if(name === "play ttt" && user) ephemeral = false;
 
         await interaction.defer(ephemeral ? 64 : 0).catch(console.log);
 

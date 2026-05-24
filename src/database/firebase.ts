@@ -1,4 +1,4 @@
-// lib/firebase.js
+// database/firebase.js
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
 
