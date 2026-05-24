@@ -11,9 +11,9 @@ export default new Command().setCommand({
     description: "Null",
     options: [{
         type: 1,
-        name: "guess-number",
+        name: "gn",
         nameLocalizations: {
-            "pt-BR": "adivinhe-o-numero"
+            "pt-BR": "an"
         },
         description: "Try to guess the secret number",
         descriptionLocalizations: {

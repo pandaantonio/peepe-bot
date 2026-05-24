@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const firebaseAdmin_1 = require("@/database/firebaseAdmin");
 const command_1 = __importDefault(require("@/struct/command"));
 exports.default = new command_1.default()
-    .addName("play guess-number")
+    .addName("play gn")
     .setRun(async function ({ author, interaction }) {
     const snapshot = await firebaseAdmin_1.adminDb.ref(`games/guess-number/${author.id}`).once('value');
     const data = snapshot.val();

@@ -3,7 +3,7 @@ import Command from "@/struct/command";
 import { MessageFlags } from "oceanic.js";
 
 export default new Command()
-    .addName("play guess-number")
+    .addName("play gn")
 
     .setRun(async function({ author, interaction }){
         const snapshot = await adminDb.ref(`games/guess-number/${author.id}`).once('value');
