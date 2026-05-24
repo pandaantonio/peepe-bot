@@ -36,7 +36,7 @@ export default new Command().setCommand({
                 "pt-BR": "Escolha um número de 1 a 100."
             },
             type: ApplicationCommandOptionTypes.INTEGER,
-        }],
+        }, EphemeralOption(false)],
         type: ApplicationCommandOptionTypes.SUB_COMMAND,
     }, {
         name: "2048",
