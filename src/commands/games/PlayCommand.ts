@@ -11,6 +11,16 @@ export default new Command().setCommand({
     description: "Null",
     options: [{
         type: 1,
+        name: "guess-number",
+        nameLocalizations: {
+            "pt-BR": "adivinhe-o-numero"
+        },
+        description: "Try to guess the secret number",
+        descriptionLocalizations: {
+            "pt-BR": "Tente adivinhar o número secreto"
+        },
+    }, {
+        type: 1,
         name: "2048",
         description: "Combine numbers to reach 2048!",
         descriptionLocalizations: {
@@ -32,7 +42,7 @@ export default new Command().setCommand({
         type: 1,
         name: "ttt",
         nameLocalizations: {
-            "pt-BR": "jogodavelha"
+            "pt-BR": "velha"
         },
         description: "Align three symbols to win.",
         descriptionLocalizations: {
