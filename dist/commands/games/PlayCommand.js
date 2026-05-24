@@ -23,6 +23,20 @@ exports.default = new command_1.default().setCommand({
             descriptionLocalizations: {
                 "pt-BR": "Tente adivinhar o número secreto"
             },
+            options: [{
+                    type: 4,
+                    minValue: 1,
+                    maxValue: 100,
+                    required: true,
+                    name: "chosen-number",
+                    nameLocalizations: {
+                        "pt-BR": "número-escolhido"
+                    },
+                    description: "Choose a number from 1 to 100.",
+                    descriptionLocalizations: {
+                        "pt-BR": "Escolha um número de 1 a 100."
+                    }
+                }],
         }, {
             type: 1,
             name: "2048",

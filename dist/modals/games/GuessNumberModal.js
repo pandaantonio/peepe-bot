@@ -22,9 +22,6 @@ exports.default = new modal_1.default()
     }
     const snapshot = await firebaseAdmin_1.adminDb.ref(`games/guess-number/${author.id}`).once('value');
     const data = snapshot.val();
-    console.log(data);
-    if (!data)
-        return;
     const number = interaction.data.components.getTextInput("number", true);
     const num = Number(number);
     if (isNaN(num) || !Number.isInteger(num)) {
