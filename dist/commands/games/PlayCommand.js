@@ -6,15 +6,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const EphemeralOption_1 = __importDefault(require("@/options/EphemeralOption"));
 const UserOption_1 = __importDefault(require("@/options/UserOption"));
 const command_1 = __importDefault(require("@/struct/command"));
+const oceanic_js_1 = require("oceanic.js");
 exports.default = new command_1.default().setCommand({
-    type: 1,
     name: "play",
     nameLocalizations: {
         "pt-BR": "jogar"
     },
     description: "Null",
     options: [{
-            type: 1,
             name: "gn",
             nameLocalizations: {
                 "pt-BR": "an"
@@ -24,7 +23,6 @@ exports.default = new command_1.default().setCommand({
                 "pt-BR": "Tente adivinhar o número secreto"
             },
             options: [{
-                    type: 4,
                     minValue: 1,
                     maxValue: 100,
                     required: true,
@@ -35,18 +33,19 @@ exports.default = new command_1.default().setCommand({
                     description: "Choose a number from 1 to 100.",
                     descriptionLocalizations: {
                         "pt-BR": "Escolha um número de 1 a 100."
-                    }
-                }],
+                    },
+                    type: oceanic_js_1.ApplicationCommandOptionTypes.INTEGER,
+                }, (0, EphemeralOption_1.default)(false)],
+            type: oceanic_js_1.ApplicationCommandOptionTypes.SUB_COMMAND,
         }, {
-            type: 1,
             name: "2048",
             description: "Combine numbers to reach 2048!",
             descriptionLocalizations: {
                 "pt-BR": "Combine números e chegue a 2048!"
             },
             options: [(0, EphemeralOption_1.default)(false)],
+            type: oceanic_js_1.ApplicationCommandOptionTypes.SUB_COMMAND,
         }, {
-            type: 1,
             name: "snake",
             nameLocalizations: {
                 "pt-BR": "cobrinha"
@@ -56,8 +55,8 @@ exports.default = new command_1.default().setCommand({
                 "pt-BR": "Alimente a cobra e evite obstáculos para pontuar!"
             },
             options: [(0, EphemeralOption_1.default)(false)],
+            type: oceanic_js_1.ApplicationCommandOptionTypes.SUB_COMMAND,
         }, {
-            type: 1,
             name: "ttt",
             nameLocalizations: {
                 "pt-BR": "velha"
@@ -67,5 +66,16 @@ exports.default = new command_1.default().setCommand({
                 "pt-BR": "Alinhe três símbolos para vencer."
             },
             options: [(0, UserOption_1.default)(false)],
+            type: oceanic_js_1.ApplicationCommandOptionTypes.SUB_COMMAND,
         }],
+    integrationTypes: [
+        oceanic_js_1.ApplicationIntegrationTypes.GUILD_INSTALL,
+        oceanic_js_1.ApplicationIntegrationTypes.USER_INSTALL,
+    ],
+    contexts: [
+        oceanic_js_1.InteractionContextTypes.BOT_DM,
+        oceanic_js_1.InteractionContextTypes.GUILD,
+        oceanic_js_1.InteractionContextTypes.PRIVATE_CHANNEL,
+    ],
+    type: oceanic_js_1.ApplicationCommandTypes.CHAT_INPUT,
 });
