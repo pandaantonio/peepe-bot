@@ -22,20 +22,7 @@ exports.default = new command_1.default().setCommand({
             descriptionLocalizations: {
                 "pt-BR": "Tente adivinhar o número secreto"
             },
-            options: [{
-                    minValue: 1,
-                    maxValue: 100,
-                    required: true,
-                    name: "chosen-number",
-                    nameLocalizations: {
-                        "pt-BR": "número-escolhido"
-                    },
-                    description: "Choose a number from 1 to 100.",
-                    descriptionLocalizations: {
-                        "pt-BR": "Escolha um número de 1 a 100."
-                    },
-                    type: oceanic_js_1.ApplicationCommandOptionTypes.INTEGER,
-                }, (0, EphemeralOption_1.default)(false)],
+            options: [(0, EphemeralOption_1.default)(false)],
             type: oceanic_js_1.ApplicationCommandOptionTypes.SUB_COMMAND,
         }, {
             name: "2048",
