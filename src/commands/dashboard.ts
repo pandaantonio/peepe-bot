@@ -1,9 +1,8 @@
 import Command from "@/struct/command";
-import { MessageFlags } from "oceanic.js";
+import { ApplicationCommandTypes, ApplicationIntegrationTypes, InteractionContextTypes, MessageFlags } from "oceanic.js";
 
 export default new Command()
     .setCommand({
-        type: 1,
         name: "dashboard",
         nameLocalizations: {
             "pt-BR": "painel",
@@ -12,6 +11,16 @@ export default new Command()
         descriptionLocalizations: {
             "pt-BR": "Acesse o painel de controle do bot.",
         },
+         integrationTypes: [
+            ApplicationIntegrationTypes.GUILD_INSTALL,
+            ApplicationIntegrationTypes.USER_INSTALL,
+        ],
+        contexts: [
+            InteractionContextTypes.BOT_DM,
+            InteractionContextTypes.GUILD,
+            InteractionContextTypes.PRIVATE_CHANNEL,
+        ],
+        type: ApplicationCommandTypes.CHAT_INPUT,
     })
 
     .setRun(async function({ app, guild, interaction }){
