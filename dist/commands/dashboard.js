@@ -7,7 +7,6 @@ const command_1 = __importDefault(require("@/struct/command"));
 const oceanic_js_1 = require("oceanic.js");
 exports.default = new command_1.default()
     .setCommand({
-    type: 1,
     name: "dashboard",
     nameLocalizations: {
         "pt-BR": "painel",
@@ -16,6 +15,16 @@ exports.default = new command_1.default()
     descriptionLocalizations: {
         "pt-BR": "Acesse o painel de controle do bot.",
     },
+    integrationTypes: [
+        oceanic_js_1.ApplicationIntegrationTypes.GUILD_INSTALL,
+        oceanic_js_1.ApplicationIntegrationTypes.USER_INSTALL,
+    ],
+    contexts: [
+        oceanic_js_1.InteractionContextTypes.BOT_DM,
+        oceanic_js_1.InteractionContextTypes.GUILD,
+        oceanic_js_1.InteractionContextTypes.PRIVATE_CHANNEL,
+    ],
+    type: oceanic_js_1.ApplicationCommandTypes.CHAT_INPUT,
 })
     .setRun(async function ({ app, guild, interaction }) {
     const dashboard = guild ? `${process.env.WEBSITE}/dashboard/${guild.id}` : `${process.env.WEBSITE}/dashboard`;
