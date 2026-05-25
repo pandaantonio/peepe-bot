@@ -8,10 +8,15 @@ export default new Command()
         const option = interaction.data.options.getUser("user", false) ?? author;
         const snapshot = await adminDb.ref(`users/${option.id}`).once('value');
         const data = snapshot.val();
+        const nextDaily = new Date(data.lastClaimed).getTime() + 24 * 60 * 60 * 1000;
+        const timestamp = Math.floor(nextDaily / 1000);
 
         interaction.createFollowup({
             flags: MessageFlags.IS_COMPONENTS_V2,
             components: [{
+                type: 10,
+                content: `⏰ **Próximo resgate em**: <t:${timestamp}:R>`
+            }, {
                 type: 1,
                 components: [{
                     type: 2,

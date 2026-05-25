@@ -12,10 +12,14 @@ exports.default = new command_1.default()
     const option = interaction.data.options.getUser("user", false) ?? author;
     const snapshot = await firebaseAdmin_1.adminDb.ref(`users/${option.id}`).once('value');
     const data = snapshot.val();
-    console.log(data);
+    const nextDaily = new Date(data.lastClaimed).getTime() + 24 * 60 * 60 * 1000;
+    const timestamp = Math.floor(nextDaily / 1000);
     interaction.createFollowup({
         flags: oceanic_js_1.MessageFlags.IS_COMPONENTS_V2,
         components: [{
+                type: 10,
+                content: `⏰ **Próximo resgate em**: <t:${timestamp}:R>`
+            }, {
                 type: 1,
                 components: [{
                         type: 2,
@@ -29,9 +33,9 @@ exports.default = new command_1.default()
 })
     .setCommand({
     name: "daily",
-    description: "View a user's balance.",
+    description: "Claim your daily reward.",
     descriptionLocalizations: {
-        "pt-BR": "Veja o saldo de um usuário"
+        "pt-BR": "Resgate sua recompeça diária."
     },
     options: [(0, EphemeralOption_1.default)(false)],
     integrationTypes: [
