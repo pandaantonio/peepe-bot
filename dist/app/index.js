@@ -38,6 +38,10 @@ class App extends oceanic_js_1.Client {
         const emoji = await (0, GetEmoji_1.default)(`<${e?.animated ? "a" : ""}:${e?.name}:${e?.id}>`);
         return emoji;
     }
+    async getEmrl(name) {
+        const emoji = await this.getEmoji(name);
+        return emoji && emoji.url ? emoji.url : undefined;
+    }
     async getButoji(name) {
         const emoji = await this.getEmoji(name);
         return emoji ? {

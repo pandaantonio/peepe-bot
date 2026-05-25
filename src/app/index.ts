@@ -44,6 +44,12 @@ export default class App extends Client {
         return emoji;
     }
 
+    async getEmrl(name: string): Promise<string | undefined> {
+        const emoji = await this.getEmoji(name);
+
+        return emoji && emoji.url ? emoji.url : undefined;
+    }
+
     async getButoji(name: string): Promise<NullablePartialEmoji | undefined> {
         const emoji = await this.getEmoji(name);
 
