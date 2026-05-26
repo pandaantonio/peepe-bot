@@ -3,16 +3,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const firebaseAdmin_1 = require("@/database/firebaseAdmin");
 const EphemeralOption_1 = __importDefault(require("@/options/EphemeralOption"));
 const UserOption_1 = __importDefault(require("@/options/UserOption"));
 const command_1 = __importDefault(require("@/struct/command"));
+const axios_1 = __importDefault(require("axios"));
 const oceanic_js_1 = require("oceanic.js");
+;
+async function getData(id) {
+    return await axios_1.default.get(`${process.env.WEBSITE}/api/users/${id}`)
+        .then((res) => res.data)
+        .catch(() => undefined);
+}
 exports.default = new command_1.default()
     .setRun(async function ({ app, author, interaction }) {
     const option = interaction.data.options.getUser("user", false) ?? author;
-    const snapshot = await firebaseAdmin_1.adminDb.ref(`users/${option.id}`).once('value');
-    const data = snapshot.val();
+    const data = await getData(option.id);
     const coins = data && data.coins ? data.coins : 0;
     interaction.createFollowup({
         flags: oceanic_js_1.MessageFlags.IS_COMPONENTS_V2,

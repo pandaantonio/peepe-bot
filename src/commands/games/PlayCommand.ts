@@ -26,25 +26,6 @@ export default new Command().setCommand({
         options: [EphemeralOption(false)],
         type: ApplicationCommandOptionTypes.SUB_COMMAND,
     }, {
-        name: "2048",
-        description: "Combine numbers to reach 2048!",
-        descriptionLocalizations: {
-            "pt-BR": "Combine números e chegue a 2048!"
-        },
-        options: [EphemeralOption(false)],
-        type: ApplicationCommandOptionTypes.SUB_COMMAND,
-    }, {
-        name: "snake",
-        nameLocalizations: {
-            "pt-BR": "cobrinha"
-        },
-        description: "Feed the snake and avoid obstacles to score!",
-        descriptionLocalizations: {
-            "pt-BR": "Alimente a cobra e evite obstáculos para pontuar!"
-        },
-        options: [EphemeralOption(false)],
-        type: ApplicationCommandOptionTypes.SUB_COMMAND,
-    }, {
         name: "ttt",
         nameLocalizations: {
             "pt-BR": "velha"

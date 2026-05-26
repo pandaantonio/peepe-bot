@@ -2,13 +2,27 @@ import { adminDb } from "@/database/firebaseAdmin";
 import EphemeralOption from "@/options/EphemeralOption";
 import UserOption from "@/options/UserOption";
 import Command from "@/struct/command";
+import axios from "axios";
 import { ApplicationCommandTypes, ApplicationIntegrationTypes, InteractionContextTypes, MessageFlags } from "oceanic.js";
+
+interface BalanceData {
+    coins: number;
+    totalEarned: number;
+    totalClaims: number;
+    streak: number;
+    lastClaimed: string;
+    createdAt: string;
+};
+async function getData(id: string): Promise<BalanceData | undefined> {
+    return await axios.get(`${process.env.WEBSITE}/api/users/${id}`)
+        .then((res) => res.data)
+        .catch(() => undefined);
+}
 
 export default new Command()
     .setRun(async function({ app, author, interaction }){
         const option = interaction.data.options.getUser("user", false) ?? author;
-        const snapshot = await adminDb.ref(`users/${option.id}`).once('value');
-        const data = snapshot.val();
+        const data = await getData(option.id);
         const coins = data && data.coins ? data.coins : 0;
 
         interaction.createFollowup({
