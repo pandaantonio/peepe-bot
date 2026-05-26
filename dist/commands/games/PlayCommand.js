@@ -25,25 +25,6 @@ exports.default = new command_1.default().setCommand({
             options: [(0, EphemeralOption_1.default)(false)],
             type: oceanic_js_1.ApplicationCommandOptionTypes.SUB_COMMAND,
         }, {
-            name: "2048",
-            description: "Combine numbers to reach 2048!",
-            descriptionLocalizations: {
-                "pt-BR": "Combine números e chegue a 2048!"
-            },
-            options: [(0, EphemeralOption_1.default)(false)],
-            type: oceanic_js_1.ApplicationCommandOptionTypes.SUB_COMMAND,
-        }, {
-            name: "snake",
-            nameLocalizations: {
-                "pt-BR": "cobrinha"
-            },
-            description: "Feed the snake and avoid obstacles to score!",
-            descriptionLocalizations: {
-                "pt-BR": "Alimente a cobra e evite obstáculos para pontuar!"
-            },
-            options: [(0, EphemeralOption_1.default)(false)],
-            type: oceanic_js_1.ApplicationCommandOptionTypes.SUB_COMMAND,
-        }, {
             name: "ttt",
             nameLocalizations: {
                 "pt-BR": "velha"
