@@ -11,5 +11,5 @@ exports.default = new command_1.default().setCommand({
         "pt-BR": "Abrir atividade",
     },
     handler: 2,
-    dmPermission: false,
+    dmPermission: true,
 });
