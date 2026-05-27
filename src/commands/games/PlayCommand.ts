@@ -15,6 +15,23 @@ export default new Command().setCommand({
     },
     description: "Null",
     options: [{
+        name: "2048",
+        description: "Play the classic 2048 puzzle game",
+        descriptionLocalizations: {
+            "pt-BR": "Jogue o clássico jogo de quebra-cabeça 2048"
+        },
+        type: ApplicationCommandOptionTypes.SUB_COMMAND,
+    }, {
+        name: "snake",
+        nameLocalizations: {
+            "pt-BR": "cobrinha"
+        },
+        description: "Play the classic Snake game",
+        descriptionLocalizations: {
+            "pt-BR": "Jogue o clássico jogo da cobrinha"
+        },
+        type: ApplicationCommandOptionTypes.SUB_COMMAND,
+    }, {
         name: "gn",
         nameLocalizations: {
             "pt-BR": "an"
