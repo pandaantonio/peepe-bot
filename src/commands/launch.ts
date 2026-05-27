@@ -7,5 +7,5 @@ export default new Command().setCommand({
         "pt-BR": "Abrir atividade",
     },
     handler: 2,
-    dmPermission: false,
+    dmPermission: true,
 });
