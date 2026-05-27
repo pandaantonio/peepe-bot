@@ -3,11 +3,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const firebaseAdmin_1 = require("@/database/firebaseAdmin");
 const event_1 = __importDefault(require("@/struct/event"));
+const axios_1 = __importDefault(require("axios"));
+;
+async function getData(id) {
+    return await axios_1.default.get(`${process.env.WEBSITE}/api/guild/${id}/autorole`)
+        .then((res) => res.data)
+        .catch(() => undefined);
+}
 exports.default = new event_1.default("on", "guildMemberAdd", async (app, member) => {
-    const snapshot = await firebaseAdmin_1.adminDb.ref(`autorole/${member.guildID}`).once('value');
-    const data = snapshot.val();
+    const data = await getData(member.guildID);
     if (data) {
         if (data.users && data.users[0] && !member.bot) {
             for (const roleID of data.users) {
