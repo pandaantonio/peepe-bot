@@ -14,6 +14,23 @@ exports.default = new command_1.default().setCommand({
     },
     description: "Null",
     options: [{
+            name: "2048",
+            description: "Play the classic 2048 puzzle game",
+            descriptionLocalizations: {
+                "pt-BR": "Jogue o clássico jogo de quebra-cabeça 2048"
+            },
+            type: oceanic_js_1.ApplicationCommandOptionTypes.SUB_COMMAND,
+        }, {
+            name: "snake",
+            nameLocalizations: {
+                "pt-BR": "cobrinha"
+            },
+            description: "Play the classic Snake game",
+            descriptionLocalizations: {
+                "pt-BR": "Jogue o clássico jogo da cobrinha"
+            },
+            type: oceanic_js_1.ApplicationCommandOptionTypes.SUB_COMMAND,
+        }, {
             name: "gn",
             nameLocalizations: {
                 "pt-BR": "an"
