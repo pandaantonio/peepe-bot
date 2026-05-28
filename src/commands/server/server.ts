@@ -1,3 +1,4 @@
+import EphemeralOption from "@/options/EphemeralOption";
 import Command from "@/struct/command";
 import { ApplicationCommandOptionTypes, ApplicationCommandTypes } from "oceanic.js";
 
@@ -11,6 +12,7 @@ export default new Command().setCommand({
         descriptionLocalizations: {
             "pt-BR": "Veja o ícone do servidor."
         },
+        options: [EphemeralOption(false)],
         type: ApplicationCommandOptionTypes.SUB_COMMAND,
     }, {
         name: "banner",
@@ -18,6 +20,7 @@ export default new Command().setCommand({
         descriptionLocalizations: {
             "pt-BR": "Veja o estandarte do servidor."
         },
+        options: [EphemeralOption(false)],
         type: ApplicationCommandOptionTypes.SUB_COMMAND,
     }, {
         name: "splash",
@@ -25,6 +28,7 @@ export default new Command().setCommand({
         descriptionLocalizations: {
             "pt-BR": "Veja o estandarte de convite do servidor."
         },
+        options: [EphemeralOption(false)],
         type: ApplicationCommandOptionTypes.SUB_COMMAND,
     }],
     type: ApplicationCommandTypes.CHAT_INPUT,
