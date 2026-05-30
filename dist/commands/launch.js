@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const command_1 = __importDefault(require("@/struct/command"));
 exports.default = new command_1.default().setCommand({
-    type: 4, // PRIMARY_ENTRY_POINT
+    type: 4,
     name: "launch",
     nameLocalizations: {
         "pt-BR": "Abrir atividade",
