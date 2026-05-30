@@ -71,9 +71,10 @@ export default new Event("on", "guildMemberAdd", async (app, member) => {
 });
 
 function replaces(parse: boolean, text: string, member: Member){
-    let r = text.replaceAll("{user}", `${member.mention}`)
+    let r = text
+        .replaceAll("{user}", `${member.mention}`)
         .replaceAll("{user.id}", `${member.id}`)
-        .replaceAll("{user.avatar}", `${member.avatarURL}`);
+        .replaceAll("{user.avatar}", `${member.avatarURL()}`);
 
     return parse ? JSON.parse(r) : r;
 }
