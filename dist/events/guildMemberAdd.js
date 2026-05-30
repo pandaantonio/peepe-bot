@@ -37,7 +37,7 @@ exports.default = new event_1.default("on", "guildMemberAdd", async (app, member
         }
     }
     if (welcome) {
-        const channel = guild.channels.get(welcome.channelId);
+        const channel = await app.getChannel(welcome.channelId);
         if (channel && channel.type === 0) {
             channel.createMessage(welcome.flags === 0 ? ({
                 content: welcome.content,
@@ -48,7 +48,7 @@ exports.default = new event_1.default("on", "guildMemberAdd", async (app, member
             })).catch(console.log);
         }
         else {
-            console.log(false);
+            console.log(channel);
         }
     }
 });

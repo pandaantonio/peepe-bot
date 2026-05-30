@@ -54,6 +54,7 @@ export default new Event("on", "guildMemberAdd", async (app, member) => {
     }
 
     if(welcome){
+        console.log(welcome);
         const channel = await app.getChannel(welcome.channelId);
 
         if(channel && channel.type === 0){
@@ -65,7 +66,7 @@ export default new Event("on", "guildMemberAdd", async (app, member) => {
                 components: welcome.components,
             })).catch(console.log);
         } else {
-            console.log(false);
+            console.log(channel);
         }
     }
 });
