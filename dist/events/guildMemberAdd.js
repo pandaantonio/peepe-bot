@@ -45,7 +45,10 @@ exports.default = new event_1.default("on", "guildMemberAdd", async (app, member
             }) : ({
                 flags: welcome.flags,
                 components: welcome.components,
-            }));
+            })).catch(console.log);
+        }
+        else {
+            console.log(false);
         }
     }
 });

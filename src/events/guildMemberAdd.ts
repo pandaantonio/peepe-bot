@@ -28,6 +28,7 @@ async function getWelcome(id: string): Promise<Welcome | undefined> {
         .then((res) => res.data)
         .catch(() => undefined);
 }
+
 export default new Event("on", "guildMemberAdd", async (app, member) => {
     const guild = app.guilds.get(member.guildID);
 
@@ -53,7 +54,7 @@ export default new Event("on", "guildMemberAdd", async (app, member) => {
     }
 
     if(welcome){
-        const channel = guild.channels.get(welcome.channelId);
+        const channel = await app.getChannel(welcome.channelId);
 
         if(channel && channel.type === 0){
             channel.createMessage(welcome.flags === 0 ? ({
@@ -62,7 +63,9 @@ export default new Event("on", "guildMemberAdd", async (app, member) => {
             }) : ({
                 flags: welcome.flags,
                 components: welcome.components,
-            }));
+            })).catch(console.log);
+        } else {
+            console.log(false);
         }
     }
 });
