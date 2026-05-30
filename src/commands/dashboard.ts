@@ -11,6 +11,14 @@ export default new Command()
                     type: 10,
                     content: `# ${await app.getMenoji("config")} Painel de Controle\n\n## Quer acessar o painel de controle? É só ir em Atividades e abrir a minha atividade! 🚀`,
                 }],
+            }, {
+                type: 1,
+                components: [{
+                    type: 2,
+                    style: 5,
+                    label: "Abrir Atividade",
+                    url: `https://discord.com/activities/1400971977795047516?referrer_id=485141005796900867`,
+                }],
             }]
         });
     })
