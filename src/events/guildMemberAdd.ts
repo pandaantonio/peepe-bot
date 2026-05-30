@@ -16,7 +16,7 @@ async function getData(id: string): Promise<AutoroleData | undefined> {
 }
 
 interface Welcome {
-    channelId: string;
+    channelID: string;
     content: string;
     flags: number;
     embeds: any[];
@@ -55,7 +55,7 @@ export default new Event("on", "guildMemberAdd", async (app, member) => {
 
     if(welcome){
         console.log(welcome);
-        const channel = await app.getChannel(welcome.channelId);
+        const channel = await app.getChannel(welcome.channelID);
 
         if(channel && channel.type === 0){
             channel.createMessage(welcome.flags === 0 ? ({
