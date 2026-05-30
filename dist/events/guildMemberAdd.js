@@ -11,9 +11,17 @@ async function getData(id) {
         .then((res) => res.data)
         .catch(() => undefined);
 }
+async function getWelcome(id) {
+    return await axios_1.default.get(`${process.env.WEBSITE}/api/guild/${id}/welcome`)
+        .then((res) => res.data)
+        .catch(() => undefined);
+}
 exports.default = new event_1.default("on", "guildMemberAdd", async (app, member) => {
     const guild = app.guilds.get(member.guildID);
+    if (!guild)
+        return;
     const data = await getData(member.guildID);
+    const welcome = await getWelcome(member.guildID);
     if (data) {
         if (data.users && data.users[0] && !member.bot) {
             for (const roleID of data.users) {
@@ -26,6 +34,18 @@ exports.default = new event_1.default("on", "guildMemberAdd", async (app, member
                 await member.addRole(roleID)
                     .catch(console.log);
             }
+        }
+    }
+    if (welcome) {
+        const channel = guild.channels.get(welcome.channelId);
+        if (channel && channel.type === 0) {
+            channel.createMessage(welcome.flags === 0 ? ({
+                content: welcome.content,
+                embeds: welcome.embeds,
+            }) : ({
+                flags: welcome.flags,
+                components: welcome.components,
+            }));
         }
     }
 });
