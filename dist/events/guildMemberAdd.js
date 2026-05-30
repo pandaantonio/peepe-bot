@@ -37,15 +37,14 @@ exports.default = new event_1.default("on", "guildMemberAdd", async (app, member
         }
     }
     if (welcome) {
-        console.log(welcome);
         const channel = await app.getChannel(welcome.channelID);
         if (channel && channel.type === 0) {
             channel.createMessage(welcome.flags === 0 ? ({
                 content: welcome.content,
-                embeds: welcome.embeds,
+                embeds: replaces(true, JSON.stringify(welcome.embeds), member),
             }) : ({
                 flags: welcome.flags,
-                components: welcome.components,
+                components: replaces(true, JSON.stringify(welcome.components), member),
             })).catch(console.log);
         }
         else {
@@ -53,3 +52,9 @@ exports.default = new event_1.default("on", "guildMemberAdd", async (app, member
         }
     }
 });
+function replaces(parse, text, member) {
+    let r = text.replaceAll("{user}", `${member.mention}`)
+        .replaceAll("{user.id}", `${member.id}`)
+        .replaceAll("{user.avatar}", `${member.avatarURL}`);
+    return parse ? JSON.parse(r) : r;
+}
