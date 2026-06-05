@@ -16,6 +16,8 @@ export default class App extends Client {
             gateway: {
                 intents: [
                     "GUILDS",
+                    "MESSAGE_CONTENT",
+                    "GUILD_MESSAGES",
                 ],
                 autoReconnect: true,
             },
