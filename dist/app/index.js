@@ -16,7 +16,6 @@ class App extends oceanic_js_1.Client {
             gateway: {
                 intents: [
                     "GUILDS",
-                    "GUILD_MEMBERS",
                 ],
                 autoReconnect: true,
             },
