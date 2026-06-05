@@ -10,6 +10,5 @@ exports.default = new command_1.default().setCommand({
     nameLocalizations: {
         "pt-BR": "Abrir atividade",
     },
-    handler: 2,
-    dmPermission: true,
+    handler: 1,
 });
