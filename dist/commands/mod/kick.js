@@ -9,47 +9,63 @@ exports.default = new command_1.default()
     if (!guild)
         return;
     const reason = interaction.data.options.getString("reason", true);
-    const users = [
+    const selectedUsers = [
         interaction.data.options.getUser("user", true),
         interaction.data.options.getUser("additional_user_1", false),
         interaction.data.options.getUser("additional_user_2", false)
     ].filter((u) => u !== undefined);
-    const success = [];
-    const failed = [];
-    for (const user of users) {
+    const members = (await Promise.all(selectedUsers.map(async (user) => {
         try {
-            await guild.createBan(user.id, { reason });
-            success.push(user.globalName ??
-                user.username);
+            return await guild.getMember(user.id);
         }
         catch {
-            failed.push(user.globalName ??
-                user.username);
+            return undefined;
+        }
+    }))).filter((u) => u !== undefined);
+    const success = [];
+    const failed = [];
+    for (const member of members) {
+        const username = member.user.globalName ??
+            member.user.username;
+        try {
+            if (member.id === interaction.user.id) {
+                failed.push(`${username} (você mesmo)`);
+                continue;
+            }
+            if (member.id === guild.ownerID) {
+                failed.push(`${username} (dono do servidor)`);
+                continue;
+            }
+            await member.kick(reason);
+            success.push(username);
+        }
+        catch {
+            failed.push(username);
         }
     }
     const content = [
-        success.length
-            ? `# ✅ Sucesso\n\n${success.map(u => `• ${u}`).join("\n")}`
+        success.length > 0
+            ? `# ✅ Expulsões realizadas\n\n${success.map(user => `• ${user}`).join("\n")}`
             : null,
-        failed.length
-            ? `# ❌ Falha\n\n${failed.map(u => `• ${u}`).join("\n")}`
+        failed.length > 0
+            ? `# ❌ Expulsões falharam\n\n${failed.map(user => `• ${user}`).join("\n")}`
             : null
     ]
         .filter(Boolean)
         .join("\n\n");
     await interaction.createFollowup({
-        content
+        content: content || "Nenhum usuário foi processado."
     });
 })
     .setCommand({
     type: 1,
-    name: "ban",
-    description: "Ban one or more users from the server.",
+    name: "kick",
+    description: "Kick one or more users from the server.",
     descriptionLocalizations: {
-        "pt-BR": "Bane um ou mais usuários do servidor."
+        "pt-BR": "Expulsa um ou mais usuários do servidor."
     },
     dmPermission: false,
-    defaultMemberPermissions: "4", // BAN_MEMBERS
+    defaultMemberPermissions: "2", // KICK_MEMBERS
     options: [
         {
             type: 6,
@@ -57,9 +73,9 @@ exports.default = new command_1.default()
             nameLocalizations: {
                 "pt-BR": "usuario"
             },
-            description: "User to ban.",
+            description: "User to kick.",
             descriptionLocalizations: {
-                "pt-BR": "Usuário que será banido."
+                "pt-BR": "Usuário que será expulso."
             },
             required: true
         },
@@ -69,9 +85,9 @@ exports.default = new command_1.default()
             nameLocalizations: {
                 "pt-BR": "motivo"
             },
-            description: "Reason for the ban.",
+            description: "Reason for the kick.",
             descriptionLocalizations: {
-                "pt-BR": "Motivo do banimento."
+                "pt-BR": "Motivo da expulsão."
             },
             required: true,
             maxLength: 512
@@ -82,9 +98,9 @@ exports.default = new command_1.default()
             nameLocalizations: {
                 "pt-BR": "usuario_adicional_1"
             },
-            description: "Additional user to ban.",
+            description: "Additional user to kick.",
             descriptionLocalizations: {
-                "pt-BR": "Usuário adicional para banir."
+                "pt-BR": "Usuário adicional para expulsar."
             },
             required: false
         },
@@ -94,11 +110,11 @@ exports.default = new command_1.default()
             nameLocalizations: {
                 "pt-BR": "usuario_adicional_2"
             },
-            description: "Additional user to ban.",
+            description: "Additional user to kick.",
             descriptionLocalizations: {
-                "pt-BR": "Usuário adicional para banir."
+                "pt-BR": "Usuário adicional para expulsar."
             },
             required: false
-        },
+        }
     ]
 });
