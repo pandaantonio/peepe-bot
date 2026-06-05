@@ -1,9 +1,9 @@
-import EphemeralOption from "@/options/EphemeralOption";
-import UserOption from "@/options/UserOption";
 import Command from "@/struct/command";
-import { ApplicationCommandTypes, ApplicationIntegrationTypes, InteractionContextTypes, MessageFlags, MediaGalleryItem, MessageActionRowComponent } from "oceanic.js";
+import { MessageFlags, MediaGalleryItem, MessageActionRowComponent } from "oceanic.js";
 
 export default new Command()
+    .addName("user avatar")
+
     .setRun(async function({ app, guild, author, interaction }){
         const option = interaction.data.options.getUser('user', false) ?? author;
         const user = await app.rest.users.get(option.id);
@@ -57,23 +57,4 @@ export default new Command()
                 components,
             }],
         });
-    })
-
-    .setCommand({
-        name: "avatar",
-        description: "See a user avatar.",
-        descriptionLocalizations: {
-            "pt-BR": "Veja o avatar do usuário."
-        },
-        options: [UserOption(false), EphemeralOption(false)],
-        integrationTypes: [
-            ApplicationIntegrationTypes.GUILD_INSTALL,
-            ApplicationIntegrationTypes.USER_INSTALL,
-        ],
-        contexts: [
-            InteractionContextTypes.BOT_DM,
-            InteractionContextTypes.GUILD,
-            InteractionContextTypes.PRIVATE_CHANNEL,
-        ],
-        type: ApplicationCommandTypes.CHAT_INPUT,
-    })
+    });
