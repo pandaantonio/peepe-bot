@@ -8,6 +8,7 @@ export default new Event(
     "messageCreate",
     async function (app, message) {
         if (!message.guild || message.author.bot) return;
+        if(message.guildID !== "1441209914830880843") return;
 
         const matches = [...message.content.matchAll(InviteRegex)];
 
