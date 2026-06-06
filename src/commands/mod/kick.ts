@@ -52,7 +52,7 @@ export default new Command()
                 }
 
                 // Verificar hierarquia de cargos (se aplicável)
-                const botMember = await guild.getMember(app.user.id);
+                /*const botMember = await guild.getMember(app.user.id);
                 const targetMember = member;
                 const authorMember = await guild.getMember(author.id);
 
@@ -74,7 +74,7 @@ export default new Command()
                         });
                         continue;
                     }
-                }
+                }*/
 
                 await member.kick(reason);
 

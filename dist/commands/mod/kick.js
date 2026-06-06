@@ -42,18 +42,21 @@ exports.default = new command_1.default()
                 continue;
             }
             // Verificar hierarquia de cargos (se aplicável)
-            const botMember = await guild.getMember(app.user.id);
+            /*const botMember = await guild.getMember(app.user.id);
             const targetMember = member;
             const authorMember = await guild.getMember(author.id);
+
             if (botMember && targetMember) {
                 const botHighestRole = botMember.roles
                     .map(id => guild.roles.get(id))
                     .filter(r => r !== undefined)
                     .sort((a, b) => (b?.position ?? 0) - (a?.position ?? 0))[0];
+                
                 const targetHighestRole = targetMember.roles
                     .map(id => guild.roles.get(id))
                     .filter(r => r !== undefined)
                     .sort((a, b) => (b?.position ?? 0) - (a?.position ?? 0))[0];
+
                 if (targetHighestRole && botHighestRole && targetHighestRole.position >= botHighestRole.position) {
                     failed.push({
                         name: username,
@@ -61,7 +64,7 @@ exports.default = new command_1.default()
                     });
                     continue;
                 }
-            }
+            }*/
             await member.kick(reason);
             success.push({ name: username, id: member.id });
         }
