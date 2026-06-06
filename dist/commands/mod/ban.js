@@ -82,6 +82,9 @@ exports.default = new command_1.default()
     .setCommand({
     type: 1,
     name: "ban",
+    nameLocalizations: {
+        "pt-BR": "banir"
+    },
     description: "Ban one or more users from the server.",
     descriptionLocalizations: {
         "pt-BR": "Bane um ou mais usuários do servidor."

@@ -49,6 +49,9 @@ exports.default = new command_1.default()
     .setCommand({
     type: 1,
     name: "unban",
+    nameLocalizations: {
+        "pt-BR": "desbanir"
+    },
     description: "Unban one or more users from the server.",
     descriptionLocalizations: {
         "pt-BR": "Remove o banimento de um ou mais usuários do servidor."

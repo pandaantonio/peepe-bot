@@ -10,6 +10,9 @@ const oceanic_js_1 = require("oceanic.js");
 exports.default = new command_1.default().setCommand({
     type: 1,
     name: 'user',
+    nameLocalizations: {
+        "pt-BR": "usuário"
+    },
     description: "Null",
     options: [{
             type: 1,

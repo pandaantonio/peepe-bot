@@ -8,10 +8,16 @@ const command_1 = __importDefault(require("@/struct/command"));
 const oceanic_js_1 = require("oceanic.js");
 exports.default = new command_1.default().setCommand({
     name: "server",
+    nameLocalizations: {
+        "pt-BR": "servidor"
+    },
     description: "Null",
     dmPermission: false,
     options: [{
             name: "icon",
+            nameLocalizations: {
+                "pt-BR": "ícone"
+            },
             description: "See a server icon.",
             descriptionLocalizations: {
                 "pt-BR": "Veja o ícone do servidor."
@@ -20,6 +26,9 @@ exports.default = new command_1.default().setCommand({
             type: oceanic_js_1.ApplicationCommandOptionTypes.SUB_COMMAND,
         }, {
             name: "banner",
+            nameLocalizations: {
+                "pt-BR": "estandarte"
+            },
             description: "See a server banner.",
             descriptionLocalizations: {
                 "pt-BR": "Veja o estandarte do servidor."
@@ -28,6 +37,9 @@ exports.default = new command_1.default().setCommand({
             type: oceanic_js_1.ApplicationCommandOptionTypes.SUB_COMMAND,
         }, {
             name: "splash",
+            nameLocalizations: {
+                "pt-BR": "estandarte-de-convite"
+            },
             description: "See a server splash.",
             descriptionLocalizations: {
                 "pt-BR": "Veja o estandarte de convite do servidor."

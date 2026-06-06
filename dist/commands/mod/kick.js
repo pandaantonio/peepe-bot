@@ -95,6 +95,9 @@ exports.default = new command_1.default()
     .setCommand({
     type: 1,
     name: "kick",
+    nameLocalizations: {
+        "pt-BR": "expulsar"
+    },
     description: "Kick one or more users from the server.",
     descriptionLocalizations: {
         "pt-BR": "Expulsa um ou mais usuários do servidor."
