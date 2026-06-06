@@ -6,6 +6,9 @@ import { ApplicationIntegrationTypes, InteractionContextTypes } from "oceanic.js
 export default new Command().setCommand({
     type: 1,
     name: 'user',
+    nameLocalizations: {
+        "pt-BR": "usuário"
+    },
     description: "Null",
     options: [{
         type: 1,
