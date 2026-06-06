@@ -8,36 +8,42 @@ exports.default = new command_1.default()
     .setRun(async function ({ guild, interaction }) {
     if (!guild)
         return;
-    const users = [
+    // Coletar usuários e remover duplicatas
+    const rawUsers = [
         interaction.data.options.getUser("user", true),
         interaction.data.options.getUser("additional_user_1", false),
         interaction.data.options.getUser("additional_user_2", false)
     ].filter((u) => u !== undefined);
+    // Remover duplicatas baseado no ID
+    const uniqueUsers = rawUsers.filter((user, index, self) => index === self.findIndex((u) => u.id === user.id));
     const success = [];
     const failed = [];
-    for (const user of users) {
+    for (const user of uniqueUsers) {
+        const userName = user.globalName ?? user.username;
         try {
             await guild.removeBan(user.id);
-            success.push(user.globalName ??
-                user.username);
+            success.push(userName);
         }
-        catch {
-            failed.push(user.globalName ??
-                user.username);
+        catch (error) {
+            const errorMessage = error instanceof Error ? error.message : "Erro desconhecido";
+            failed.push({ name: userName, reason: errorMessage });
         }
     }
-    const content = [
-        success.length
-            ? `# ✅ Sucesso\n\n${success.map(u => `• ${u}`).join("\n")}`
-            : null,
-        failed.length
-            ? `# ❌ Falha\n\n${failed.map(u => `• ${u}`).join("\n")}`
-            : null
-    ]
-        .filter(Boolean)
-        .join("\n\n");
+    // Construir mensagem de resposta
+    const contentParts = [];
+    if (success.length) {
+        contentParts.push(`# ✅ Desbanimentos realizados\n\n${success.map(u => `• ${u}`).join("\n")}`);
+    }
+    if (failed.length) {
+        contentParts.push(`# ❌ Desbanimentos falharam\n\n${failed.map(f => `• ${f.name}\n  └ ${f.reason}`).join("\n")}`);
+    }
+    // Avisar sobre duplicatas
+    if (rawUsers.length !== uniqueUsers.length) {
+        const duplicatesCount = rawUsers.length - uniqueUsers.length;
+        contentParts.unshift(`⚠️ **${duplicatesCount} usuário(s) duplicado(s) foi/foram ignorado(s).**`);
+    }
     await interaction.createFollowup({
-        content
+        content: contentParts.length ? contentParts.join("\n\n") : "Nenhum usuário foi processado."
     });
 })
     .setCommand({
