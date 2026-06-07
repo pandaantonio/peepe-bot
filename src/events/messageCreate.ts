@@ -3,40 +3,124 @@ import Event from "@/struct/event";
 const InviteRegex =
     /(?:https?:\/\/)?(?:www\.)?(?:discord\.gg|discord(?:app)?\.com\/invite)\/([A-Za-z0-9_-]+)/gi;
 
-export default new Event("on", "messageCreate", async function(app, message){
-    if(message.author.bot) return;
-    if(!message.channel) return;
-    if(!message.guild) return;
+const LinkRegex =
+    /(https?:\/\/[^\s]+)|(www\.[^\s]+)/gi;
 
-    const { adminDb } = (await import("@/lib/firebaseAdmin"));
-    const antinviteRef = adminDb.ref(`guilds/${message.guild.id}/anti-invite`);
-    const snapshot = await antinviteRef.once("value");
-    const data = snapshot.val();
+const AllowedDomains = [
+    // Discord
+    "cdn.discordapp.com",
+    "media.discordapp.net",
 
-    if(!data.enable) return;
-    
-    const matches = [...message.content.matchAll(InviteRegex)];
+    // GIFs
+    "tenor.com",
+    "media.tenor.com",
+    "giphy.com",
+    "media.giphy.com",
 
-    if (!matches.length) return;
+    // YouTube
+    "youtube.com",
+    "www.youtube.com",
+    "youtu.be",
+    "m.youtube.com",
 
-    const invites = await message.guild.getInvites();
-    const localCodes = new Set(invites.map((i) => i.code.toLowerCase()));
+    // TikTok
+    "tiktok.com",
+    "www.tiktok.com",
+    "vm.tiktok.com",
+    "vt.tiktok.com",
 
-    const externalInvite = matches.some(
-        ([, code]) => !localCodes.has(code.toLowerCase())
+    // Instagram
+    "instagram.com",
+    "www.instagram.com"
+];
+
+export default new Event("on", "messageCreate", async function (app, message) {
+    if (message.author.bot) return;
+    if (!message.channel) return;
+    if (!message.guild) return;
+
+    const { adminDb } = await import("@/lib/firebaseAdmin");
+
+    /*
+     * Anti Invite
+     */
+    const antiInviteRef = adminDb.ref(
+        `guilds/${message.guild.id}/anti-invite`
     );
 
-    if (!externalInvite) return;
+    const antiInviteSnapshot = await antiInviteRef.once("value");
+    const antiInvite = antiInviteSnapshot.val();
 
-    await message.delete().catch(() => {});
+    if (antiInvite?.enable) {
+        const matches = [...message.content.matchAll(InviteRegex)];
 
-    const warning = await message.channel.createMessage({
-        content: `${message.author.mention} Não é permitido divulgar convites de servidores externos.`
-    }).catch(() => null);
+        if (matches.length) {
+            const invites = await message.guild.getInvites().catch(() => []);
 
-    if (warning) {
-        setTimeout(() => {
-            warning.delete().catch(() => {});
-        }, 15000);
+            const localCodes = new Set(
+                invites.map((invite) => invite.code.toLowerCase())
+            );
+
+            const externalInvite = matches.some(
+                ([, code]) => !localCodes.has(code.toLowerCase())
+            );
+
+            if (externalInvite) {
+                await message.delete().catch(() => {});
+
+                await message.member?.edit({
+                    communicationDisabledUntil: new Date(
+                        Date.now() + 5 * 60 * 1000
+                    ).toISOString(),
+                }).catch(() => {});
+
+                return;
+            }
+        }
+    }
+
+    /*
+     * Anti Link
+     */
+    const antiLinkRef = adminDb.ref(
+        `guilds/${message.guild.id}/anti-link`
+    );
+
+    const antiLinkSnapshot = await antiLinkRef.once("value");
+    const antiLink = antiLinkSnapshot.val();
+
+    if (antiLink?.enable) {
+        // Ignora mensagens sem texto
+        if (!message.content.trim()) return;
+
+        const links = message.content.match(LinkRegex);
+
+        if (!links?.length) return;
+
+        const hasBlockedLink = links.some((link) => {
+            try {
+                const url = new URL(
+                    link.startsWith("http")
+                        ? link
+                        : `https://${link}`
+                );
+
+                return !AllowedDomains.some((domain) =>
+                    url.hostname.endsWith(domain)
+                );
+            } catch {
+                return true;
+            }
+        });
+
+        if (hasBlockedLink) {
+            await message.delete().catch(() => {});
+
+            await message.member?.edit({
+                communicationDisabledUntil: new Date(
+                    Date.now() + 5 * 60 * 1000
+                ).toISOString(),
+            }).catch(() => {});
+        }
     }
 });

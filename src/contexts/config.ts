@@ -20,6 +20,19 @@ const command: CreateApplicationCommandOptions = {
                     required: true
                 }
             ]
+        },
+        {
+            type: 1,
+            name: "anti-link",
+            description: "Configure o bloqueio de links",
+            options: [
+                {
+                    type: 5, // Boolean
+                    name: "enabled",
+                    description: "Ativar ou desativar o sistema",
+                    required: true
+                }
+            ]
         }
     ]
 };
