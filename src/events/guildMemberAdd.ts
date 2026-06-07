@@ -16,15 +16,15 @@ export default new Event("on", "guildMemberAdd", async function (app, member) {
     //Autorole system
     const autorole = await getAutorole(member.guildID);
 
-    if (autorole?.users.length && !member.bot) {
+    if (autorole && autorole.users && autorole.users[0] && !member.bot) {
         for (const id of autorole.users) {
-            await member.addRole(id).catch(() => { });
+            await member.addRole(id).catch(console.log);
         }
     }
 
-    if (autorole?.apps.length && member.bot) {
+    if (autorole && autorole.apps && autorole.apps[0] && member.bot) {
         for (const id of autorole.apps) {
-            await member.addRole(id).catch(() => { });
+            await member.addRole(id).catch(console.log);
         }
     }
 });
