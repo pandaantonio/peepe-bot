@@ -45,14 +45,6 @@ const command = {
             },
             options: [(0, EphemeralOption_1.default)(false)],
             type: oceanic_js_1.ApplicationCommandOptionTypes.SUB_COMMAND,
-        }, {
-            name: "info",
-            description: "See a server info.",
-            descriptionLocalizations: {
-                "pt-BR": "Veja informações sobre o servidor."
-            },
-            options: [(0, EphemeralOption_1.default)(false)],
-            type: oceanic_js_1.ApplicationCommandOptionTypes.SUB_COMMAND,
         }],
     type: oceanic_js_1.ApplicationCommandTypes.CHAT_INPUT,
 };

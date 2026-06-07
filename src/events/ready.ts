@@ -1,7 +1,7 @@
 import Event from "@/struct/event";
 
 export default new Event("on", "ready", async (app) => {
-    console.log(`${app.user.username} is ready!`);
+    console.log(`${app.user.username} is ready!`, app.guilds.map((g) => g.name));
 
     app.contexts.forEach(async (c) => {
          await app.application.createGlobalCommand(c)
