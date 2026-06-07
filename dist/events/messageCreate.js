@@ -40,11 +40,27 @@ const event_1 = __importDefault(require("@/struct/event"));
 const InviteRegex = /(?:https?:\/\/)?(?:www\.)?(?:discord\.gg|discord(?:app)?\.com\/invite)\/([A-Za-z0-9_-]+)/gi;
 const LinkRegex = /(https?:\/\/[^\s]+)|(www\.[^\s]+)/gi;
 const AllowedDomains = [
+    // Discord
     "cdn.discordapp.com",
     "media.discordapp.net",
+    // GIFs
     "tenor.com",
+    "media.tenor.com",
     "giphy.com",
-    "media.tenor.com"
+    "media.giphy.com",
+    // YouTube
+    "youtube.com",
+    "www.youtube.com",
+    "youtu.be",
+    "m.youtube.com",
+    // TikTok
+    "tiktok.com",
+    "www.tiktok.com",
+    "vm.tiktok.com",
+    "vt.tiktok.com",
+    // Instagram
+    "instagram.com",
+    "www.instagram.com"
 ];
 exports.default = new event_1.default("on", "messageCreate", async function (app, message) {
     if (message.author.bot)
