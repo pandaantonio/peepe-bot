@@ -1,45 +1,13 @@
 import Command from "@/struct/command";
-import { MessageFlags, MediaGalleryItem, MessageActionRowComponent } from "oceanic.js";
+import { MessageFlags } from "oceanic.js";
 
 export default new Command()
     .addName("user avatar")
 
-    .setRun(async function({ app, guild, author, interaction }){
+    .setRun(async function({ app, author, interaction }){
         const option = interaction.data.options.getUser('user', false) ?? author;
         const user = await app.rest.users.get(option.id);
-        const member = guild ? await guild.getMember(option.id).catch(() => undefined) : undefined;
-        const url = user.avatarURL();
-        const url2 = member?.avatarURL();
-
-        const items: MediaGalleryItem[] = [{
-            media: {
-                url,
-            },
-            description: "Avatar Global",
-        }];
-        const components: MessageActionRowComponent[] = [{
-            url,
-            type: 2,
-            style: 5,
-            label: "Avatar Global",
-            emoji: await app.getButoji("download"),
-        }];
-
-        if(url2){
-            items.push({
-                media: {
-                    url: url2,
-                },
-                description: "Avatar Local",
-            });
-            components.push({
-                url: url2,
-                type: 2,
-                style: 5,
-                label: "Avatar Local",
-                emoji: await app.getButoji("download"),
-            });
-        }
+        const avatar = user.avatarURL();
 
         interaction.createFollowup({
             flags: MessageFlags.IS_COMPONENTS_V2,
@@ -47,14 +15,15 @@ export default new Command()
                 type: 17,
                 components: [{
                     type: 10,
-                    content: `[**${member?.nick ?? user.globalName ?? user.username}**](${url})`,
+                    content: `[**${user.globalName ?? user.username}**](${avatar})`
                 }, {
-                    items,
                     type: 12,
+                    items: [{
+                        media: {
+                            url: avatar,
+                        },
+                    }],
                 }],
-            }, {
-                type: 1,
-                components,
             }],
         });
     });

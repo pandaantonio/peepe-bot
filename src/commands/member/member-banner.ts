@@ -2,19 +2,21 @@ import Command from "@/struct/command";
 import { MessageFlags } from "oceanic.js";
 
 export default new Command()
-    .addName("user banner")
+    .addName("member banner")
 
-    .setRun(async function({ app, author, interaction }){
+    .setRun(async function ({ app, guild, author, interaction }) {
         const option = interaction.data.options.getUser('user', false) ?? author;
         const user = await app.rest.users.get(option.id);
-        const banner = user.bannerURL();
+        const member = guild ? await guild.getMember(user.id).catch(() => undefined) : undefined;
+        const _banner = user.bannerURL();
+        const banner = member && member.bannerURL() && _banner !== member.bannerURL() ? member.bannerURL() : undefined;
 
-        if(!banner){
+         if(!banner){
             interaction.createFollowup({
                 flags: MessageFlags.IS_COMPONENTS_V2,
                 components: [{
                     type: 10,
-                    content: `${await app.getMenoji("no")} Este usuário não possue estandarte!`
+                    content: `${await app.getMenoji("no")} Este membro não possue estandarte!`
                 }],
             });
             
@@ -27,7 +29,7 @@ export default new Command()
                 type: 17,
                 components: [{
                     type: 10,
-                    content: `[**${user.globalName ?? user.username}**](${banner})`,
+                    content: `[**${member?.nick ?? user.globalName ?? user.username}**](${banner})`
                 }, {
                     type: 12,
                     items: [{
