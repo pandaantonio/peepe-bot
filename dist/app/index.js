@@ -7,7 +7,6 @@ const oceanic_js_1 = require("oceanic.js");
 const GetEmoji_1 = __importDefault(require("@/utils/GetEmoji"));
 const handler_1 = __importDefault(require("@/struct/handler"));
 class App extends oceanic_js_1.Client {
-    handler;
     modals;
     commands;
     components;
@@ -28,9 +27,9 @@ class App extends oceanic_js_1.Client {
         });
     }
     init() {
-        this.handler = new handler_1.default(this);
         this.once("connect", async () => {
-            await this.handler.init();
+            const handler = new handler_1.default(this);
+            await handler.init();
         });
         this.connect();
     }

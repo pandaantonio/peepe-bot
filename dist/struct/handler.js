@@ -47,23 +47,6 @@ class Handler {
         await this.loadCommands();
         await this.loadComponents();
     }
-    async registerSlashCommands() {
-        this.app.commands?.forEach(async ({ command }) => {
-            if (command) {
-                await this.app.application.createGlobalCommand(command)
-                    .then((c) => console.log(`[${c.name}] created!`))
-                    .catch((e) => console.log(`[${command.name}] ${e}`));
-            }
-        });
-        const commands = await this.app.application.getGlobalCommands();
-        for (const command of commands) {
-            const isCommand = this.app.commands.get(command.name);
-            if (!isCommand) {
-                await this.app.application.deleteGlobalCommand(command.id)
-                    .catch(console.log);
-            }
-        }
-    }
     async loadEvents() {
         for (const dir of await (0, glob_1.glob)("dist/events/**/*.js")) {
             const event = (await Promise.resolve(`${(0, path_1.resolve)(dir)}`).then(s => __importStar(require(s)))).default;

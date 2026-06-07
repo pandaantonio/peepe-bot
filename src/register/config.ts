@@ -1,6 +1,7 @@
-import Command from "@/struct/command";
+import EphemeralOption from "@/options/EphemeralOption";
+import { ApplicationCommandOptionTypes, ApplicationCommandTypes, ApplicationIntegrationTypes, CreateApplicationCommandOptions, EntryPointCommandHandlerTypes, InteractionContextTypes } from "oceanic.js";
 
-export default new Command().setCommand({
+const command: CreateApplicationCommandOptions = {
     type: 1,
     name: "config",
     description: "Configurações do servidor",
@@ -21,4 +22,6 @@ export default new Command().setCommand({
             ]
         }
     ]
-});
+};
+
+export default command;
