@@ -1,5 +1,4 @@
 import Event from "@/struct/event";
-import { adminDb } from "@/lib/firebaseAdmin";
 
 const InviteRegex =
     /(?:https?:\/\/)?(?:www\.)?(?:discord\.gg|discord(?:app)?\.com\/invite)\/([A-Za-z0-9_-]+)/gi;
@@ -9,6 +8,7 @@ export default new Event("on", "messageCreate", async function(app, message){
     if(!message.channel) return;
     if(!message.guild) return;
 
+    const { adminDb } = (await import("@/lib/firebaseAdmin"));
     const antinviteRef = adminDb.ref(`guilds/${message.guild.id}/anti-invite`);
     const snapshot = await antinviteRef.once("value");
     const data = snapshot.val();

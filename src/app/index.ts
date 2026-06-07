@@ -1,4 +1,4 @@
-import { Client, Collection, NullablePartialEmoji } from "oceanic.js";
+import { Client, Collection, CreateApplicationCommandOptions, NullablePartialEmoji } from "oceanic.js";
 import getEmoji, { Emoji } from "@/utils/GetEmoji";
 import Handler from "@/struct/handler";
 import Command from "@/struct/command";
@@ -9,6 +9,7 @@ export default class App extends Client {
     modals: Collection<string, Modal>;
     commands: Collection<string, Command>;
     components: Collection<string, Component>;
+    contexts: Map<string, CreateApplicationCommandOptions> = new Map();
 
     constructor() {
         super({

@@ -1,5 +1,5 @@
 import Command from "@/struct/command";
-import { adminDb } from "@/lib/firebaseAdmin";
+
 
 export default new Command()
     .addName("config anti-invite")
@@ -7,6 +7,7 @@ export default new Command()
     .setRun(async function({ app, guild, interaction }){
         if(!guild) return;
 
+        const { adminDb } = (await import("@/lib/firebaseAdmin"));
         const enabled = interaction.data.options.getBoolean("enabled", true);
         const antinviteRef = adminDb.ref(`guilds/${guild.id}/anti-invite`);
 

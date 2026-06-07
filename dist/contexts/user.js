@@ -5,9 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const EphemeralOption_1 = __importDefault(require("@/options/EphemeralOption"));
 const UserOption_1 = __importDefault(require("@/options/UserOption"));
-const command_1 = __importDefault(require("@/struct/command"));
 const oceanic_js_1 = require("oceanic.js");
-exports.default = new command_1.default().setCommand({
+const command = {
     type: 1,
     name: 'user',
     nameLocalizations: {
@@ -43,4 +42,5 @@ exports.default = new command_1.default().setCommand({
         oceanic_js_1.InteractionContextTypes.GUILD,
         oceanic_js_1.InteractionContextTypes.PRIVATE_CHANNEL,
     ],
-});
+};
+exports.default = command;

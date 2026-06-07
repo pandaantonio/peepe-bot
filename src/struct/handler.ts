@@ -4,7 +4,7 @@ import { resolve } from "path";
 import { EVENT } from "@/struct/event";
 import Command from "@/struct/command";
 import Component from "@/struct/component";
-import { Collection } from "oceanic.js";
+import { Collection, CreateApplicationCommandOptions } from "oceanic.js";
 import Modal from "@/struct/modal";
 
 export default class Handler {
@@ -17,8 +17,17 @@ export default class Handler {
     public async init(): Promise<void> {
         await this.loadEvents();
         await this.loadModals();
+        await this.loadContexts();
         await this.loadCommands();
         await this.loadComponents();
+    }
+
+    private async loadContexts(){
+        for (const dir of await glob("dist/contexts/**/*.js")) {
+            const context: CreateApplicationCommandOptions = (await import(resolve(dir))).default;
+
+            this.app.contexts.set(context.name, context);
+        }
     }
 
     private async loadEvents(): Promise<void> {

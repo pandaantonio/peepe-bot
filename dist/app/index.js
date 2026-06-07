@@ -10,6 +10,7 @@ class App extends oceanic_js_1.Client {
     modals;
     commands;
     components;
+    contexts = new Map();
     constructor() {
         super({
             gateway: {
