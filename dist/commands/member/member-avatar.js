@@ -6,18 +6,30 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const command_1 = __importDefault(require("@/struct/command"));
 const oceanic_js_1 = require("oceanic.js");
 exports.default = new command_1.default()
-    .addName("user avatar")
-    .setRun(async function ({ app, author, interaction }) {
+    .addName("member avatar")
+    .setRun(async function ({ app, guild, author, interaction }) {
     const option = interaction.data.options.getUser('user', false) ?? author;
     const user = await app.rest.users.get(option.id);
-    const avatar = user.avatarURL();
+    const member = guild ? await guild.getMember(user.id).catch(() => undefined) : undefined;
+    const _avatar = user.avatarURL();
+    const avatar = member && member.avatarURL() && _avatar !== member.avatarURL() ? member.avatarURL() : undefined;
+    if (!avatar) {
+        interaction.createFollowup({
+            flags: oceanic_js_1.MessageFlags.IS_COMPONENTS_V2,
+            components: [{
+                    type: 10,
+                    content: `${await app.getMenoji("no")} Este membro não possue avatar!`
+                }],
+        });
+        return;
+    }
     interaction.createFollowup({
         flags: oceanic_js_1.MessageFlags.IS_COMPONENTS_V2,
         components: [{
                 type: 17,
                 components: [{
                         type: 10,
-                        content: `[**${user.globalName ?? user.username}**](${avatar})`
+                        content: `[**${member?.nick ?? user.globalName ?? user.username}**](${avatar})`
                     }, {
                         type: 12,
                         items: [{

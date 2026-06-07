@@ -17,8 +17,6 @@ export default class App extends Client {
                 intents: [
                     "GUILDS",
                     "GUILD_MEMBERS",
-                    "GUILD_MESSAGES",
-                    "MESSAGE_CONTENT",
                 ],
                 autoReconnect: true,
             },

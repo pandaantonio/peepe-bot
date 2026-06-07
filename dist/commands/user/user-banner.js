@@ -7,13 +7,11 @@ const command_1 = __importDefault(require("@/struct/command"));
 const oceanic_js_1 = require("oceanic.js");
 exports.default = new command_1.default()
     .addName("user banner")
-    .setRun(async function ({ app, guild, author, interaction }) {
+    .setRun(async function ({ app, author, interaction }) {
     const option = interaction.data.options.getUser('user', false) ?? author;
     const user = await app.rest.users.get(option.id);
-    const member = guild ? await guild.getMember(option.id).catch(() => undefined) : undefined;
-    const url = user.bannerURL();
-    const url2 = member?.bannerURL();
-    if (!url) {
+    const banner = user.bannerURL();
+    if (!banner) {
         interaction.createFollowup({
             flags: oceanic_js_1.MessageFlags.IS_COMPONENTS_V2,
             components: [{
@@ -23,48 +21,21 @@ exports.default = new command_1.default()
         });
         return;
     }
-    const items = [{
-            media: {
-                url,
-            },
-            description: "Estandarte Global",
-        }];
-    const components = [{
-            url,
-            type: 2,
-            style: 5,
-            label: "Estandarte Global",
-            emoji: await app.getButoji("download"),
-        }];
-    if (url2) {
-        items.push({
-            media: {
-                url: url2,
-            },
-            description: "Estandarte Local",
-        });
-        components.push({
-            url: url2,
-            type: 2,
-            style: 5,
-            label: "Estandarte Local",
-            emoji: await app.getButoji("download"),
-        });
-    }
     interaction.createFollowup({
         flags: oceanic_js_1.MessageFlags.IS_COMPONENTS_V2,
         components: [{
                 type: 17,
                 components: [{
                         type: 10,
-                        content: `[**${member?.nick ?? user.globalName ?? user.username}**]($)`,
+                        content: `[**${user.globalName ?? user.username}**](${banner})`,
                     }, {
-                        items,
                         type: 12,
+                        items: [{
+                                media: {
+                                    url: banner,
+                                },
+                            }],
                     }],
-            }, {
-                type: 1,
-                components,
             }],
     });
 });
