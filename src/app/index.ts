@@ -6,7 +6,6 @@ import Component from "@/struct/component";
 import Modal from "@/struct/modal";
 
 export default class App extends Client {
-    handler: Handler;
     modals: Collection<string, Modal>;
     commands: Collection<string, Command>;
     components: Collection<string, Component>;
@@ -16,7 +15,9 @@ export default class App extends Client {
             gateway: {
                 intents: [
                     "GUILDS",
-                    "GUILD_MEMBERS"
+                    "GUILD_MEMBERS",
+                    "GUILD_MESSAGES",
+                    "MESSAGE_CONTENT",
                 ],
                 autoReconnect: true,
             },
@@ -27,10 +28,10 @@ export default class App extends Client {
     }
 
     init() {
-        this.handler = new Handler(this);
-
         this.once("connect", async () => {
-            await this.handler.init();
+            const handler = new Handler(this);
+            
+            await handler.init();
         });
 
         this.connect();

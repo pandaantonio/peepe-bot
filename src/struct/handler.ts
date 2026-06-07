@@ -21,27 +21,6 @@ export default class Handler {
         await this.loadComponents();
     }
 
-    public async registerSlashCommands(): Promise<void> {
-        this.app.commands?.forEach(async ({ command }) => {
-            if (command) {
-                await this.app.application.createGlobalCommand(command)
-                    .then((c) => console.log(`[${c.name}] created!`))
-                    .catch((e) => console.log(`[${command.name}] ${e}`));
-            }
-        });
-
-        const commands = await this.app.application.getGlobalCommands();
-
-        for (const command of commands) {
-            const isCommand = this.app.commands.get(command.name);
-
-            if (!isCommand) {
-                await this.app.application.deleteGlobalCommand(command.id)
-                    .catch(console.log);
-            }
-        }
-    }
-
     private async loadEvents(): Promise<void> {
         for (const dir of await glob("dist/events/**/*.js")) {
             const event: EVENT = (await import(resolve(dir))).default;
