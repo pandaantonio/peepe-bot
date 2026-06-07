@@ -47,7 +47,7 @@ export default new Command()
                 type: 17,
                 components: [{
                     type: 10,
-                    content: `**${member?.nick ?? user.globalName ?? user.username}**`,
+                    content: `[**${member?.nick ?? user.globalName ?? user.username}**](${url})`,
                 }, {
                     items,
                     type: 12,

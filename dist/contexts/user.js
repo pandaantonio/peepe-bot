@@ -32,6 +32,14 @@ const command = {
                 "pt-BR": "Veja o estandarte do usuário."
             },
             options: [(0, UserOption_1.default)(false), (0, EphemeralOption_1.default)(false)],
+        }, {
+            type: 1,
+            name: "info",
+            description: "See a user informations.",
+            descriptionLocalizations: {
+                "pt-BR": "Veja as informações sobre o usuário."
+            },
+            options: [(0, UserOption_1.default)(false), (0, EphemeralOption_1.default)(false)],
         }],
     integrationTypes: [
         oceanic_js_1.ApplicationIntegrationTypes.GUILD_INSTALL,
