@@ -13,8 +13,8 @@ exports.default = new command_1.default()
     let res = [];
     const user1 = interaction.data.options.getUser('user1', true);
     const reason = interaction.data.options.getString("reason", true);
-    const user2 = interaction.data.options.getUser('user2', true);
-    const user3 = interaction.data.options.getUser('user3', true);
+    const user2 = interaction.data.options.getUser('user2', false);
+    const user3 = interaction.data.options.getUser('user3', false);
     const users = [user1, user2, user3].filter((u) => u !== undefined);
     for (const user of users) {
         await guild.createBan(user.id, { reason })
