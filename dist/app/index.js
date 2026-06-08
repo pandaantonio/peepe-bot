@@ -26,11 +26,10 @@ class App extends oceanic_js_1.Client {
         });
     }
     init() {
-        this.once("connect", async () => {
+        this.connect().then(async () => {
             const handler = new handler_1.default(this);
             await handler.init();
         });
-        this.connect();
     }
     async getEmoji(name) {
         const emojis = (await this.application.getEmojis()).items;

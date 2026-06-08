@@ -27,13 +27,11 @@ export default class App extends Client {
     }
 
     init() {
-        this.once("connect", async () => {
+        this.connect().then(async () => {
             const handler = new Handler(this);
             
             await handler.init();
         });
-
-        this.connect();
     }
 
     async getEmoji(name: string): Promise<Emoji | undefined> {
