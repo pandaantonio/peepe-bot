@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const event_1 = __importDefault(require("@/struct/event"));
 exports.default = new event_1.default("on", "ready", async (app) => {
-    console.log(`${app.user.username} is ready!`, app.guilds.map((g) => g.name));
+    console.log(`${app.user.username} is ready!`);
     app.contexts.forEach(async (c) => {
         await app.application.createGlobalCommand(c)
             .then((c) => console.log(`[${c.name}] created!`))
