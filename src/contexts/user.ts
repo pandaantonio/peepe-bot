@@ -28,6 +28,14 @@ const command: CreateApplicationCommandOptions = {
             "pt-BR": "Veja o estandarte do usuário."
         },
         options: [UserOption(false), EphemeralOption(false)],
+    }, {
+        type: 1,
+        name: "info",
+        description: "Access user information.",
+        descriptionLocalizations: {
+            "pt-BR": "Acessar informações do usuário."
+        },
+        options: [UserOption(false), EphemeralOption(false)],
     }],
     integrationTypes: [
         ApplicationIntegrationTypes.GUILD_INSTALL,
