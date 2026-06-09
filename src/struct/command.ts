@@ -1,5 +1,5 @@
 import { AnyInteractionChannel, ApplicationCommandOptionsSubCommand, ApplicationCommandTypes, CommandInteraction, CreateApplicationCommandOptions, Guild, Uncached, User } from "oceanic.js";
-import App from "@/app";
+import App from "@/struct/app";
 
 export type CommandNames = string[];
 

@@ -1,5 +1,5 @@
 import { ClientEvents } from "oceanic.js";
-import App from "@/app";
+import App from "@/struct/app";
 
 export type EVENT = Event<keyof ClientEvents>;
 export type EventType = "on" | "once";

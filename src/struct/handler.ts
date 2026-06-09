@@ -1,4 +1,4 @@
-import App from "@/app";
+import App from "@/struct/app";
 import { glob } from "glob";
 import { resolve } from "path";
 import { EVENT } from "@/struct/event";

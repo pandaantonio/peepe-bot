@@ -1,5 +1,5 @@
 import "dotenv/config";
 import "module-alias/register";
-import App from "@/app/index";
+import App from "@/struct/app";
 
 new App().init();
