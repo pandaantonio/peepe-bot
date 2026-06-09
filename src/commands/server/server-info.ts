@@ -17,7 +17,7 @@ export default new Command()
             `- **Id**: \`\`${guild.id}\`\``,
             `- **Dono(a)**: \`\`${guild.ownerID}\`\``,
             `- **Total de membros**: \`\`${guild.memberCount}\`\``,
-            `- **Total de cargos**: \`\`${guild.roles.size}\`\``,
+            `- **Total de cargos**: \`\`${guild.roles.filter((r) => r.managed === false && r.name !== "@everyone").length}\`\``,
             `- **Total de canais**: \`\`${guild.channels.filter((c) => c.type !== 4).length}\`\``,
             `> **Texto**: \`\`${guild.channels.filter((c) => c.type === 0).length}\`\``,
             `> **Voz**: \`\`${guild.channels.filter((c) => c.type === 2).length}\`\``,
