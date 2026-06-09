@@ -1,6 +1,5 @@
 import Event from "@/struct/event";
 import axios from "axios";
-import Groq from "groq-sdk";
 
 const InviteRegex =
     /(?:https?:\/\/)?(?:www\.)?(?:discord\.gg|discord(?:app)?\.com\/invite)\/([A-Za-z0-9_-]+)/gi;
@@ -61,10 +60,6 @@ async function getAntilink(
         .catch(() => undefined);
 }
 
-const groq = new Groq({
-    apiKey: process.env.GROQ,
-});
-
 export default new Event(
     "on",
     "messageCreate",
@@ -72,36 +67,6 @@ export default new Event(
         if (message.author.bot) return;
         if (!message.guild) return;
         if (!message.channel) return;
-
-        if (message.content.startsWith(`${app.user.mention}`) ||
-            (
-                message.referencedMessage &&
-                message.referencedMessage.author.id === app.user.id
-            )
-        ) {
-            let content = message.content.replace(`${app.user.mention}`, "");
-
-            const completion = await groq.chat.completions.create({
-                model: "llama-3.1-8b-instant",
-                temperature: 1,
-                max_tokens: 100,
-                messages: [
-                    {
-                        role: "system",
-                        content: content,
-                    }
-                ]
-            });
-
-            const content2 = completion.choices?.[0]?.message?.content;
-
-            await message.channel.createMessage({
-                content: content2?.slice(0, 3999),
-                messageReference: {
-                    messageID: message.id,
-                }
-            });
-        }
 
         const antiInvite = await getAntiinvite(
             `${message.guildID}`
