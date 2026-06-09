@@ -19,7 +19,8 @@
     "glob": "^13.0.6",
     "groq-sdk": "^1.2.0",
     "module-alias": "^2.3.4",
-    "oceanic.js": "^1.14.0"
+    "oceanic.js": "^1.14.0",
+    "parse-duration-ms": "^0.1.0"
   },
   "devDependencies": {
     "@types/glob": "^8.1.0",
