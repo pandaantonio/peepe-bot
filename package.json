@@ -11,6 +11,7 @@
     "@": "./dist"
   },
   "dependencies": {
+    "@discordjs/builders": "^1.14.1",
     "axios": "^1.16.0",
     "canvas": "^3.2.3",
     "dotenv": "^17.4.2",
