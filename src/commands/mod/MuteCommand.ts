@@ -70,6 +70,7 @@ export default new Command()
             components: [
                 {
                     type: 17,
+                    accentColor: 0xff3b15,
                     components: [
                         {
                             type: 10,

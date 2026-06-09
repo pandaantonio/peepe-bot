@@ -37,6 +37,7 @@ export default new Command()
             flags: MessageFlags.IS_COMPONENTS_V2,
             components: [{
                 type: 17,
+                accentColor: 0xffcd06,
                 components: [{
                     type: 10,
                     content: `# 📄 **Console de expulsões**\n\n${res.map((r) => `- ${r}`).join("\n")}`

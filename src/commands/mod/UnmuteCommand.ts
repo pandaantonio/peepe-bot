@@ -45,6 +45,7 @@ export default new Command()
             components: [
                 {
                     type: 17,
+                    accentColor: 0x3680ff,
                     components: [
                         {
                             type: 10,
