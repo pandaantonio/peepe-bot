@@ -3,59 +3,102 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const command = {
     type: 1,
     name: "ban",
-    nameLocalizations: {
-        "pt-BR": "banir"
-    },
-    description: "Ban one or more people.",
-    descriptionLocalizations: {
-        "pt-BR": "Bana uma ou mais pessoas."
-    },
+    description: "Null",
     dmPermission: false,
     defaultMemberPermissions: "4",
     options: [{
-            type: 6,
-            name: "user1",
-            required: true,
-            nameLocalizations: {
-                "pt-BR": "usuário1"
-            },
-            description: "Choose a user.",
+            type: 1,
+            name: "add",
+            description: "Ban one or more people.",
             descriptionLocalizations: {
-                "pt-BR": "Escolha um usuário."
+                "pt-BR": "Bana uma ou mais pessoas."
             },
+            options: [{
+                    type: 6,
+                    name: "user1",
+                    required: true,
+                    nameLocalizations: {
+                        "pt-BR": "usuário1"
+                    },
+                    description: "Choose a user.",
+                    descriptionLocalizations: {
+                        "pt-BR": "Escolha um usuário."
+                    },
+                }, {
+                    type: 3,
+                    required: true,
+                    name: "reason",
+                    nameLocalizations: {
+                        "pt-BR": "motivo"
+                    },
+                    description: "Reason for ban.",
+                    descriptionLocalizations: {
+                        "pt-BR": "Motivo do banimento."
+                    },
+                }, {
+                    type: 6,
+                    name: "user2",
+                    required: false,
+                    nameLocalizations: {
+                        "pt-BR": "usuário2"
+                    },
+                    description: "Choose a user.",
+                    descriptionLocalizations: {
+                        "pt-BR": "Escolha um usuário."
+                    },
+                }, {
+                    type: 6,
+                    name: "user3",
+                    required: false,
+                    nameLocalizations: {
+                        "pt-BR": "usuário3"
+                    },
+                    description: "Choose a user.",
+                    descriptionLocalizations: {
+                        "pt-BR": "Escolha um usuário."
+                    },
+                }]
         }, {
-            type: 3,
-            required: true,
-            name: "reason",
-            nameLocalizations: {
-                "pt-BR": "motivo"
-            },
-            description: "Reason for ban.",
+            type: 1,
+            name: "remove",
+            description: "Unban one or more people.",
             descriptionLocalizations: {
-                "pt-BR": "Motivo do banimento."
+                "pt-BR": "Desbanir uma ou mais pessoas."
             },
-        }, {
-            type: 6,
-            name: "user2",
-            required: false,
-            nameLocalizations: {
-                "pt-BR": "usuário2"
-            },
-            description: "Choose a user.",
-            descriptionLocalizations: {
-                "pt-BR": "Escolha um usuário."
-            },
-        }, {
-            type: 6,
-            name: "user3",
-            required: false,
-            nameLocalizations: {
-                "pt-BR": "usuário3"
-            },
-            description: "Choose a user.",
-            descriptionLocalizations: {
-                "pt-BR": "Escolha um usuário."
-            },
+            options: [{
+                    type: 6,
+                    name: "user1",
+                    required: true,
+                    nameLocalizations: {
+                        "pt-BR": "usuário1"
+                    },
+                    description: "Choose a user.",
+                    descriptionLocalizations: {
+                        "pt-BR": "Escolha um usuário."
+                    },
+                }, {
+                    type: 6,
+                    name: "user2",
+                    required: false,
+                    nameLocalizations: {
+                        "pt-BR": "usuário2"
+                    },
+                    description: "Choose a user.",
+                    descriptionLocalizations: {
+                        "pt-BR": "Escolha um usuário."
+                    },
+                }, {
+                    type: 6,
+                    name: "user3",
+                    required: false,
+                    nameLocalizations: {
+                        "pt-BR": "usuário3"
+                    },
+                    description: "Choose a user.",
+                    descriptionLocalizations: {
+                        "pt-BR": "Escolha um usuário."
+                    },
+                }],
         }],
 };
 exports.default = command;
