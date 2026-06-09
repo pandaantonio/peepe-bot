@@ -36,15 +36,20 @@ const command = {
             type: oceanic_js_1.ApplicationCommandOptionTypes.SUB_COMMAND,
         }, {
             name: "splash",
-            nameLocalizations: {
-                "pt-BR": "estandarte-de-convite"
-            },
             description: "See a server splash.",
             descriptionLocalizations: {
                 "pt-BR": "Veja o estandarte de convite do servidor."
             },
             options: [(0, EphemeralOption_1.default)(false)],
             type: oceanic_js_1.ApplicationCommandOptionTypes.SUB_COMMAND,
+        }, {
+            type: 1,
+            name: "info",
+            description: "Access server information.",
+            descriptionLocalizations: {
+                "pt-BR": "Acessar informações do servidor."
+            },
+            options: [(0, EphemeralOption_1.default)(false)],
         }],
     type: oceanic_js_1.ApplicationCommandTypes.CHAT_INPUT,
 };

@@ -10,6 +10,7 @@ exports.default = new command_1.default()
     if (!guild)
         return;
     const channel = interaction.channel;
+    const message = await interaction.getOriginal();
     const amount = Math.min(interaction.data.options.getInteger("amount", false) ?? 2000, 2000); // limite seguro
     const user1 = interaction.data.options.getUser('user1', false);
     const user2 = interaction.data.options.getUser('user2', false);
@@ -23,18 +24,18 @@ exports.default = new command_1.default()
         filter: (m) => {
             // Se especificou apenas apps
             if (onlyApps === true) {
-                return m.author.bot === true;
+                return m.author.bot === true && m.id !== message.id;
             }
             // Se especificou apenas humanos (apps = false)
             if (onlyApps === false) {
-                return m.author.bot === false;
+                return m.author.bot === false && m.id !== message.id;
             }
             // Se especificou usuários específicos
             if (users.length > 0) {
-                return users.some(u => u.id === m.author.id);
+                return users.some(u => u.id === m.author.id) && m.id !== message.id;
             }
             // Se não especificou nada, apaga tudo
-            return true;
+            return m.id !== message.id;
         }
     }).then(async (deletedAmount) => {
         interaction.createFollowup({

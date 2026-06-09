@@ -1,5 +1,4 @@
 import Command from "@/struct/command";
-import { MessageFlags } from "oceanic.js";
 
 export default new Command()
     .addName("purge")
@@ -8,6 +7,7 @@ export default new Command()
         if (!guild) return;
 
         const channel = interaction.channel;
+        const message = await interaction.getOriginal();
         const amount = Math.min(interaction.data.options.getInteger("amount", false) ?? 2000, 2000); // limite seguro
         
         const user1 = interaction.data.options.getUser('user1', false);
@@ -24,21 +24,21 @@ export default new Command()
             filter: (m) => {
                 // Se especificou apenas apps
                 if (onlyApps === true) {
-                    return m.author.bot === true;
+                    return m.author.bot === true && m.id !== message.id;
                 }
                 
                 // Se especificou apenas humanos (apps = false)
                 if (onlyApps === false) {
-                    return m.author.bot === false;
+                    return m.author.bot === false && m.id !== message.id;
                 }
                 
                 // Se especificou usuários específicos
                 if (users.length > 0) {
-                    return users.some(u => u.id === m.author.id);
+                    return users.some(u => u.id === m.author.id) && m.id !== message.id;
                 }
                 
                 // Se não especificou nada, apaga tudo
-                return true;
+                return m.id !== message.id;
             }
         }).then(async (deletedAmount) => {
             interaction.createFollowup({

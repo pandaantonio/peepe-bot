@@ -52,7 +52,7 @@ exports.default = new command_1.default()
     if (member) {
         let content = [
             member.nick ? `# ${member.nick}\n` : undefined,
-            member.joinedAt ? `- Entrou em: <t:${parseInt(`${member.joinedAt.getTime() / 1000}`)}:F> (<t:${parseInt(`${member.joinedAt.getTime() / 1000}`)}:R>)` : undefined,
+            member.joinedAt ? `- **Entrou em**: <t:${parseInt(`${member.joinedAt.getTime() / 1000}`)}:F> (<t:${parseInt(`${member.joinedAt.getTime() / 1000}`)}:R>)` : undefined,
         ].filter((c) => c !== undefined);
         if (avatarLocal) {
             components.push({

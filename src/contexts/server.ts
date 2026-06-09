@@ -32,15 +32,20 @@ const command: CreateApplicationCommandOptions = {
         type: ApplicationCommandOptionTypes.SUB_COMMAND,
     }, {
         name: "splash",
-        nameLocalizations: {
-            "pt-BR": "estandarte-de-convite"
-        },
         description: "See a server splash.",
         descriptionLocalizations: {
             "pt-BR": "Veja o estandarte de convite do servidor."
         },
         options: [EphemeralOption(false)],
         type: ApplicationCommandOptionTypes.SUB_COMMAND,
+    }, {
+        type: 1,
+        name: "info",
+        description: "Access server information.",
+        descriptionLocalizations: {
+            "pt-BR": "Acessar informações do servidor."
+        },
+        options: [EphemeralOption(false)],
     }],
     type: ApplicationCommandTypes.CHAT_INPUT,
 };
