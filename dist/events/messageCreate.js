@@ -5,8 +5,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const event_1 = __importDefault(require("@/struct/event"));
 const axios_1 = __importDefault(require("axios"));
+const groq_sdk_1 = __importDefault(require("groq-sdk"));
 const InviteRegex = /(?:https?:\/\/)?(?:www\.)?(?:discord\.gg|discord(?:app)?\.com\/invite)\/([A-Za-z0-9_-]+)/gi;
-const LinkRegex = /(https?:\/\/[^\s]+)|(www\.[^\s]+)/gi;
+const LinkRegex = /(?:https?:\/\/)?(?:www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?:\/[^\s]*)?/gi;
 const MediaDomains = [
     "cdn.discordapp.com",
     "media.discordapp.net",
@@ -35,6 +36,9 @@ async function getAntilink(id) {
         .then((res) => res.data)
         .catch(() => undefined);
 }
+const groq = new groq_sdk_1.default({
+    apiKey: process.env.GROQ,
+});
 exports.default = new event_1.default("on", "messageCreate", async function (app, message) {
     if (message.author.bot)
         return;
@@ -42,6 +46,29 @@ exports.default = new event_1.default("on", "messageCreate", async function (app
         return;
     if (!message.channel)
         return;
+    if (message.content.startsWith(`${app.user.mention}`) ||
+        (message.referencedMessage &&
+            message.referencedMessage.author.id === app.user.id)) {
+        let content = message.content.replace(`${app.user.mention}`, "");
+        const completion = await groq.chat.completions.create({
+            model: "llama-3.1-8b-instant",
+            temperature: 1,
+            max_tokens: 100,
+            messages: [
+                {
+                    role: "system",
+                    content: content,
+                }
+            ]
+        });
+        const content2 = completion.choices?.[0]?.message?.content;
+        await message.channel.createMessage({
+            content: content2?.slice(0, 3999),
+            messageReference: {
+                messageID: message.id,
+            }
+        });
+    }
     const antiInvite = await getAntiinvite(`${message.guildID}`);
     if (antiInvite?.enabled) {
         const matches = [
