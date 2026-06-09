@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const command_1 = __importDefault(require("@/struct/command"));
 const oceanic_js_1 = require("oceanic.js");
 exports.default = new command_1.default()
-    .addName("ban add")
+    .addName("kick")
     .setRun(async ({ app, guild, interaction }) => {
     if (!guild)
         return;
@@ -17,23 +17,29 @@ exports.default = new command_1.default()
     const user3 = interaction.data.options.getUser('user3', false);
     const users = [user1, user2, user3].filter((u) => u !== undefined);
     for (const user of users) {
-        await guild.createBan(user.id, { reason })
-            .then(async () => {
-            res.push(`${await app.getMenoji("yes")} \`\`${user.globalName ?? user.username}\`\` Banido com sucesso!`);
-        })
-            .catch(async (e) => {
-            console.log(e);
-            res.push(`${await app.getMenoji("no")} Não foi possivel banir \`\`${user.globalName ?? user.username}\`\`!`);
-        });
+        const member = await guild.getMember(user.id).catch(() => undefined);
+        if (member) {
+            await member.kick(reason)
+                .then(async () => {
+                res.push(`${await app.getMenoji("yes")} \`\`${user.globalName ?? user.username}\`\` Expulso com sucesso!`);
+            })
+                .catch(async (e) => {
+                console.log(e);
+                res.push(`${await app.getMenoji("no")} Não foi possivel expulsar \`\`${user.globalName ?? user.username}\`\`!`);
+            });
+        }
+        else {
+            res.push(`⚠️ \`\`${user.globalName ?? user.username}\`\` Não pertece á esse servidor!`);
+        }
     }
     interaction.createFollowup({
         flags: oceanic_js_1.MessageFlags.IS_COMPONENTS_V2,
         components: [{
                 type: 17,
-                accentColor: 0xff3515,
+                accentColor: 0xffcd06,
                 components: [{
                         type: 10,
-                        content: `# 📄 **Console de banimentos**\n\n${res.map((r) => `- ${r}`).join("\n")}`
+                        content: `# 📄 **Console de expulsões**\n\n${res.map((r) => `- ${r}`).join("\n")}`
                     }],
             }],
     });

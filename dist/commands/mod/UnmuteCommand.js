@@ -36,6 +36,7 @@ exports.default = new command_1.default()
         components: [
             {
                 type: 17,
+                accentColor: 0x3680ff,
                 components: [
                     {
                         type: 10,
