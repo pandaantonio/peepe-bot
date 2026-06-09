@@ -11,7 +11,6 @@ exports.default = new command_1.default()
     .setRun(async ({ app, guild, interaction }) => {
     if (!guild)
         return;
-    await interaction.defer();
     const res = [];
     const user1 = interaction.data.options.getUser("user1", true);
     const user2 = interaction.data.options.getUser("user2", false);

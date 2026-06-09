@@ -7,8 +7,6 @@ export default new Command()
     .setRun(async ({ app, guild, interaction }): Promise<void> => {
         if (!guild) return;
 
-        await interaction.defer();
-
         const res: string[] = [];
 
         const user1 = interaction.data.options.getUser("user1", true);
