@@ -6,12 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const oceanic_js_1 = require("oceanic.js");
 const GetEmoji_1 = __importDefault(require("@/utils/GetEmoji"));
 const handler_1 = __importDefault(require("@/struct/handler"));
-const groq_sdk_1 = __importDefault(require("groq-sdk"));
-const groq = new groq_sdk_1.default({
-    apiKey: process.env.GROQ,
-});
 class App extends oceanic_js_1.Client {
-    ai;
     modals;
     commands;
     components;
@@ -33,7 +28,6 @@ class App extends oceanic_js_1.Client {
         });
     }
     init() {
-        this.ai = groq;
         this.connect().then(async () => {
             const handler = new handler_1.default(this);
             await handler.init();
