@@ -18,11 +18,13 @@ exports.default = new command_1.default()
             style: 5,
             label: "Perfil",
             url: `https://discord.com/users/${user.id}`,
+            emoji: { name: "🖼️" },
         }, {
             type: 2,
             style: 5,
             url: avatar,
             label: "Avatar Global",
+            emoji: await app.getButoji("download"),
         }];
     const avatarLocal = member && member.avatarURL() && member.avatarURL() !== avatar ? member.avatarURL() : undefined;
     const bannerLocal = member && member.bannerURL() && member.bannerURL() !== banner ? member.bannerURL() : undefined;
@@ -35,10 +37,10 @@ exports.default = new command_1.default()
                         content: [
                             `# ${user.globalName ?? user.username}`,
                             ``,
-                            `- **Pomelo**: \`\`${user.username}\`\``,
-                            `- **Id**: \`\`${user.id}\`\``,
-                            `- **Menção**: \`\`${user.mention}\`\``,
-                            `- **Conta criada**: <t:${parseInt(`${user.createdAt.getTime() / 1000}`)}:F> (<t:${parseInt(`${user.createdAt.getTime() / 1000}`)}:R>)`
+                            `- ${await app.getMenoji("pomelo")} **Pomelo**: \`\`${user.username}\`\``,
+                            `- ${await app.getMenoji("id")} **Id**: \`\`${user.id}\`\``,
+                            `- ${await app.getMenoji("mention")} **Menção**: \`\`${user.mention}\`\``,
+                            `- ${await app.getMenoji("calendar")} **Conta criada**: <t:${parseInt(`${user.createdAt.getTime() / 1000}`)}:F> (<t:${parseInt(`${user.createdAt.getTime() / 1000}`)}:R>)`
                         ].join("\n"),
                     }],
                 accessory: {
@@ -52,7 +54,7 @@ exports.default = new command_1.default()
     if (member) {
         let content = [
             member.nick ? `# ${member.nick}\n` : undefined,
-            member.joinedAt ? `- **Entrou em**: <t:${parseInt(`${member.joinedAt.getTime() / 1000}`)}:F> (<t:${parseInt(`${member.joinedAt.getTime() / 1000}`)}:R>)` : undefined,
+            member.joinedAt ? `- ${await app.getMenoji("join")} **Entrou em**: <t:${parseInt(`${member.joinedAt.getTime() / 1000}`)}:F> (<t:${parseInt(`${member.joinedAt.getTime() / 1000}`)}:R>)` : undefined,
         ].filter((c) => c !== undefined);
         if (avatarLocal) {
             components.push({
@@ -60,6 +62,7 @@ exports.default = new command_1.default()
                 style: 5,
                 url: avatarLocal,
                 label: "Avatar Local",
+                emoji: await app.getButoji("download"),
             });
         }
         if (content[0]) {
@@ -90,7 +93,7 @@ exports.default = new command_1.default()
                     media: {
                         url: banner,
                     },
-                    description: "Estandarte Global"
+                    description: "Estandarte Global",
                 }],
         });
         components.push({
@@ -98,6 +101,7 @@ exports.default = new command_1.default()
             style: 5,
             url: banner,
             label: "Estandarte Global",
+            emoji: await app.getButoji("download"),
         });
     }
     if (bannerLocal) {
@@ -126,6 +130,7 @@ exports.default = new command_1.default()
             style: 5,
             url: bannerLocal,
             label: "Estandarte Local",
+            emoji: await app.getButoji("download"),
         });
     }
     interaction.createFollowup({

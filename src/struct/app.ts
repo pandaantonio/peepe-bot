@@ -4,8 +4,13 @@ import Handler from "@/struct/handler";
 import Command from "@/struct/command";
 import Component from "@/struct/component";
 import Modal from "@/struct/modal";
+import Groq from "groq-sdk";
+const groq = new Groq({
+    apiKey: process.env.GROQ,
+});
 
 export default class App extends Client {
+    ai: Groq;
     modals: Collection<string, Modal>;
     commands: Collection<string, Command>;
     components: Collection<string, Component>;
@@ -29,6 +34,8 @@ export default class App extends Client {
     }
 
     init() {
+        this.ai = groq;
+        
         this.connect().then(async () => {
             const handler = new Handler(this);
             

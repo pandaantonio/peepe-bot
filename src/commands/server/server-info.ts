@@ -14,15 +14,15 @@ export default new Command()
         let content: string[] = [
             `# ${guild.name}\n`,
             guild.description ? `> ${guild.description}\n` : undefined,
-            `- **Id**: \`\`${guild.id}\`\``,
-            `- **Dono(a)**: \`\`${guild.ownerID}\`\``,
-            `- **Total de membros**: \`\`${guild.memberCount}\`\``,
-            `- **Total de cargos**: \`\`${guild.roles.filter((r) => r.managed === false && r.name !== "@everyone").length}\`\``,
-            `- **Total de canais**: \`\`${guild.channels.filter((c) => c.type !== 4).length}\`\``,
-            `> **Texto**: \`\`${guild.channels.filter((c) => c.type === 0).length}\`\``,
-            `> **Voz**: \`\`${guild.channels.filter((c) => c.type === 2).length}\`\``,
-            member && member.joinedAt ? `- **Entrou em**: <t:${parseInt(`${member.joinedAt.getTime() / 1000}`)}:F> (<t:${parseInt(`${member.joinedAt.getTime() / 1000}`)}:R>)` : undefined,
-            guild.createdAt ? `- **Criado**: <t:${parseInt(`${guild.createdAt.getTime() / 1000}`)}:F> (<t:${parseInt(`${guild.createdAt.getTime() / 1000}`)}:R>)` : undefined,
+            `- ${await app.getMenoji("id")} **Id**: \`\`${guild.id}\`\``,
+            `- ${await app.getMenoji("crown")} **Dono(a)**: \`\`${guild.ownerID}\`\``,
+            `- ${await app.getMenoji("members")} **Membros**: \`\`${guild.memberCount}\`\``,
+            `- 💼 **Cargos**: \`\`${guild.roles.filter((r) => r.managed === false && r.name !== "@everyone").length}\`\``,
+            `- 📚 **Canais**: \`\`${guild.channels.filter((c) => c.type !== 4).length}\`\``,
+            `> 📝 **Texto**: \`\`${guild.channels.filter((c) => c.type === 0).length}\`\``,
+            `> 🔊 **Voz**: \`\`${guild.channels.filter((c) => c.type === 2).length}\`\``,
+            member && member.joinedAt ? `- ${await app.getMenoji("join")} **Entrou em**: <t:${parseInt(`${member.joinedAt.getTime() / 1000}`)}:F> (<t:${parseInt(`${member.joinedAt.getTime() / 1000}`)}:R>)` : undefined,
+            guild.createdAt ? `- ${await app.getMenoji("calendar")} **Criado**: <t:${parseInt(`${guild.createdAt.getTime() / 1000}`)}:F> (<t:${parseInt(`${guild.createdAt.getTime() / 1000}`)}:R>)` : undefined,
         ].filter((c) => c !== undefined);
 
         if (icon) {
