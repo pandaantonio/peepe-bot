@@ -8,9 +8,8 @@ const GetEmoji_1 = __importDefault(require("@/utils/GetEmoji"));
 const handler_1 = __importDefault(require("@/struct/handler"));
 class App extends oceanic_js_1.Client {
     modals;
-    commands;
+    commands = new Map();
     components;
-    contexts = new Map();
     constructor() {
         super({
             gateway: {

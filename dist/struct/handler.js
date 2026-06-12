@@ -44,15 +44,8 @@ class Handler {
     async init() {
         await this.loadEvents();
         await this.loadModals();
-        await this.loadContexts();
         await this.loadCommands();
         await this.loadComponents();
-    }
-    async loadContexts() {
-        for (const dir of await (0, glob_1.glob)("dist/contexts/**/*.js")) {
-            const context = (await Promise.resolve(`${(0, path_1.resolve)(dir)}`).then(s => __importStar(require(s)))).default;
-            this.app.contexts.set(context.name, context);
-        }
     }
     async loadEvents() {
         for (const dir of await (0, glob_1.glob)("dist/events/**/*.js")) {
@@ -63,7 +56,6 @@ class Handler {
         }
     }
     async loadCommands() {
-        this.app.commands = new oceanic_js_1.Collection();
         for (const dir of await (0, glob_1.glob)("dist/commands/**/*.js")) {
             const file = (await Promise.resolve(`${(0, path_1.resolve)(dir)}`).then(s => __importStar(require(s))));
             for (const command of Object.values(file)) {

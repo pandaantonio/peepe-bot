@@ -4,8 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const EphemeralOption_1 = __importDefault(require("@/options/EphemeralOption"));
+const command_1 = __importDefault(require("@/struct/command"));
 const oceanic_js_1 = require("oceanic.js");
-const command = {
+exports.default = new command_1.default().setCommand({
     name: "server",
     nameLocalizations: {
         "pt-BR": "servidor"
@@ -52,5 +53,4 @@ const command = {
             options: [(0, EphemeralOption_1.default)(false)],
         }],
     type: oceanic_js_1.ApplicationCommandTypes.CHAT_INPUT,
-};
-exports.default = command;
+});
