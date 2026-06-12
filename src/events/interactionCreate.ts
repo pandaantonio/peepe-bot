@@ -33,7 +33,6 @@ export default new Event("on", "interactionCreate", async (app, interaction) => 
         let name = interaction.data.name;
 
         const subcommands = interaction.data.options.getSubCommand(false);
-        const user = interaction.data.options.getUser("user", false);
         let ephemeral = interaction.data.options.getBoolean("ephemeral", false) ?? true;
 
         if(name === "purge") ephemeral = true;
