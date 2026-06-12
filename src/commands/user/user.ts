@@ -1,8 +1,9 @@
 import EphemeralOption from "@/options/EphemeralOption";
 import UserOption from "@/options/UserOption";
-import { ApplicationCommandTypes, ApplicationIntegrationTypes, CreateApplicationCommandOptions, EntryPointCommandHandlerTypes, InteractionContextTypes } from "oceanic.js";
+import Command from "@/struct/command";
+import { ApplicationIntegrationTypes, InteractionContextTypes } from "oceanic.js";
 
-const command: CreateApplicationCommandOptions = {
+export default new Command().setCommand({
     type: 1,
     name: 'user',
     nameLocalizations: {
@@ -46,6 +47,4 @@ const command: CreateApplicationCommandOptions = {
         InteractionContextTypes.GUILD,
         InteractionContextTypes.PRIVATE_CHANNEL,
     ],
-}
-
-export default command;
+});

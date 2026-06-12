@@ -17,17 +17,8 @@ export default class Handler {
     public async init(): Promise<void> {
         await this.loadEvents();
         await this.loadModals();
-        await this.loadContexts();
         await this.loadCommands();
         await this.loadComponents();
-    }
-
-    private async loadContexts(){
-        for (const dir of await glob("dist/contexts/**/*.js")) {
-            const context: CreateApplicationCommandOptions = (await import(resolve(dir))).default;
-
-            this.app.contexts.set(context.name, context);
-        }
     }
 
     private async loadEvents(): Promise<void> {
@@ -41,8 +32,6 @@ export default class Handler {
     }
 
     private async loadCommands(): Promise<void> {
-        this.app.commands = new Collection();
-
         for (const dir of await glob("dist/commands/**/*.js")) {
             const file: Record<string, Command> = (await import(resolve(dir)));
 

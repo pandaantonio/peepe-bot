@@ -7,9 +7,8 @@ import Modal from "@/struct/modal";
 
 export default class App extends Client {
     modals: Collection<string, Modal>;
-    commands: Collection<string, Command>;
+    commands: Map<string, Command> = new Map();
     components: Collection<string, Component>;
-    contexts: Map<string, CreateApplicationCommandOptions> = new Map();
 
     constructor() {
         super({

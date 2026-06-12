@@ -1,7 +1,8 @@
 import EphemeralOption from "@/options/EphemeralOption";
-import { ApplicationCommandOptionTypes, ApplicationCommandTypes, ApplicationIntegrationTypes, CreateApplicationCommandOptions, EntryPointCommandHandlerTypes, InteractionContextTypes } from "oceanic.js";
+import Command from "@/struct/command";
+import { ApplicationCommandOptionTypes, ApplicationCommandTypes } from "oceanic.js";
 
-const command: CreateApplicationCommandOptions = {
+export default new Command().setCommand({
     name: "server",
     nameLocalizations: {
         "pt-BR": "servidor"
@@ -48,6 +49,4 @@ const command: CreateApplicationCommandOptions = {
         options: [EphemeralOption(false)],
     }],
     type: ApplicationCommandTypes.CHAT_INPUT,
-};
-
-export default command;
+});

@@ -3,18 +3,20 @@ import Event from "@/struct/event";
 export default new Event("on", "ready", async (app) => {
     console.log(`${app.user.username} is ready!`);
 
-    app.contexts.forEach(async (c) => {
-         await app.application.createGlobalCommand(c)
-                .then((c) => console.log(`[${c.name}] created!`))
-                .catch((e) => console.log(`[${c.name}] ${e}`));
+    app.commands.forEach(async ({ command }) => {
+        if (command) {
+            await app.application.createGlobalCommand(command)
+                .then((c) => console.log(`[${command.name}] created!`))
+                .catch((e) => console.log(`[${command.name}] ${e}`));
+        }
     });
 
     const commands = await app.application.getGlobalCommands();
 
-    for(const c of commands){
-        const c2 = app.contexts.get(c.name);
+    for (const c of commands) {
+        const c2 = app.commands.get(c.name);
 
-        if(!c2){
+        if (!c2) {
             await app.application.deleteGlobalCommand(c.id)
                 .catch(console.log);
         }
