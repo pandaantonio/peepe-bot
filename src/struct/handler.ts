@@ -35,13 +35,9 @@ export default class Handler {
         for (const dir of await glob("dist/commands/**/*.js")) {
             const file: Record<string, Command> = (await import(resolve(dir)));
 
-            for(const command of Object.values(file)){
-                if(command.names && command.names[0]){
-                    for(const name of command.names){
-                        this.app.commands.set(name, command);
-                    }
-                } else if(command.command){
-                    this.app.commands.set(command.command.name, command);
+            for (const command of Object.values(file)) {
+                for (const name of command.names) {
+                    this.app.commands.set(name, command);
                 }
             }
         }

@@ -13,14 +13,12 @@ export interface CommandOptions {
 export type CommandRun = (options: CommandOptions) => Promise<void>;
 
 export default class Command {
-    public names?: CommandNames;
+    public names: CommandNames = [];
     public run?: CommandRun;
     public command?: CreateApplicationCommandOptions;
     public subcommand?: ApplicationCommandOptionsSubCommand;
 
     public addName(...names: CommandNames): Command {
-        if (!this.names) this.names = [];
-
         this.names.push(...names);
 
         return this;
@@ -34,6 +32,7 @@ export default class Command {
 
     public setCommand(command: CreateApplicationCommandOptions): Command {
         this.command = command;
+        this.addName(command.name);
 
         return this;
     }
