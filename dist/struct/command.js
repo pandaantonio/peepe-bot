@@ -2,13 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 ;
 class Command {
-    names;
+    names = [];
     run;
     command;
     subcommand;
     addName(...names) {
-        if (!this.names)
-            this.names = [];
         this.names.push(...names);
         return this;
     }
@@ -18,6 +16,7 @@ class Command {
     }
     setCommand(command) {
         this.command = command;
+        this.addName(command.name);
         return this;
     }
     setSubCommand(subcommand) {

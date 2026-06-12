@@ -59,13 +59,8 @@ class Handler {
         for (const dir of await (0, glob_1.glob)("dist/commands/**/*.js")) {
             const file = (await Promise.resolve(`${(0, path_1.resolve)(dir)}`).then(s => __importStar(require(s))));
             for (const command of Object.values(file)) {
-                if (command.names && command.names[0]) {
-                    for (const name of command.names) {
-                        this.app.commands.set(name, command);
-                    }
-                }
-                else if (command.command) {
-                    this.app.commands.set(command.command.name, command);
+                for (const name of command.names) {
+                    this.app.commands.set(name, command);
                 }
             }
         }
