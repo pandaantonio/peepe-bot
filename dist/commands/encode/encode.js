@@ -12,21 +12,33 @@ exports.default = new command_1.default().setCommand({
     nameLocalizations: {
         "pt-BR": "codificar"
     },
-    description: "Null",
+    description: "Encode a text into different formats.",
+    descriptionLocalizations: {
+        "pt-BR": "Codifique um texto para diferentes formatos."
+    },
     options: [{
             type: 1,
             name: "base64",
-            description: "null",
+            description: "Encode a text to Base64.",
+            descriptionLocalizations: {
+                "pt-BR": "Codifica um texto em Base64."
+            },
             options: [(0, TextOption_1.default)(true), (0, EphemeralOption_1.default)(false)],
         }, {
             type: 1,
             name: "morse",
-            description: "null",
+            description: "Encode a text to Morse code.",
+            descriptionLocalizations: {
+                "pt-BR": "Codifica um texto em código Morse."
+            },
             options: [(0, TextOption_1.default)(true), (0, EphemeralOption_1.default)(false)],
         }, {
             type: 1,
             name: "binary",
-            description: "null",
+            description: "Encode a text to binary code.",
+            descriptionLocalizations: {
+                "pt-BR": "Codifica um texto em código binário."
+            },
             options: [(0, TextOption_1.default)(true), (0, EphemeralOption_1.default)(false)],
         }],
 });
