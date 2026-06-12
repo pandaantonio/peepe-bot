@@ -39,7 +39,7 @@ exports.default = new command_1.default()
         }
     }).then(async (deletedAmount) => {
         interaction.createFollowup({
-            content: `${await app.getMenoji("clear")} **${deletedAmount}** mensagens foram apagadas!`
+            content: `${await app.getMenoji("delete")} **${deletedAmount}** mensagens foram apagadas!`
         });
     }).catch(async (e) => {
         console.error(e);
