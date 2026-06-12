@@ -7,7 +7,11 @@ class Command {
     command;
     subcommand;
     addName(...names) {
-        this.names.push(...names);
+        for (const name of names) {
+            if (!this.names.includes(name)) {
+                this.names.push(name);
+            }
+        }
         return this;
     }
     setRun(run) {

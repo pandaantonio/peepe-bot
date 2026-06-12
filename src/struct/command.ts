@@ -19,7 +19,11 @@ export default class Command {
     public subcommand?: ApplicationCommandOptionsSubCommand;
 
     public addName(...names: CommandNames): Command {
-        this.names.push(...names);
+        for (const name of names) {
+            if(!this.names.includes(name)){
+                this.names.push(name);
+            }
+        }
 
         return this;
     }
