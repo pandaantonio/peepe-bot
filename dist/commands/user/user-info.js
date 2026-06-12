@@ -35,12 +35,11 @@ exports.default = new command_1.default()
                 components: [{
                         type: 10,
                         content: [
-                            `# ${user.globalName ?? user.username}`,
-                            ``,
-                            `- ${await app.getMenoji("pomelo")} **Pomelo**: \`\`${user.username}\`\``,
-                            `- ${await app.getMenoji("id")} **Id**: \`\`${user.id}\`\``,
-                            `- ${await app.getMenoji("mention")} **Menção**: \`\`${user.mention}\`\``,
-                            `- ${await app.getMenoji("calendar")} **Conta criada**: <t:${parseInt(`${user.createdAt.getTime() / 1000}`)}:F> (<t:${parseInt(`${user.createdAt.getTime() / 1000}`)}:R>)`
+                            `# ${user.globalName ?? user.username}\n`,
+                            `${await app.getMenoji("id")} **Id**: \`\`${user.id}\`\``,
+                            `${await app.getMenoji("mention")} **Menção**: \`\`${user.mention}\`\``,
+                            `${await app.getMenoji("pomelo")} **Pomelo**: \`\`${user.username}\`\``,
+                            `${await app.getMenoji("calendar")} **Conta criada**: <t:${parseInt(`${user.createdAt.getTime() / 1000}`)}:F> (<t:${parseInt(`${user.createdAt.getTime() / 1000}`)}:R>)`
                         ].join("\n"),
                     }],
                 accessory: {
@@ -54,7 +53,7 @@ exports.default = new command_1.default()
     if (member) {
         let content = [
             member.nick ? `# ${member.nick}\n` : undefined,
-            member.joinedAt ? `- ${await app.getMenoji("join")} **Entrou em**: <t:${parseInt(`${member.joinedAt.getTime() / 1000}`)}:F> (<t:${parseInt(`${member.joinedAt.getTime() / 1000}`)}:R>)` : undefined,
+            member.joinedAt ? `${await app.getMenoji("join")} **Entrou em**: <t:${parseInt(`${member.joinedAt.getTime() / 1000}`)}:F> (<t:${parseInt(`${member.joinedAt.getTime() / 1000}`)}:R>)` : undefined,
         ].filter((c) => c !== undefined);
         if (avatarLocal) {
             components.push({
@@ -66,9 +65,7 @@ exports.default = new command_1.default()
             });
         }
         if (content[0]) {
-            container.components.push({
-                type: 14,
-            }, avatarLocal ? ({
+            container.components.push(avatarLocal ? ({
                 type: 9,
                 components: [{
                         type: 10,
