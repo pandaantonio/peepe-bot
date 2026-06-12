@@ -27,9 +27,9 @@ exports.default = new command_1.default()
                                 type: 10,
                                 content: [
                                     `# ${emoji.name}\n`,
-                                    `${await app.getMenoji("mention")} **Animado**? \`\`${emoji.animated ? "SIM" : "NÃO"}\`\``,
+                                    `${await app.getMenoji("gif")} **Animado**? \`\`${emoji.animated ? "SIM" : "NÃO"}\`\``,
                                     `${await app.getMenoji("id")} **Id**: \`\`${emoji.id}\`\``,
-                                    `${await app.getMenoji("mention")} **Menção**: \`\`${emoji.mention}\`\``,
+                                    `${await app.getMenoji("mention")} **Menção**: \`\`\\${emoji.mention}\`\``,
                                     `${await app.getMenoji("calendar")} **Criado em**: <t:${parseInt(`${emoji.createdAt.getTime() / 1000}`)}:F> (<t:${parseInt(`${emoji.createdAt.getTime() / 1000}`)}:R>)`,
                                 ].join("\n"),
                             }],
