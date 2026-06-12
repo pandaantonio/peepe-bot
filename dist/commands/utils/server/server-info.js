@@ -22,7 +22,7 @@ exports.default = new command_1.default()
     ];
     const components = [];
     let content = [
-        `# ${guild.name}\n`,
+        `**${guild.name}**\n`,
         guild.description ? `> ${guild.description}\n` : undefined,
         `${await app.getMenoji("id")} **Id**: \`\`${guild.id}\`\``,
         `${await app.getMenoji("crown")} **Dono(a)**: \`\`${owner?.nick ?? owner?.user.globalName ?? owner?.user.username}\`\` (\`\`${guild.ownerID}\`\`)`,

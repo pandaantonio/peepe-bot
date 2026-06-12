@@ -26,7 +26,7 @@ export default new Command()
                     components: [{
                         type: 10,
                         content: [
-                            `# ${emoji.name}\n`,
+                            `**${emoji.name}**\n`,
                             `${await app.getMenoji("gif")} **Animado**? \`\`${emoji.animated ? "SIM" : "NÃO"}\`\``,
                             `${await app.getMenoji("id")} **Id**: \`\`${emoji.id}\`\``,
                             `${await app.getMenoji("mention")} **Menção**: \`\`\\${emoji.mention}\`\``,

@@ -23,7 +23,7 @@ exports.default = new command_1.default()
                 type: 17,
                 components: [{
                         type: 10,
-                        content: `# ${emoji.name}`,
+                        content: `**${emoji.name}**`,
                     }, {
                         type: 12,
                         items: [{

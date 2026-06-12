@@ -61,7 +61,7 @@ exports.default = new command_1.default()
                 type: 17,
                 components: [{
                         type: 10,
-                        content: `# ${member?.nick ?? user.globalName ?? user.username}`,
+                        content: `**${member?.nick ?? user.globalName ?? user.username}**`,
                     }, {
                         items,
                         type: 12,
