@@ -25,7 +25,7 @@ export default new Command()
             `${await app.getMenoji("id")} **Id**: \`\`${guild.id}\`\``,
             `${await app.getMenoji("crown")} **Dono(a)**: \`\`${owner?.nick ?? owner?.user.globalName ?? owner?.user.username}\`\` (\`\`${guild.ownerID}\`\`)`,
             `📊 **Estátisticas**: ${stats.map((s) => `\`\`${s}\`\``).join(", ")}`,
-            member && member.joinedAt ? `${await app.getMenoji("join")} **Entrou em**: <t:${parseInt(`${member.joinedAt.getTime() / 1000}`)}:F> (<t:${parseInt(`${member.joinedAt.getTime() / 1000}`)}:R>)` : undefined,
+            member && member.joinedAt ? `${await app.getMenoji("event")} **Entrou em**: <t:${parseInt(`${member.joinedAt.getTime() / 1000}`)}:F> (<t:${parseInt(`${member.joinedAt.getTime() / 1000}`)}:R>)` : undefined,
             guild.createdAt ? `${await app.getMenoji("calendar")} **Criado**: <t:${parseInt(`${guild.createdAt.getTime() / 1000}`)}:F> (<t:${parseInt(`${guild.createdAt.getTime() / 1000}`)}:R>)` : undefined,
         ].filter((c) => c !== undefined);
 
@@ -35,6 +35,7 @@ export default new Command()
                 style: 5,
                 url: icon,
                 label: "Ícone",
+                emoji: await app.getButoji("download"),
             });
         }
 
@@ -77,6 +78,7 @@ export default new Command()
                 style: 5,
                 url: banner,
                 label: "Estandarte",
+                emoji: await app.getButoji("download"),
             });
         }
 
@@ -107,6 +109,7 @@ export default new Command()
                 style: 5,
                 url: splash,
                 label: "Fundo de Convite",
+                emoji: await app.getButoji("download"),
             });
         }
 

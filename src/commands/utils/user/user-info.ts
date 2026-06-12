@@ -18,7 +18,7 @@ export default new Command()
             style: 5,
             label: "Perfil",
             url: `https://discord.com/users/${user.id}`,
-            emoji: { name: "🖼️" },
+            emoji: await app.getButoji("link"),
         }, {
             type: 2,
             style: 5,
@@ -55,7 +55,7 @@ export default new Command()
         if (member) {
             let content: string[] = [
                 member.nick ? `# ${member.nick}\n` : undefined,
-                member.joinedAt ? `${await app.getMenoji("join")} **Entrou em**: <t:${parseInt(`${member.joinedAt.getTime() / 1000}`)}:F> (<t:${parseInt(`${member.joinedAt.getTime() / 1000}`)}:R>)` : undefined,
+                member.joinedAt ? `${await app.getMenoji("event")} **Entrou em**: <t:${parseInt(`${member.joinedAt.getTime() / 1000}`)}:F> (<t:${parseInt(`${member.joinedAt.getTime() / 1000}`)}:R>)` : undefined,
             ].filter((c) => c !== undefined);
 
             if (avatarLocal) {
