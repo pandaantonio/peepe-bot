@@ -68,164 +68,166 @@ export default new Event(
         if (!message.guild) return;
         if (!message.channel) return;
 
-        const antiInvite = await getAntiinvite(
-            `${message.guildID}`
-        );
-
-        if (antiInvite?.enabled) {
-            const matches = [
-                ...message.content.matchAll(
-                    InviteRegex
-                ),
-            ];
-
-            if (matches.length) {
-                const invites =
-                    await message.guild
-                        .getInvites()
-                        .catch(() => []);
-
-                const localCodes = new Set(
-                    invites.map((invite) =>
-                        invite.code.toLowerCase()
-                    )
-                );
-
-                const allowedInvites = new Set(
-                    antiInvite.allowedInvites.map(
-                        (invite) =>
-                            invite.toLowerCase()
-                    )
-                );
-
-                const hasExternalInvite =
-                    matches.some(([_, code]) => {
-                        const inviteCode =
-                            code.toLowerCase();
-
-                        if (
-                            allowedInvites.has(
-                                inviteCode
-                            )
-                        ) {
-                            return false;
-                        }
-
-                        if (
-                            antiInvite.allowOwnInvites &&
-                            localCodes.has(
-                                inviteCode
-                            )
-                        ) {
-                            return false;
-                        }
-
-                        return true;
-                    });
-
-                if (hasExternalInvite) {
-                    await message
-                        .delete()
-                        .catch(() => { });
-
-                    await message.member
-                        ?.edit({
-                            communicationDisabledUntil:
-                                new Date(
-                                    Date.now() +
-                                    5 *
-                                    60 *
-                                    1000
-                                ).toISOString(),
-                        })
-                        .catch(() => { });
-
-                    return;
-                }
-            }
-        }
-
-        const antiLink = await getAntilink(
-            `${message.guildID}`
-        );
-
-        if (!antiLink?.enabled) return;
-
-        if (!message.content.trim()) return;
-
-        const links =
-            message.content.match(LinkRegex);
-
-        if (!links?.length) return;
-
-        const allowedDomains =
-            new Set<string>();
-
-        antiLink.allowedDomains.forEach(
-            (domain) =>
-                allowedDomains.add(
-                    domain.toLowerCase()
-                )
-        );
-
-        if (antiLink.allowMedia) {
-            MediaDomains.forEach(
-                (domain) =>
-                    allowedDomains.add(domain)
+        if (message.author.id !== message.guild.ownerID || !message.guild.permissionsOf(`${message.author.id}`).has("ADMINISTRATOR") || !message.guild.permissionsOf(`${message.author.id}`).has("MANAGE_GUILD")) {
+            const antiInvite = await getAntiinvite(
+                `${message.guildID}`
             );
-        }
 
-        if (antiLink.allowSocials) {
-            SocialDomains.forEach(
-                (domain) =>
-                    allowedDomains.add(domain)
-            );
-        }
+            if (antiInvite?.enabled) {
+                const matches = [
+                    ...message.content.matchAll(
+                        InviteRegex
+                    ),
+                ];
 
-        const hasBlockedLink = links.some(
-            (link) => {
-                try {
-                    const url = new URL(
-                        link.startsWith(
-                            "http"
+                if (matches.length) {
+                    const invites =
+                        await message.guild
+                            .getInvites()
+                            .catch(() => []);
+
+                    const localCodes = new Set(
+                        invites.map((invite) =>
+                            invite.code.toLowerCase()
                         )
-                            ? link
-                            : `https://${link}`
                     );
 
-                    const hostname =
-                        url.hostname.toLowerCase();
-
-                    return ![
-                        ...allowedDomains,
-                    ].some(
-                        (domain) =>
-                            hostname ===
-                            domain ||
-                            hostname.endsWith(
-                                `.${domain}`
-                            )
+                    const allowedInvites = new Set(
+                        antiInvite.allowedInvites.map(
+                            (invite) =>
+                                invite.toLowerCase()
+                        )
                     );
-                } catch {
-                    return true;
+
+                    const hasExternalInvite =
+                        matches.some(([_, code]) => {
+                            const inviteCode =
+                                code.toLowerCase();
+
+                            if (
+                                allowedInvites.has(
+                                    inviteCode
+                                )
+                            ) {
+                                return false;
+                            }
+
+                            if (
+                                antiInvite.allowOwnInvites &&
+                                localCodes.has(
+                                    inviteCode
+                                )
+                            ) {
+                                return false;
+                            }
+
+                            return true;
+                        });
+
+                    if (hasExternalInvite) {
+                        await message
+                            .delete()
+                            .catch(() => { });
+
+                        await message.member
+                            ?.edit({
+                                communicationDisabledUntil:
+                                    new Date(
+                                        Date.now() +
+                                        5 *
+                                        60 *
+                                        1000
+                                    ).toISOString(),
+                            })
+                            .catch(() => { });
+
+                        return;
+                    }
                 }
             }
-        );
 
-        if (hasBlockedLink) {
-            await message
-                .delete()
-                .catch(() => { });
+            const antiLink = await getAntilink(
+                `${message.guildID}`
+            );
 
-            await message.member
-                ?.edit({
-                    communicationDisabledUntil:
-                        new Date(
-                            Date.now() +
-                            5 * 60 * 1000
-                        ).toISOString(),
-                })
-                .catch(() => { });
+            if (!antiLink?.enabled) return;
+
+            if (!message.content.trim()) return;
+
+            const links =
+                message.content.match(LinkRegex);
+
+            if (!links?.length) return;
+
+            const allowedDomains =
+                new Set<string>();
+
+            antiLink.allowedDomains.forEach(
+                (domain) =>
+                    allowedDomains.add(
+                        domain.toLowerCase()
+                    )
+            );
+
+            if (antiLink.allowMedia) {
+                MediaDomains.forEach(
+                    (domain) =>
+                        allowedDomains.add(domain)
+                );
+            }
+
+            if (antiLink.allowSocials) {
+                SocialDomains.forEach(
+                    (domain) =>
+                        allowedDomains.add(domain)
+                );
+            }
+
+            const hasBlockedLink = links.some(
+                (link) => {
+                    try {
+                        const url = new URL(
+                            link.startsWith(
+                                "http"
+                            )
+                                ? link
+                                : `https://${link}`
+                        );
+
+                        const hostname =
+                            url.hostname.toLowerCase();
+
+                        return ![
+                            ...allowedDomains,
+                        ].some(
+                            (domain) =>
+                                hostname ===
+                                domain ||
+                                hostname.endsWith(
+                                    `.${domain}`
+                                )
+                        );
+                    } catch {
+                        return true;
+                    }
+                }
+            );
+
+            if (hasBlockedLink) {
+                await message
+                    .delete()
+                    .catch(() => { });
+
+                await message.member
+                    ?.edit({
+                        communicationDisabledUntil:
+                            new Date(
+                                Date.now() +
+                                5 * 60 * 1000
+                            ).toISOString(),
+                    })
+                    .catch(() => { });
+            }
         }
     }
 );

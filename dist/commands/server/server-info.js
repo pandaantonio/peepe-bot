@@ -12,6 +12,7 @@ exports.default = new command_1.default()
         return;
     const icon = guild.iconURL();
     const member = await guild.getMember(author.id).catch(() => undefined);
+    const owner = await guild.getMember(`${guild.ownerID}`).catch(() => undefined);
     const stats = [
         `${guild.memberCount} Membros`,
         `${guild.roles.filter((r) => r.managed === false && r.name !== "@everyone").length} Cargos`,
@@ -24,7 +25,7 @@ exports.default = new command_1.default()
         `# ${guild.name}\n`,
         guild.description ? `> ${guild.description}\n` : undefined,
         `${await app.getMenoji("id")} **Id**: \`\`${guild.id}\`\``,
-        `${await app.getMenoji("crown")} **Dono(a)**: \`\`${guild.ownerID}\`\``,
+        `${await app.getMenoji("crown")} **Dono(a)**: \`\`${owner?.nick ?? owner?.user.globalName ?? owner?.user.username}\`\` (\`\`${guild.ownerID}\`\`)`,
         `📊 **Estátisticas**: ${stats.map((s) => `\`\`${s}\`\``).join(", ")}`,
         member && member.joinedAt ? `${await app.getMenoji("join")} **Entrou em**: <t:${parseInt(`${member.joinedAt.getTime() / 1000}`)}:F> (<t:${parseInt(`${member.joinedAt.getTime() / 1000}`)}:R>)` : undefined,
         guild.createdAt ? `${await app.getMenoji("calendar")} **Criado**: <t:${parseInt(`${guild.createdAt.getTime() / 1000}`)}:F> (<t:${parseInt(`${guild.createdAt.getTime() / 1000}`)}:R>)` : undefined,
