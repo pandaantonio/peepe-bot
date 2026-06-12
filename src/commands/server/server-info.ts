@@ -9,20 +9,23 @@ export default new Command()
 
         const icon = guild.iconURL();
         const member = await guild.getMember(author.id).catch(() => undefined);
+        const stats = [
+            `${guild.memberCount} Membros`,
+            `${guild.roles.filter((r) => r.managed === false && r.name !== "@everyone").length} Cargos`,
+            `${guild.channels.filter((c) => c.type !== 4).length} Canais`,
+            `${guild.channels.filter((c) => c.type === 0).length} Canais de texto`,
+            `${guild.channels.filter((c) => c.type === 2).length} Canais de voz`
+        ];
 
         const components: MessageActionRowComponent[] = [];
         let content: string[] = [
             `# ${guild.name}\n`,
             guild.description ? `> ${guild.description}\n` : undefined,
-            `- ${await app.getMenoji("id")} **Id**: \`\`${guild.id}\`\``,
-            `- ${await app.getMenoji("crown")} **Dono(a)**: \`\`${guild.ownerID}\`\``,
-            `- ${await app.getMenoji("members")} **Membros**: \`\`${guild.memberCount}\`\``,
-            `- 💼 **Cargos**: \`\`${guild.roles.filter((r) => r.managed === false && r.name !== "@everyone").length}\`\``,
-            `- 📚 **Canais**: \`\`${guild.channels.filter((c) => c.type !== 4).length}\`\``,
-            `> 📝 **Texto**: \`\`${guild.channels.filter((c) => c.type === 0).length}\`\``,
-            `> 🔊 **Voz**: \`\`${guild.channels.filter((c) => c.type === 2).length}\`\``,
-            member && member.joinedAt ? `- ${await app.getMenoji("join")} **Entrou em**: <t:${parseInt(`${member.joinedAt.getTime() / 1000}`)}:F> (<t:${parseInt(`${member.joinedAt.getTime() / 1000}`)}:R>)` : undefined,
-            guild.createdAt ? `- ${await app.getMenoji("calendar")} **Criado**: <t:${parseInt(`${guild.createdAt.getTime() / 1000}`)}:F> (<t:${parseInt(`${guild.createdAt.getTime() / 1000}`)}:R>)` : undefined,
+            `${await app.getMenoji("id")} **Id**: \`\`${guild.id}\`\``,
+            `${await app.getMenoji("crown")} **Dono(a)**: \`\`${guild.ownerID}\`\``,
+            `📊 **Estátisticas**: ${stats.map((s) => `\`\`${s}\`\``).join(", ")}`,
+            member && member.joinedAt ? `${await app.getMenoji("join")} **Entrou em**: <t:${parseInt(`${member.joinedAt.getTime() / 1000}`)}:F> (<t:${parseInt(`${member.joinedAt.getTime() / 1000}`)}:R>)` : undefined,
+            guild.createdAt ? `${await app.getMenoji("calendar")} **Criado**: <t:${parseInt(`${guild.createdAt.getTime() / 1000}`)}:F> (<t:${parseInt(`${guild.createdAt.getTime() / 1000}`)}:R>)` : undefined,
         ].filter((c) => c !== undefined);
 
         if (icon) {
