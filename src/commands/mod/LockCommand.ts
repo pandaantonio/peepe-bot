@@ -9,6 +9,14 @@ export default new Command()
         if (!interaction.channel) return;
         if (interaction.channel.type !== 0) return;
 
+        if(!interaction.channel.permissionsOf(app.user.id).has("MANAGE_CHANNELS")){
+            interaction.createFollowup({
+                content: `${await app.getMenoji("no")} É Necessário eu ter a permissão de gerenciar canal.`
+            });
+            
+            return;
+        }
+
         const everyone = guild.roles.find((o) => o.name === "@everyone");
 
         interaction.channel.editPermission(`${everyone?.id}`, {

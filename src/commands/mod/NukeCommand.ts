@@ -8,35 +8,54 @@ export default new Command()
         if (!interaction.channel) return;
         if (interaction.channel.type !== 0) return;
 
+        if(!interaction.channel.permissionsOf(app.user.id).has("MANAGE_CHANNELS")){
+            interaction.createFollowup({
+                content: `${await app.getMenoji("no")} É Necessário eu ter a permissão de gerenciar canal.`
+            });
+            
+            return;
+        }
+
         const channel = interaction.channel;
 
         interaction.createFollowup({
             content: `💥 Iniciando o bigbang...`
         });
 
-        setTimeout(async () => {
-            await guild.createChannel(channel.type, {
-                name: channel.name,
-                nsfw: channel.nsfw,
-                topic: channel.topic,
-                parentID: channel.parentID,
-                position: channel.position,
-                rateLimitPerUser: channel.rateLimitPerUser,
-                permissionOverwrites: channel.permissionOverwrites.map((p) => p),
-            })
-                .then(async (ch) => {
-                    await ch.createMessage({
-                        content: `${await app.getMenoji("yes")} ${author.mention} Canal clonado e apagado garantindo que nenhuma mensagem anterior apareça.`
-                    });
+        await guild.createChannel(channel.type, {
+            name: channel.name,
+            nsfw: channel.nsfw,
+            topic: channel.topic,
+            parentID: channel.parentID,
+            position: channel.position,
+            rateLimitPerUser: channel.rateLimitPerUser,
+            permissionOverwrites: channel.permissionOverwrites.map((p) => p),
+        })
+            .then(async (ch) => {
+                if (guild.rulesChannelID === channel.id) await guild.edit({ rulesChannelID: ch.id });
+                if (guild.systemChannelID === channel.id) await guild.edit({ systemChannelID: ch.id });
+                if (guild.safetyAlertsChannelID === channel.id) await guild.edit({ safetyAlertsChannelID: ch.id });
+                if (guild.publicUpdatesChannelID === channel.id) await guild.edit({ publicUpdatesChannelID: ch.id });
 
-                    await channel.delete().catch(() => undefined);
-                })
-                .catch(async () => {
-                    interaction.editOriginal({
-                        content: `${await app.getMenoji("no")} Erro ao iniciar bigbang!`
-                    });
+                const message = await ch.createMessage({
+                    content: `${await app.getMenoji("yes")} ${author.mention} Canal clonado e apagado garantindo que nenhuma mensagem anterior apareça.`
                 });
-        }, 15000);
+
+                await channel.delete().catch(() => undefined);
+
+                setTimeout(async () => {
+                    await message.delete();
+                }, 25000);
+            })
+            .catch(async () => {
+                interaction.editOriginal({
+                    content: `${await app.getMenoji("no")} Erro ao iniciar bigbang!`
+                });
+
+                setTimeout(async () => {
+                    await interaction.deleteOriginal();
+                }, 25000);
+            });
     })
 
     .setCommand({

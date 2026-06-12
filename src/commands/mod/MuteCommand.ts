@@ -7,6 +7,14 @@ export default new Command()
     .setRun(async ({ app, guild, interaction }): Promise<void> => {
         if (!guild) return;
 
+        if(!guild.permissionsOf(app.user.id).has("MODERATE_MEMBERS")){
+            interaction.createFollowup({
+                content: `${await app.getMenoji("no")} É Necessário eu ter a permissão de moderar membros.`
+            });
+            
+            return;
+        }
+
         const res: string[] = [];
 
         const user1 = interaction.data.options.getUser("user1", true);
