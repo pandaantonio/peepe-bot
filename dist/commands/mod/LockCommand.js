@@ -14,6 +14,12 @@ exports.default = new command_1.default()
         return;
     if (interaction.channel.type !== 0)
         return;
+    if (!interaction.channel.permissionsOf(app.user.id).has("MANAGE_CHANNELS")) {
+        interaction.createFollowup({
+            content: `${await app.getMenoji("no")} É Necessário eu ter a permissão de gerenciar canal.`
+        });
+        return;
+    }
     const everyone = guild.roles.find((o) => o.name === "@everyone");
     interaction.channel.editPermission(`${everyone?.id}`, {
         type: oceanic_js_1.OverwriteTypes.ROLE,
