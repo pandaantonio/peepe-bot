@@ -16,7 +16,7 @@ exports.default = new command_1.default()
             flags: oceanic_js_1.MessageFlags.IS_COMPONENTS_V2,
             components: [{
                     type: 10,
-                    content: `${await app.getMenoji("no")} Este servidor não possue estandarte de convite!`
+                    content: `🚫 Este servidor não possue estandarte de convite!`,
                 }],
         });
         return;

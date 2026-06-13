@@ -1,4 +1,3 @@
-import ComponentBuilder from "@/lib/ComponentBuilder";
 import Command from "@/struct/command";
 import { MessageFlags } from "oceanic.js";
 
@@ -11,13 +10,13 @@ export default new Command()
         const url = guild.iconURL();
 
         if (!url) {
-            interaction.createFollowup(
-                new ComponentBuilder()
-                    .addTextDisplay((fn) => fn
-                        .setContent(`🚫 Este servidor não possue ícone!`)
-                    )
-                    .build(),
-            );
+            interaction.createFollowup({
+                flags: MessageFlags.IS_COMPONENTS_V2,
+                components: [{
+                    type: 10,
+                    content: `🚫 Este servidor não possue ícone!`,
+                }],
+            });
 
             return;
         }

@@ -3,9 +3,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const ActionRowBuilder_1 = __importDefault(require("@/lib/ActionRowBuilder"));
-const ContainerBuilder_1 = __importDefault(require("@/lib/ContainerBuilder"));
-const MediaGalleryBuilder_1 = __importDefault(require("@/lib/MediaGalleryBuilder"));
 const command_1 = __importDefault(require("@/struct/command"));
 const oceanic_js_1 = require("oceanic.js");
 exports.default = new command_1.default()
@@ -18,24 +15,52 @@ exports.default = new command_1.default()
             flags: oceanic_js_1.MessageFlags.IS_COMPONENTS_V2,
             components: [{
                     type: 10,
-                    content: `${await app.getMenoji("no")} Este usuário não possue estandarte!`
+                    content: `🚫 Este usuário não possue estandarte!`,
                 }],
         });
         return;
     }
-    const mediaGallery = new MediaGalleryBuilder_1.default(), actionRow = new ActionRowBuilder_1.default(), container = new ContainerBuilder_1.default()
-        .addTextDisplay(`**${member?.nick ?? user.globalName ?? user.username}**`);
+    const items = [], components = [];
     if (banner) {
-        mediaGallery.addItem(banner, "Estandarte Global");
-        actionRow.addLinkButton(banner, "Estandarte Global", await app.getButoji("download"));
+        items.push({
+            media: { url: banner },
+            description: "Estandarte Global",
+        });
+        components.push({
+            type: 2,
+            style: 5,
+            url: banner,
+            label: "Estandarte Global",
+            emoji: await app.getButoji("download"),
+        });
     }
     if (bannerLocal) {
-        mediaGallery.addItem(bannerLocal, "Estandarte Local");
-        actionRow.addLinkButton(bannerLocal, "Estandarte Local", await app.getButoji("download"));
+        items.push({
+            media: { url: bannerLocal },
+            description: "Estandarte Local",
+        });
+        components.push({
+            type: 2,
+            style: 5,
+            url: bannerLocal,
+            label: "Estandarte Local",
+            emoji: await app.getButoji("download"),
+        });
     }
-    container.addMediaGallery(mediaGallery);
     interaction.createFollowup({
         flags: oceanic_js_1.MessageFlags.IS_COMPONENTS_V2,
-        components: [container.build(), actionRow.build()],
+        components: [{
+                type: 17,
+                components: [{
+                        type: 10,
+                        content: `**${member?.nick ?? user.globalName ?? user.username}**`
+                    }, {
+                        items,
+                        type: 12,
+                    }],
+            }, {
+                type: 1,
+                components,
+            }],
     });
 });

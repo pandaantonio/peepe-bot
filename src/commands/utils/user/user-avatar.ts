@@ -1,8 +1,5 @@
-import ActionRowBuilder from "@/lib/ActionRowBuilder";
-import ContainerBuilder from "@/lib/ContainerBuilder";
-import MediaGalleryBuilder from "@/lib/MediaGalleryBuilder";
 import Command from "@/struct/command";
-import { MessageFlags } from "oceanic.js";
+import { MediaGalleryItem, MessageActionRowComponent, MessageFlags } from "oceanic.js";
 
 export default new Command()
     .addName("user avatar")
@@ -15,21 +12,47 @@ export default new Command()
         const avatar = user.avatarURL(),
             avatarLocal = member && member.avatarURL() && member.avatarURL() !== avatar ? member.avatarURL() : undefined;
 
-        const mediaGallery = new MediaGalleryBuilder(),
-            actionRow = new ActionRowBuilder()
-                .addLinkButton(avatar, "Avatar Global", await app.getButoji("download")),
-            container = new ContainerBuilder()
-                .addTextDisplay(`**${member?.nick ?? user.globalName ?? user.username}**`)
+        const items: MediaGalleryItem[] = [{
+            media: { url: avatar },
+            description: "Avatar Global",
+        }],
+            components: MessageActionRowComponent[] = [{
+                type: 2,
+                style: 5,
+                url: avatar,
+                label: "Avatar Global",
+                emoji: await app.getButoji("download"),
+            }];
 
         if (avatarLocal) {
-            mediaGallery.addItem(avatarLocal, "Avatar Local");
-            actionRow.addLinkButton(avatarLocal, "Avatar Local", await app.getButoji("download"));
-        }
+            items.push({
+                media: { url: avatarLocal },
+                description: "Avatar Local",
+            });
 
-        container.addMediaGallery(mediaGallery);
+            components.push({
+                type: 2,
+                style: 5,
+                url: avatarLocal,
+                label: "Avatar Local",
+                emoji: await app.getButoji("download"),
+            });
+        }
 
         interaction.createFollowup({
             flags: MessageFlags.IS_COMPONENTS_V2,
-            components: [container.build(), actionRow.build()],
+            components: [{
+                type: 17,
+                components: [{
+                    type: 10,
+                    content: `**${member?.nick ?? user.globalName ?? user.username}**`
+                }, {
+                    items,
+                    type: 12,
+                }],
+            }, {
+                type: 1,
+                components,
+            }],
         });
     });

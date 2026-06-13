@@ -1,17 +1,17 @@
-import ComponentBuilder from "@/lib/ComponentBuilder";
 import Command from "@/struct/command";
+import { MessageFlags } from "oceanic.js";
 
 export default new Command()
     .setRun(async function ({ app, guild, interaction }) {
         const shard = guild ? guild.shard : app.shards.random();
 
-        interaction.createFollowup(
-            new ComponentBuilder()
-                .addTextDisplay((fn) => fn
-                    .setContent(`# 🏓 Pong!\n\n**Shard** (${shard?.id}): \`\`${shard?.latency} ms\`\``)
-                )
-                .build(),
-        );
+        interaction.createFollowup({
+            flags: MessageFlags.IS_COMPONENTS_V2,
+            components: [{
+                type: 10,
+                content: `# 🏓 Pong!\n\n**Shard** (${shard?.id}): \`\`${shard?.latency} ms\`\``,
+            }],
+        });
     })
 
     .setCommand({
