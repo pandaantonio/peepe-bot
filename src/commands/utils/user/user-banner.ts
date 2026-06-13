@@ -1,16 +1,19 @@
+import ActionRowBuilder from "@/lib/ActionRowBuilder";
+import ContainerBuilder from "@/lib/ContainerBuilder";
+import MediaGalleryBuilder from "@/lib/MediaGalleryBuilder";
 import Command from "@/struct/command";
-import { MediaGalleryItem, MessageActionRowComponent, MessageFlags } from "oceanic.js";
+import { MessageFlags } from "oceanic.js";
 
 export default new Command()
     .addName("user banner")
 
     .setRun(async function ({ app, guild, author, interaction }) {
-        const option = interaction.data.options.getUser('user', false) ?? author;
-        const user = await app.rest.users.get(option.id);
-        const banner = user.bannerURL();
+        const option = interaction.data.options.getUser('user', false) ?? author,
+            user = await app.rest.users.get(option.id),
+            member = guild ? await guild.getMember(user.id).catch(() => undefined) : undefined;
 
-        const member = guild ? await guild.getMember(user.id).catch(() => undefined) : undefined;
-        const bannerLocal = member && member.bannerURL() && member.bannerURL() !== banner ? member.bannerURL() : undefined;
+        const banner = user.bannerURL(),
+            bannerLocal = member && member.bannerURL() && member.bannerURL() !== banner ? member.bannerURL() : undefined;
 
         if (!banner && !bannerLocal) {
             interaction.createFollowup({
@@ -24,57 +27,25 @@ export default new Command()
             return;
         }
 
-        const components: MessageActionRowComponent[] = [];
-        const items: MediaGalleryItem[] = [];
+        const mediaGallery = new MediaGalleryBuilder(),
+            actionRow = new ActionRowBuilder(),
+            container = new ContainerBuilder()
+                .addTextDisplay(`**${member?.nick ?? user.globalName ?? user.username}**`);
 
         if (banner) {
-            components.push({
-                type: 2,
-                style: 5,
-                url: banner,
-                label: "Estandarte Global",
-                emoji: await app.getButoji("download"),
-            });
-            
-            items.push({
-                media: {
-                    url: banner,
-                },
-                description: "Estandarte Global"
-            });
+            mediaGallery.addItem(banner, "Estandarte Global");
+            actionRow.addLinkButton(banner, "Estandarte Global", await app.getButoji("download"));
         }
 
         if (bannerLocal) {
-            components.push({
-                type: 2,
-                style: 5,
-                url: bannerLocal,
-                label: "Estandarte Local",
-                emoji: await app.getButoji("download"),
-            });
-            
-            items.push({
-                media: {
-                    url: bannerLocal,
-                },
-                description: "Estandarte Local"
-            });
+            mediaGallery.addItem(bannerLocal, "Estandarte Local");
+            actionRow.addLinkButton(bannerLocal, "Estandarte Local", await app.getButoji("download"));
         }
+
+        container.addMediaGallery(mediaGallery);
 
         interaction.createFollowup({
             flags: MessageFlags.IS_COMPONENTS_V2,
-            components: [{
-                type: 17,
-                components: [{
-                    type: 10,
-                    content: `**${member?.nick ?? user.globalName ?? user.username}**`,
-                }, {
-                    items,
-                    type: 12,
-                }],
-            }, {
-                type: 1,
-                components,
-            }],
+            components: [container.build(), actionRow.build()],
         });
     });
