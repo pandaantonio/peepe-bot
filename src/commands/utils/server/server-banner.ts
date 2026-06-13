@@ -1,3 +1,4 @@
+import ComponentBuilder from "@/lib/ComponentBuilder";
 import Command from "@/struct/command";
 import { MessageFlags } from "oceanic.js";
 
@@ -10,13 +11,13 @@ export default new Command()
         const url = guild.bannerURL();
 
         if(!url){
-            interaction.createFollowup({
-                flags: MessageFlags.IS_COMPONENTS_V2,
-                components: [{
-                    type: 10,
-                    content: `${await app.getMenoji("no")} Este servidor não possue estandarte!`
-                }],
-            });
+            interaction.createFollowup(
+                new ComponentBuilder()
+                    .addTextDisplay((fn) => fn
+                        .setContent(`🚫 Este servidor não possue estandarte!`)
+                    )
+                    .build(),
+            );
 
             return;
         }

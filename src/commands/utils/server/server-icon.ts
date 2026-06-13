@@ -1,22 +1,23 @@
+import ComponentBuilder from "@/lib/ComponentBuilder";
 import Command from "@/struct/command";
 import { MessageFlags } from "oceanic.js";
 
 export default new Command()
     .addName("server icon")
 
-    .setRun(async function({ app, guild, interaction }){
-        if(!guild) return;
+    .setRun(async function ({ app, guild, interaction }) {
+        if (!guild) return;
 
         const url = guild.iconURL();
 
-        if(!url){
-            interaction.createFollowup({
-                flags: MessageFlags.IS_COMPONENTS_V2,
-                components: [{
-                    type: 10,
-                    content: `${await app.getMenoji("no")} Este servidor não possue ícone!`
-                }],
-            });
+        if (!url) {
+            interaction.createFollowup(
+                new ComponentBuilder()
+                    .addTextDisplay((fn) => fn
+                        .setContent(`🚫 Este servidor não possue ícone!`)
+                    )
+                    .build(),
+            );
 
             return;
         }

@@ -1,4 +1,5 @@
 import ActionRowBuilder from "@/lib/ActionRowBuilder";
+import ComponentBuilder from "@/lib/ComponentBuilder";
 import ContainerBuilder from "@/lib/ContainerBuilder";
 import MediaGalleryBuilder from "@/lib/MediaGalleryBuilder";
 import Command from "@/struct/command";
@@ -16,13 +17,13 @@ export default new Command()
             bannerLocal = member && member.bannerURL() && member.bannerURL() !== banner ? member.bannerURL() : undefined;
 
         if (!banner && !bannerLocal) {
-            interaction.createFollowup({
-                flags: MessageFlags.IS_COMPONENTS_V2,
-                components: [{
-                    type: 10,
-                    content: `${await app.getMenoji("no")} Este usuário não possue estandarte!`
-                }],
-            });
+            interaction.createFollowup(
+                new ComponentBuilder()
+                    .addTextDisplay((fn) => fn
+                        .setContent(`🚫 Este usuário não possue estandarte!`)
+                    )
+                    .build()
+            );
 
             return;
         }
