@@ -51,7 +51,6 @@ export default new Event("on", "guildMemberAdd", async function (app, member) {
             await webhook.execute({
                 ...welcome.message,
                 username: `${guild?.name}`,
-                avatarURL: guild?.iconURL() ?? undefined,
             }).catch(console.log);
         }
     }
