@@ -22,6 +22,7 @@ exports.default = new event_1.default("on", "guildMemberAdd", async function (ap
     const guild = app.guilds.get(`${member.guildID}`);
     //Welcome system 
     const welcome = await getWelcome(member.guildID);
+    console.log(welcome);
     if (welcome && welcome.enable) {
         const [webhookId, webhookToken] = welcome.webhookURL.replace("https://discord.com/api/webhooks/", "").split("/");
         const webhook = await app.rest.webhooks.get(`${webhookId}`, `${webhookToken}`);
