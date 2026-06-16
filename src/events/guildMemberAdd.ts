@@ -1,5 +1,6 @@
 import Event from "@/struct/event";
 import axios from "axios";
+import { ExecuteWebhookOptions } from "oceanic.js";
 
 interface Role {
     id: string;
@@ -19,7 +20,7 @@ async function getAutorole(id: string): Promise<Autorole | undefined> {
 
 interface Welcome {
     enabled: boolean;
-    webhookURL: string;
+    channelId: string;
     isV2: boolean;
     message: {
         flags: number;
@@ -41,20 +42,11 @@ export default new Event("on", "guildMemberAdd", async function (app, member) {
     //Welcome system 
     const welcome = await getWelcome(member.guildID);
 
-    console.log(welcome);
+    if (welcome && welcome.enabled) {
+        const channel = await app.getChannel(welcome.channelId);
 
-    if(welcome && welcome.enabled){
-        const [webhookId, webhookToken] = welcome.webhookURL.replace("https://discord.com/api/webhooks/", "").split("/");
-        const webhook = await app.rest.webhooks.get(`${webhookId}`, `${webhookToken}`);
-
-        if(webhook){
-            await webhook.execute({
-                ...welcome.message,
-                wait: true,
-                username: `${guild?.name}`,
-            }).catch((e) => {
-                console.log(e, welcome.message.components);
-            });
+        if (channel && channel.type === 0) {
+            await channel.createMessage(welcome.message).catch(console.log);
         }
     }
 

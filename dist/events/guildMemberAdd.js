@@ -22,18 +22,10 @@ exports.default = new event_1.default("on", "guildMemberAdd", async function (ap
     const guild = app.guilds.get(`${member.guildID}`);
     //Welcome system 
     const welcome = await getWelcome(member.guildID);
-    console.log(welcome);
     if (welcome && welcome.enabled) {
-        const [webhookId, webhookToken] = welcome.webhookURL.replace("https://discord.com/api/webhooks/", "").split("/");
-        const webhook = await app.rest.webhooks.get(`${webhookId}`, `${webhookToken}`);
-        if (webhook) {
-            await webhook.execute({
-                ...welcome.message,
-                wait: true,
-                username: `${guild?.name}`,
-            }).catch((e) => {
-                console.log(e, welcome.message.components);
-            });
+        const channel = await app.getChannel(welcome.channelId);
+        if (channel && channel.type === 0) {
+            await channel.createMessage(welcome.message).catch(console.log);
         }
     }
     //Autorole system
