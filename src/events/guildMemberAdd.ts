@@ -47,7 +47,7 @@ export default new Event("on", "guildMemberAdd", async function (app, member) {
         const [webhookId, webhookToken] = welcome.webhookURL.replace("https://discord.com/api/webhooks/", "").split("/");
         const webhook = await app.rest.webhooks.get(`${webhookId}`, `${webhookToken}`);
 
-        console.log(webhookId, webhookToken, webhook)
+        console.log(webhookId, webhookToken, webhook);
 
         if(webhook){
             const obj = {
