@@ -18,7 +18,7 @@ async function getAutorole(id: string): Promise<Autorole | undefined> {
 }
 
 interface Welcome {
-    enable: boolean;
+    enabled: boolean;
     webhookURL: string;
     isV2: boolean;
     message: {
@@ -43,7 +43,7 @@ export default new Event("on", "guildMemberAdd", async function (app, member) {
 
     console.log(welcome);
 
-    if(welcome && welcome.enable){
+    if(welcome && welcome.enabled){
         const [webhookId, webhookToken] = welcome.webhookURL.replace("https://discord.com/api/webhooks/", "").split("/");
         const webhook = await app.rest.webhooks.get(`${webhookId}`, `${webhookToken}`);
 
