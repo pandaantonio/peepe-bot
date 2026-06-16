@@ -4,10 +4,10 @@ export default new Event("on", "interactionCreate", async (app, interaction) => 
     const author = interaction.member?.user ?? interaction.user;
     const guild = interaction.guildID ? app.guilds.get(interaction.guildID) : undefined;
 
-    if(interaction.isComponentInteraction()){
+    if (interaction.isComponentInteraction()) {
         const component = app.components.get(interaction.data.customID);
 
-        if(component){
+        if (component) {
             await component.run({
                 app,
                 guild,
@@ -17,10 +17,10 @@ export default new Event("on", "interactionCreate", async (app, interaction) => 
         }
     }
 
-    if(interaction.isModalSubmitInteraction()){
+    if (interaction.isModalSubmitInteraction()) {
         const modal = app.modals.get(interaction.data.customID);
 
-        if(modal){
+        if (modal) {
             await modal.run({
                 app,
                 author,
@@ -30,18 +30,14 @@ export default new Event("on", "interactionCreate", async (app, interaction) => 
     }
 
     if (interaction.isCommandInteraction()) {
+        await interaction.defer(64).catch(console.log);
+
         let name = interaction.data.name;
-
         const subcommands = interaction.data.options.getSubCommand(false);
-        let ephemeral = interaction.data.options.getBoolean("ephemeral", false) ?? true;
-
-        if(name === "purge") ephemeral = true;
 
         if (subcommands?.length) {
             name += subcommands.map((s) => ` ${s}`).join("");
         }
-
-        await interaction.defer(ephemeral ? 64 : 0).catch(console.log);
 
         const command = app.commands.get(name);
 

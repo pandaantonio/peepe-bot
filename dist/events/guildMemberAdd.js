@@ -12,17 +12,42 @@ async function getAutorole(id) {
         .then((res) => res.data)
         .catch(() => undefined);
 }
+;
+async function getWelcome(id) {
+    return await axios_1.default.get(`https://peepe.vercel.app/api/guild/${id}/welcome`)
+        .then((res) => res.data)
+        .catch(() => undefined);
+}
 exports.default = new event_1.default("on", "guildMemberAdd", async function (app, member) {
-    //Autorole system
-    const autorole = await getAutorole(member.guildID);
-    if (autorole && autorole.users && autorole.users[0] && !member.bot) {
-        for (const role of autorole.users) {
-            await member.addRole(role.id).catch(console.log);
+    const guild = app.guilds.get(`${member.guildID}`);
+    //Welcome system 
+    const welcome = await getWelcome(member.guildID);
+    if (welcome && welcome.enable) {
+        const [webhookId, webhookToken] = welcome.webhookURL.replace("https://discord.com/api/webhooks/", "").split("/");
+        const webhook = await app.rest.webhooks.get(`${webhookId}`, `${webhookToken}`);
+        if (webhook) {
+            await webhook.execute({
+                username: `${guild?.name}`,
+                avatarURL: guild?.iconURL() ?? undefined,
+                flags: welcome.isV2 ? 32768 : 0,
+                content: welcome.message.content ?? undefined,
+                embeds: welcome.message.embeds ?? undefined,
+                components: welcome.message.components ?? undefined,
+            }).catch(console.log);
         }
     }
-    if (autorole && autorole.apps && autorole.apps[0] && member.bot) {
-        for (const role of autorole.apps) {
-            await member.addRole(role.id).catch(console.log);
+    //Autorole system
+    const autorole = await getAutorole(member.guildID);
+    if (autorole) {
+        if (autorole.users && autorole.users[0] && !member.bot) {
+            for (const role of autorole.users) {
+                await member.addRole(role.id).catch(console.log);
+            }
+        }
+        if (autorole.apps && autorole.apps[0] && member.bot) {
+            for (const role of autorole.apps) {
+                await member.addRole(role.id).catch(console.log);
+            }
         }
     }
 });

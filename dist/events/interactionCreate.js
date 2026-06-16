@@ -29,15 +29,12 @@ exports.default = new event_1.default("on", "interactionCreate", async (app, int
         }
     }
     if (interaction.isCommandInteraction()) {
+        await interaction.defer(64).catch(console.log);
         let name = interaction.data.name;
         const subcommands = interaction.data.options.getSubCommand(false);
-        let ephemeral = interaction.data.options.getBoolean("ephemeral", false) ?? true;
-        if (name === "purge")
-            ephemeral = true;
         if (subcommands?.length) {
             name += subcommands.map((s) => ` ${s}`).join("");
         }
-        await interaction.defer(ephemeral ? 64 : 0).catch(console.log);
         const command = app.commands.get(name);
         if (command && command.run) {
             await command.run({
