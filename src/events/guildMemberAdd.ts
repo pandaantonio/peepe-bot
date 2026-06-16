@@ -47,23 +47,12 @@ export default new Event("on", "guildMemberAdd", async function (app, member) {
         const [webhookId, webhookToken] = welcome.webhookURL.replace("https://discord.com/api/webhooks/", "").split("/");
         const webhook = await app.rest.webhooks.get(`${webhookId}`, `${webhookToken}`);
 
-        console.log(webhookId, webhookToken, webhook);
-
         if(webhook){
-            const obj = {
+            await webhook.execute({
+                ...welcome.message,
                 username: `${guild?.name}`,
                 avatarURL: guild?.iconURL() ?? undefined,
-                flags: welcome.isV2 ? 32768 : 0,
-            };
-
-            await webhook.execute(welcome.isV2 ? ({
-                ...obj,
-                components: welcome.message.components,
-            }) : ({
-                ...obj,
-                content: welcome.message.content,
-                embeds: welcome.message.embeds ?? [],
-            })).catch(console.log);
+            }).catch(console.log);
         }
     }
 
