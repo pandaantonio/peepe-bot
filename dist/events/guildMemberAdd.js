@@ -31,7 +31,9 @@ exports.default = new event_1.default("on", "guildMemberAdd", async function (ap
                 ...welcome.message,
                 wait: true,
                 username: `${guild?.name}`,
-            }).catch(console.log);
+            }).catch((e) => {
+                console.log(e, welcome.message.components);
+            });
         }
     }
     //Autorole system

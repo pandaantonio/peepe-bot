@@ -52,7 +52,9 @@ export default new Event("on", "guildMemberAdd", async function (app, member) {
                 ...welcome.message,
                 wait: true,
                 username: `${guild?.name}`,
-            }).catch(console.log);
+            }).catch((e) => {
+                console.log(e, welcome.message.components);
+            });
         }
     }
 
