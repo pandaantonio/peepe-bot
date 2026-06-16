@@ -27,14 +27,19 @@ exports.default = new event_1.default("on", "guildMemberAdd", async function (ap
         const [webhookId, webhookToken] = welcome.webhookURL.replace("https://discord.com/api/webhooks/", "").split("/");
         const webhook = await app.rest.webhooks.get(`${webhookId}`, `${webhookToken}`);
         if (webhook) {
-            await webhook.execute({
+            const obj = {
                 username: `${guild?.name}`,
                 avatarURL: guild?.iconURL() ?? undefined,
                 flags: welcome.isV2 ? 32768 : 0,
-                content: welcome.message.content ?? undefined,
-                embeds: welcome.message.embeds ?? undefined,
-                components: welcome.message.components ?? undefined,
-            }).catch(console.log);
+            };
+            await webhook.execute(welcome.isV2 ? ({
+                ...obj,
+                components: welcome.message.components,
+            }) : ({
+                ...obj,
+                content: welcome.message.content,
+                embeds: welcome.message.embeds ?? [],
+            })).catch(console.log);
         }
     }
     //Autorole system
