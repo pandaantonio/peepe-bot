@@ -50,6 +50,7 @@ export default new Event("on", "guildMemberAdd", async function (app, member) {
         if(webhook){
             await webhook.execute({
                 ...welcome.message,
+                wait: true,
                 username: `${guild?.name}`,
             }).catch(console.log);
         }
