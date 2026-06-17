@@ -1,6 +1,5 @@
 import Event from "@/struct/event";
 import axios from "axios";
-import { ExecuteWebhookOptions } from "oceanic.js";
 
 interface Role {
     id: string;
@@ -37,6 +36,7 @@ async function getWelcome(id: string): Promise<Welcome | undefined> {
 }
 
 export default new Event("on", "guildMemberAdd", async function (app, member) {
+    const user = await app.rest.users.get(member.id);
     const guild = app.guilds.get(`${member.guildID}`);
 
     //Welcome system 
@@ -44,9 +44,23 @@ export default new Event("on", "guildMemberAdd", async function (app, member) {
 
     if (welcome && welcome.enabled) {
         const channel = await app.getChannel(welcome.channelId);
+        const jsonString = JSON.stringify(welcome.message)
+            .replaceAll("{user}", `${user.mention}`)
+            .replaceAll("{user.name}", `${user.globalName ?? user.username}`)
+            .replaceAll("{user.id}", `${user.id}`)
+            .replaceAll("{user.username}", `${user.username}`)
+            .replaceAll("{user.avatar}", `${user.avatarURL()}`)
+            .replaceAll("{user.banner}", `${user.bannerURL()}`)
+            .replaceAll("{server.name}", `${guild?.name}`)
+            .replaceAll("{server.id}", `${guild?.id}`)
+            .replaceAll("{server.icon}", `${guild?.iconURL()}`)
+            .replaceAll("{server.banner}", `${guild?.bannerURL()}`)
+            .replaceAll("{server.splash}", `${guild?.splashURL()}`)
+            .replaceAll("{server.memberCount}", `${guild?.memberCount}`);
+        const message = JSON.parse(jsonString);
 
         if (channel && channel.type === 0) {
-            await channel.createMessage(welcome.message).catch(console.log);
+            await channel.createMessage(message).catch(console.log);
         }
     }
 
