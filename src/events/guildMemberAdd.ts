@@ -57,7 +57,28 @@ export default new Event("on", "guildMemberAdd", async function (app, member) {
             .replaceAll("{server.banner}", `${guild?.bannerURL()}`)
             .replaceAll("{server.splash}", `${guild?.splashURL()}`)
             .replaceAll("{server.memberCount}", `${guild?.memberCount}`);
-        const message = JSON.parse(jsonString);
+        let message = JSON.parse(jsonString);
+
+        if(message.flags === 0){
+            if(!message.embeds) message.embeds = [];
+
+            message.embeds.push({
+                color: 0x95ff4f,
+                title: `Definido por:`,
+                description: `\`\`${guild?.name}\`\` (ID: \`\`${guild?.id}\`\`)`
+            });
+        } else {
+            if(!message.components) message.components = [];
+            
+            message.components.push({
+                type: 17,
+                accentColor: 0x95ff4f,
+                components: [{
+                    type: 10,
+                    content: `**Definido por**:\n\n\`\`${guild?.name}\`\` (ID: \`\`${guild?.id}\`\`)`
+                }], 
+            });
+        }
 
         if (channel && channel.type === 0) {
             await channel.createMessage(message).catch(console.log);
