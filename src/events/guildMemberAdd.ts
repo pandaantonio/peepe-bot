@@ -59,26 +59,18 @@ export default new Event("on", "guildMemberAdd", async function (app, member) {
             .replaceAll("{server.memberCount}", `${guild?.memberCount}`);
         let message = JSON.parse(jsonString);
 
-        if(message.flags === 0){
-            if(!message.embeds) message.embeds = [];
+        if (!message.components) message.components = [];
 
-            message.embeds.push({
-                color: 0x95ff4f,
-                title: `Definido por:`,
-                description: `\`\`${guild?.name}\`\` (ID: \`\`${guild?.id}\`\`)`
-            });
-        } else {
-            if(!message.components) message.components = [];
-            
-            message.components.push({
-                type: 17,
-                accentColor: 0x95ff4f,
-                components: [{
-                    type: 10,
-                    content: `**Definido por**:\n\n\`\`${guild?.name}\`\` (ID: \`\`${guild?.id}\`\`)`
-                }], 
-            });
-        }
+        message.components.push({
+            type: 1,
+            components: [{
+                type: 2,
+                style: 2,
+                disabled: true,
+                customID: "byguildid",
+                label: `Por: ${guild?.id}`,
+            }],
+        });
 
         if (channel && channel.type === 0) {
             await channel.createMessage(message).catch(console.log);
