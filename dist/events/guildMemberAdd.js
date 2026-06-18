@@ -45,14 +45,14 @@ exports.default = new event_1.default("on", "guildMemberAdd", async function (ap
             type: 1,
             components: [{
                     type: 2,
-                    style: 2,
+                    style: 3,
                     disabled: true,
-                    customID: "byguildid",
-                    label: `Por: ${guild?.id}`,
+                    label: `${guild?.name} (${guild?.id})`,
                 }],
         });
         if (channel && channel.type === 0) {
-            await channel.createMessage(message).catch(console.log);
+            await channel.createMessage(message)
+                .catch(console.log);
         }
     }
     //Autorole system

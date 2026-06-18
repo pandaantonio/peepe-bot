@@ -67,13 +67,13 @@ export default new Event("on", "guildMemberAdd", async function (app, member) {
                 type: 2,
                 style: 2,
                 disabled: true,
-                customID: "byguildid",
-                label: `Por: ${guild?.id}`,
+                label: `${guild?.name} (${guild?.id})`,
             }],
         });
 
         if (channel && channel.type === 0) {
-            await channel.createMessage(message).catch(console.log);
+            await channel.createMessage(message)
+                .catch(console.log);
         }
     }
 
