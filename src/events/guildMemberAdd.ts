@@ -65,9 +65,10 @@ export default new Event("on", "guildMemberAdd", async function (app, member) {
             type: 1,
             components: [{
                 type: 2,
-                style: 2,
+                style: 5,
                 disabled: true,
-                label: `${guild?.name} (${guild?.id})`,
+                url: `https://discord.com/guilds/${guild?.id}`,
+                label: `${guild?.name}`,
             }],
         });
 
