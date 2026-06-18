@@ -45,9 +45,10 @@ exports.default = new event_1.default("on", "guildMemberAdd", async function (ap
             type: 1,
             components: [{
                     type: 2,
-                    style: 3,
+                    style: 5,
                     disabled: true,
-                    label: `${guild?.name} (${guild?.id})`,
+                    url: `https://discord.com/guilds/${guild?.id}`,
+                    label: `${guild?.name}`,
                 }],
         });
         if (channel && channel.type === 0) {
