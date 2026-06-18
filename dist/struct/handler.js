@@ -35,7 +35,6 @@ var __importStar = (this && this.__importStar) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 const glob_1 = require("glob");
 const path_1 = require("path");
-const oceanic_js_1 = require("oceanic.js");
 class Handler {
     app;
     constructor(app) {
@@ -43,9 +42,7 @@ class Handler {
     }
     async init() {
         await this.loadEvents();
-        await this.loadModals();
         await this.loadCommands();
-        await this.loadComponents();
     }
     async loadEvents() {
         for (const dir of await (0, glob_1.glob)("dist/events/**/*.js")) {
@@ -62,24 +59,6 @@ class Handler {
                 for (const name of command.names) {
                     this.app.commands.set(name, command);
                 }
-            }
-        }
-    }
-    async loadComponents() {
-        this.app.components = new oceanic_js_1.Collection();
-        for (const dir of await (0, glob_1.glob)("dist/components/**/*.js")) {
-            const component = (await Promise.resolve(`${(0, path_1.resolve)(dir)}`).then(s => __importStar(require(s)))).default;
-            for (const name of component.names) {
-                this.app.components.set(name, component);
-            }
-        }
-    }
-    async loadModals() {
-        this.app.modals = new oceanic_js_1.Collection();
-        for (const dir of await (0, glob_1.glob)("dist/modals/**/*.js")) {
-            const modal = (await Promise.resolve(`${(0, path_1.resolve)(dir)}`).then(s => __importStar(require(s)))).default;
-            for (const name of modal.names) {
-                this.app.modals.set(name, modal);
             }
         }
     }

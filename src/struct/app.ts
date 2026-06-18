@@ -1,24 +1,13 @@
-import { Client, Collection, CreateApplicationCommandOptions, NullablePartialEmoji } from "oceanic.js";
-import getEmoji, { Emoji } from "@/utils/GetEmoji";
+import { Client } from "oceanic.js";
 import Handler from "@/struct/handler";
 import Command from "@/struct/command";
-import Component from "@/struct/component";
-import Modal from "@/struct/modal";
 
 export default class App extends Client {
-    modals: Collection<string, Modal>;
     commands: Map<string, Command> = new Map();
-    components: Collection<string, Component>;
 
     constructor() {
         super({
             gateway: {
-                intents: [
-                    "GUILDS",
-                    "GUILD_MEMBERS",
-                    "GUILD_MESSAGES",
-                    "MESSAGE_CONTENT"
-                ],
                 autoReconnect: true,
             },
             defaultImageSize: 4096,
@@ -33,35 +22,5 @@ export default class App extends Client {
             
             await handler.init();
         });
-    }
-
-    async getEmoji(name: string): Promise<Emoji | undefined> {
-        const emojis = (await this.application.getEmojis()).items;
-        const e = emojis.find((e) => e.name === name);
-        const emoji = await getEmoji(`<${e?.animated ? "a" : ""}:${e?.name}:${e?.id}>`);
-
-        return emoji;
-    }
-
-    async getEmrl(name: string): Promise<string | undefined> {
-        const emoji = await this.getEmoji(name);
-
-        return emoji && emoji.url ? emoji.url : undefined;
-    }
-
-    async getButoji(name: string): Promise<NullablePartialEmoji | undefined> {
-        const emoji = await this.getEmoji(name);
-
-        return emoji ? {
-            name: emoji?.name,
-            id: emoji?.id,
-        } : undefined;
-    }
-
-
-    async getMenoji(name: string): Promise<string | undefined> {
-        const emoji = await this.getEmoji(name);
-
-        return emoji?.mention;
     }
 };

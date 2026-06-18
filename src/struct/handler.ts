@@ -3,9 +3,6 @@ import { glob } from "glob";
 import { resolve } from "path";
 import { EVENT } from "@/struct/event";
 import Command from "@/struct/command";
-import Component from "@/struct/component";
-import { Collection, CreateApplicationCommandOptions } from "oceanic.js";
-import Modal from "@/struct/modal";
 
 export default class Handler {
     protected app: App;
@@ -16,9 +13,7 @@ export default class Handler {
 
     public async init(): Promise<void> {
         await this.loadEvents();
-        await this.loadModals();
         await this.loadCommands();
-        await this.loadComponents();
     }
 
     private async loadEvents(): Promise<void> {
@@ -39,30 +34,6 @@ export default class Handler {
                 for (const name of command.names) {
                     this.app.commands.set(name, command);
                 }
-            }
-        }
-    }
-
-    private async loadComponents(): Promise<void> {
-        this.app.components = new Collection();
-
-        for (const dir of await glob("dist/components/**/*.js")) {
-            const component: Component = (await import(resolve(dir))).default;
-
-            for (const name of component.names) {
-                this.app.components.set(name, component);
-            }
-        }
-    }
-
-    private async loadModals(): Promise<void> {
-        this.app.modals = new Collection();
-
-        for (const dir of await glob("dist/modals/**/*.js")) {
-            const modal: Modal = (await import(resolve(dir))).default;
-
-            for (const name of modal.names) {
-                this.app.modals.set(name, modal);
             }
         }
     }
